@@ -1,47 +1,43 @@
 graph TD
-    %% Nivel Administrativo (Sistemas)
-    PM["Product Manager<br/>(Coordinador de Sistemas)"] 
+    A[Inicio: Usuario genera Solicitud] --> B{¿Es Urgente?}
     
-    %% Equipo Técnico (Sistemas)
-    DEV["Desarrolladores<br/>(Backend, Frontend, Ciberseguridad)"]
+    %% Flujo de Urgencia
+    B -- Sí --> C["Formulario Simplificado:<br/>Captura de pantalla + Descripción"]
+    C --> D[Notificación Inmediata al Product Manager]
+    D --> E[Evaluación de Impacto Prioritaria]
+    E --> F{¿Se pausa proyecto actual?}
+    F -- Sí --> G[Notificación de Pausa a Proyecto Activo]
+    F -- No --> H[Asignación Inmediata de Desarrollador]
+    G --> I[Resolución de Falla Crítica]
+    H --> I
+    I --> J[Cierre de Folio y Registro de Esfuerzo]
+    J --> K{¿Había proyecto pausado?}
+    K -- Sí --> R
+    K -- No --> Z[Fin del Proceso]
     
-    %% Liderazgo de Áreas Solicitantes
-    JA1["Jefe de Área: Finanzas"]
-    JA2["Jefe de Área: Prestaciones"]
-    JA3["Jefe de Área: Recursos Humanos"]
+    %% Flujo Normal
+    B -- No --> L{Tipo de Petición}
+    L -- Nuevo Sistema --> M[Formulario 1: Viabilidad técnica]
+    L -- Mejora/Modificación --> N["Selección de Sistema Existente<br/>+ Formulario de Falla"]
     
-    %% Personal Operativo por Área
-    U1A[Usuario Operativo 1]
-    U1B[Usuario Operativo 2]
-    U2A[Usuario Operativo 1]
-    U2B[Usuario Operativo 2]
-    U3A[Usuario Operativo 1]
-    U3B[Usuario Operativo 2]
-
-    %% Conexiones de Jerarquía
-    PM --- DEV
-    PM --- JA1
-    PM --- JA2
-    PM --- JA3
+    %% Rama Nuevo Sistema
+    M --> O{Validación Product Manager}
+    O -- rechazado --> P[Notificación motivo de rechazo]
+    P --> J
+    O -- aceptado --> Q[Asignación de desarrollador]
+    Q --> S[Formulario 2: Requerimientos Detallados] 
+    S --> U{¿Surgió una urgencia?}
+    U -- Sí --> F
+    U -- No --> R[Desarrollo y Seguimiento]
+    R --> d[Finalización del desarrollo]
+    d --> W[Cierre de Folio y Registro Final de Esfuerzo]
     
-    JA1 --- U1A
-    JA1 --- U1B
-    JA2 --- U2A
-    JA2 --- U2B
-    JA3 --- U3A
-    JA3 --- U3B
-
-    %% ESTILOS
-    style PM fill:#1a5696,stroke:#333,stroke-width:2px,color:#ffffff
-    style DEV fill:#eef4fb,stroke:#1a5696,stroke-width:2px,color:#1a5696
-    style JA1 fill:#f8f9fa,stroke:#ccc,color:#333
-    style JA2 fill:#f8f9fa,stroke:#ccc,color:#333
-    style JA3 fill:#f8f9fa,stroke:#ccc,color:#333
+    %% Rama Modificación
+    N --> X{Validación Product Manager}
+    X -- rechazado --> a[Notificación de motivo de rechazo]
+    a --> W
+    X -- aceptado --> Y[Notificación al desarrollador responsable]
+    Y --> b[Resolución y desarrollo de la modificación]
+    b --> W
     
-    %% COLOR CLARO (Blanco Humo) Y TEXTO NEGRO PARA USUARIOS
-    style U1A fill:#fdfdfd,stroke:#ddd,color:#000000
-    style U1B fill:#fdfdfd,stroke:#ddd,color:#000000
-    style U2A fill:#fdfdfd,stroke:#ddd,color:#000000
-    style U2B fill:#fdfdfd,stroke:#ddd,color:#000000
-    style U3A fill:#fdfdfd,stroke:#ddd,color:#000000
-    style U3B fill:#fdfdfd,stroke:#ddd,color:#000000
+    W --> Z
