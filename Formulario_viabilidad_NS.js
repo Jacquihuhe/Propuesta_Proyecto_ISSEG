@@ -3,6 +3,54 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkVarias = document.getElementById('check-varias');
     const submenu = document.getElementById('submenu-areas');
     
+    // ========== AUTO-RELLENAR DATOS DEL USUARIO ==========
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (!currentUser) {
+        alert('⚠️ Sesión no encontrada. Será redirigido al inicio de sesión.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const userData = JSON.parse(currentUser);
+    
+    // Obtener datos del perfil desde localStorage (si existen) o usar valores por defecto
+    const profileData = {
+        firstName: localStorage.getItem('firstName') || userData.username.split('@')[0],
+        lastName: localStorage.getItem('lastName') || '',
+        department: localStorage.getItem('department') || 'Sistemas',
+        position: localStorage.getItem('position') || 'Empleado',
+        phone: localStorage.getItem('phone') || 'Ext. 1234',
+        email: userData.username
+    };
+
+    // Rellenar campos ocultos para enviar (información interna, no visible)
+    // Sección 1: Área solicitante
+    const areaSolicitanteField = document.getElementById('area-solicitante');
+    const nombreResponsable = document.getElementById('nombre-responsable');
+    const apellidoPaternoResponsable = document.getElementById('apellido-paterno-responsable');
+    const apellidoMaternoResponsable = document.getElementById('apellido-materno-responsable');
+
+    if (areaSolicitanteField) areaSolicitanteField.value = profileData.department.toLowerCase();
+    if (nombreResponsable) nombreResponsable.value = profileData.firstName;
+    if (apellidoPaternoResponsable) apellidoPaternoResponsable.value = profileData.lastName;
+    if (apellidoMaternoResponsable) apellidoMaternoResponsable.value = '';
+
+    // Sección 6: Datos de contacto
+    const nombreSolicitante = document.getElementById('nombre-solicitante');
+    const apellidoPaternoSolicitante = document.getElementById('apellido-paterno-solicitante');
+    const apellidoMaternoSolicitante = document.getElementById('apellido-materno-solicitante');
+    const cargo = document.getElementById('cargo');
+    const telefono = document.getElementById('telefono');
+    const correo = document.getElementById('correo');
+
+    if (nombreSolicitante) nombreSolicitante.value = profileData.firstName;
+    if (apellidoPaternoSolicitante) apellidoPaternoSolicitante.value = profileData.lastName;
+    if (apellidoMaternoSolicitante) apellidoMaternoSolicitante.value = '';
+    if (cargo) cargo.value = profileData.position;
+    if (telefono) telefono.value = profileData.phone;
+    if (correo) correo.value = profileData.email;
+    
+    // ========== MOSTRAR CAMPO DE SISTEMA SIMILAR ==========
     // Mostrar campo de sistema similar
     const selectSimilares = document.getElementById('sistemas-similares');
     if (selectSimilares) {
@@ -10,6 +58,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const detalle = document.getElementById('detalle-similar');
             if (detalle) {
                 detalle.style.display = this.value === 'si' ? 'block' : 'none';
+            }
+        });
+    }
+
+    // Mostrar/Ocultar campo "Otros beneficios"
+    const checkOtrosBeneficios = document.getElementById('check-otros-beneficios');
+    const otrosBeneficiosContainer = document.getElementById('otros-beneficios-container');
+    if (checkOtrosBeneficios && otrosBeneficiosContainer) {
+        checkOtrosBeneficios.addEventListener('change', function() {
+            otrosBeneficiosContainer.style.display = this.checked ? 'block' : 'none';
+            // Limpiar el textarea si se desmarca
+            if (!this.checked) {
+                const otrosTexto = document.getElementById('otros-beneficios-texto');
+                if (otrosTexto) otrosTexto.value = '';
             }
         });
     }
@@ -50,6 +112,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Validar que al menos un beneficio esté seleccionado
+            const checkboxesBeneficios = document.querySelectorAll('input[name="beneficios"]:checked');
+            if (checkboxesBeneficios.length === 0) {
+                alert('Por favor seleccione al menos un beneficio esperado.');
+                return;
+            }
+
+            // Si seleccionó "Otros", validar que haya escrito algo
+            const otrosBeneficiosCheck = document.getElementById('check-otros-beneficios');
+            const otrosBeneficiosTexto = document.getElementById('otros-beneficios-texto');
+            if (otrosBeneficiosCheck && otrosBeneficiosCheck.checked) {
+                if (!otrosBeneficiosTexto || !otrosBeneficiosTexto.value.trim()) {
+                    alert('Por favor especifique otros beneficios en el campo de texto.');
+                    if (otrosBeneficiosTexto) otrosBeneficiosTexto.focus();
+                    return;
+                }
+            }
             
             const checkboxesPrincipales = document.querySelectorAll('input[name="areas"]:checked');
             

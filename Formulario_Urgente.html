@@ -49,7 +49,7 @@
                 <div class="grid-2">
                     <div class="field-group">
                         <label for="hora-falla">¿Cuándo ocurrió la falla? *</label>
-                        <input type="datetime-local" id="hora-falla" required>
+                        <input type="date" id="hora-falla" required>
                     </div>
                     <div class="field-group">
                         <label for="frecuencia">¿Con qué frecuencia ocurre?</label>
@@ -95,7 +95,7 @@
                             <div class="impact-content bajo">
                                 <div class="impact-icon">🟢</div>
                                 <strong>Bajo</strong>
-                                <small>Molesto pero se puede trabajar</small>
+                                <small>Se puede trabajar</small>
                             </div>
                         </label>
                         <label class="impact-card">
@@ -103,7 +103,7 @@
                             <div class="impact-content medio">
                                 <div class="impact-icon">🟡</div>
                                 <strong>Medio</strong>
-                                <small>Dificulta algunas tareas</small>
+                                <small>Dificulta tareas</small>
                             </div>
                         </label>
                         <label class="impact-card">
@@ -111,7 +111,7 @@
                             <div class="impact-content alto">
                                 <div class="impact-icon">🟠</div>
                                 <strong>Alto</strong>
-                                <small>Impide trabajo importante</small>
+                                <small>Impide trabajar</small>
                             </div>
                         </label>
                         <label class="impact-card">
@@ -119,7 +119,7 @@
                             <div class="impact-content critico">
                                 <div class="impact-icon">🔴</div>
                                 <strong>Crítico</strong>
-                                <small>Bloqueo total del área</small>
+                                <small>Bloqueo total</small>
                             </div>
                         </label>
                     </div>
@@ -138,78 +138,27 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: DATOS DE CONTACTO -->
+            <!-- SECCIÓN 3: INFORMACIÓN ADICIONAL -->
             <div class="section-block">
                 <div class="section-header">
                     <span class="section-number urgente-num">03</span>
-                    <h3>Información de Contacto</h3>
+                    <h3>Información Adicional</h3>
                 </div>
 
-                <div class="grid-2">
-                   
-                        <div class="field-group">
-                        <label for="nombre-solicitante">Nombre(s) *</label>
-                        <input type="text" id="nombre-solicitante" required 
-                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
-                            title="Solo se permiten letras y espacios"
-                            autocomplete="given-name">
-                    </div>
-                    <div class="field-group">
-                        <label for="apellido-paterno-solicitante">Apellido Paterno *</label>
-                        <input type="text" id="apellido-paterno-solicitante" required 
-                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
-                            title="Solo se permiten letras y espacios"
-                            autocomplete="family-name">
-                    </div>
-                    <div class="field-group">
-                        <label for="apellido-materno-solicitante">Apellido Materno *</label>
-                        <input type="text" id="apellido-materno-solicitante" required 
-                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
-                            title="Solo se permiten letras y espacios"
-                            autocomplete="additional-name">
-                    </div>
-                    <div class="field-group">
-                        <label for="area-solicitante">Área *</label>
-                        <select id="area-solicitante" required>
-                            <option value="">Seleccione su área</option>
-                            <option value="finanzas">Finanzas</option>
-                            <option value="rh">Recursos Humanos</option>
-                            <option value="prestaciones">Prestaciones</option>
-                            <option value="cobranza">Cobranza</option>
-                            <option value="sistemas">Sistemas</option>
-                            <option value="juridico">Jurídico</option>
-                        </select>
-                    </div>
-                  
+                <div class="field-group">
+                    <label for="informacion-adicional">Detalles adicionales que puedan ayudar a resolver el problema</label>
+                    <textarea id="informacion-adicional" rows="5" 
+                        placeholder="Incluya cualquier información que considere relevante:&#10;• Pasos que realizó antes de que ocurriera la falla&#10;• Mensajes de error específicos que aparecieron&#10;• Si el problema ocurre en equipos específicos&#10;• Si intentó alguna solución temporal&#10;• Cualquier otro detalle que pueda ser útil..."></textarea>
+                    <span class="field-hint">Mientras más detalles proporcione, más rápido podremos identificar y resolver el problema</span>
                 </div>
 
-                <div class="grid-2">
-                    <div class="field-group">
-                        <label for="telefono">Extensión o teléfono *</label>
-                        <input type="tel" id="telefono" required 
-                            placeholder="473-123-4567 o Ext. 1234"
-                            pattern="([0-9]{3}-[0-9]{3}-[0-9]{4})|(Ext\.\s?[0-9]{3,5})"
-                            title="Formato: 473-123-4567 o Ext. 1234"
-                            autocomplete="tel">
-                    </div>
-                    <div class="field-group">
-                        <label for="correo">Correo electrónico *</label>
-                        <input type="email" id="correo" required 
-                            placeholder="nombre@isseg.gob.mx"
-                            pattern=".+@isseg\.gob\.mx"
-                            title="Debe usar su correo institucional @isseg.gob.mx"
-                            autocomplete="email">
-                    </div>
-                </div>
-
-                <div class="alert-info">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="12" y1="16" x2="12" y2="12"/>
-                        <line x1="12" y1="8" x2="12.01" y2="8"/>
-                    </svg>
-                    <p>Se le notificará vía correo electrónico cuando se asigne un desarrollador para atender su falla.</p>
-                </div>
+                <!-- Campos ocultos para enviar con el formulario -->
+                <input type="hidden" id="nombre-solicitante">
+                <input type="hidden" id="apellido-paterno-solicitante">
+                <input type="hidden" id="apellido-materno-solicitante">
+                <input type="hidden" id="area-solicitante">
+                <input type="hidden" id="telefono">
+                <input type="hidden" id="correo">
             </div>
 
             <!-- BOTONES -->

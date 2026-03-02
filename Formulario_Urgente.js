@@ -1,6 +1,42 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('formUrgente');
     
+    // ========== AUTO-RELLENAR DATOS DEL USUARIO ==========
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (!currentUser) {
+        alert('⚠️ Sesión no encontrada. Será redirigido al inicio de sesión.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const userData = JSON.parse(currentUser);
+    
+    // Obtener datos del perfil desde localStorage (si existen) o usar valores por defecto
+    const profileData = {
+        firstName: localStorage.getItem('firstName') || userData.username.split('@')[0],
+        lastName: localStorage.getItem('lastName') || '',
+        department: localStorage.getItem('department') || 'Sistemas',
+        position: localStorage.getItem('position') || 'Empleado',
+        phone: localStorage.getItem('phone') || 'Ext. 1234',
+        email: userData.username
+    };
+
+    // Rellenar campos ocultos para enviar (información interna, no visible)
+    const nombreSolicitante = document.getElementById('nombre-solicitante');
+    const apellidoPaternoSolicitante = document.getElementById('apellido-paterno-solicitante');
+    const apellidoMaternoSolicitante = document.getElementById('apellido-materno-solicitante');
+    const areaSolicitante = document.getElementById('area-solicitante');
+    const telefono = document.getElementById('telefono');
+    const correo = document.getElementById('correo');
+
+    if (nombreSolicitante) nombreSolicitante.value = profileData.firstName;
+    if (apellidoPaternoSolicitante) apellidoPaternoSolicitante.value = profileData.lastName;
+    if (apellidoMaternoSolicitante) apellidoMaternoSolicitante.value = '';
+    if (areaSolicitante) areaSolicitante.value = profileData.department.toLowerCase();
+    if (telefono) telefono.value = profileData.phone;
+    if (correo) correo.value = profileData.email;
+    
+    // ========== MANEJO DEL FORMULARIO ==========
     // Manejo del envío del formulario
     if (form) {
         form.addEventListener('submit', function(e) {

@@ -35,48 +35,11 @@
                     <span class="field-hint">Un nombre claro que identifique el propósito del sistema</span>
                 </div>
 
-                <div class="grid-2">
-                    <div class="field-group">
-                        <label for="area-solicitante">Área solicitante *</label>
-                        <select id="area-solicitante" required>
-                            <option value="">-- Seleccione su área --</option>
-                            <option value="finanzas">Finanzas</option>
-                            <option value="rh">Recursos Humanos</option>
-                            <option value="prestaciones">Prestaciones</option>
-                            <option value="cobranza">Cobranza</option>
-                            <option value="sistemas">Sistemas</option>
-                            <option value="juridico">Jurídico</option>
-                            <option value="direccion">Dirección General</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="field-group">
-                    <label>Responsable del área *</label>
-                    <div class="grid-2">
-                        <div class="field-group">
-                            <label for="nombre-responsable">Nombre(s) *</label>
-                            <input type="text" id="nombre-responsable" required 
-                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
-                                title="Solo se permiten letras y espacios"
-                                autocomplete="given-name">
-                        </div>
-                        <div class="field-group">
-                            <label for="apellido-paterno-responsable">Apellido Paterno *</label>
-                            <input type="text" id="apellido-paterno-responsable" required 
-                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
-                                title="Solo se permiten letras y espacios"
-                                autocomplete="family-name">
-                        </div>
-                        <div class="field-group">
-                            <label for="apellido-materno-responsable">Apellido Materno *</label>
-                            <input type="text" id="apellido-materno-responsable" required 
-                                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
-                                title="Solo se permiten letras y espacios"
-                                autocomplete="additional-name">
-                        </div>
-                    </div>
-                </div>
+                <!-- Campos ocultos para información interna -->
+                <input type="hidden" id="area-solicitante">
+                <input type="hidden" id="nombre-responsable">
+                <input type="hidden" id="apellido-paterno-responsable">
+                <input type="hidden" id="apellido-materno-responsable">
             </div>
 
             <!-- SECCIÓN 2: JUSTIFICACIÓN -->
@@ -93,9 +56,23 @@
                 </div>
 
                 <div class="field-group">
-                    <label for="justificacion">Beneficios esperados *</label>
-                    <textarea id="justificacion" rows="4" required 
-                        placeholder="Ej: Ahorro de tiempo en X horas, eliminación de papel, reducción de errores, mejor control..."></textarea>
+                    <label>Beneficios esperados *</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="beneficios" value="ahorro-tiempo"> Ahorro de tiempo en procesos</label>
+                        <label><input type="checkbox" name="beneficios" value="reduccion-errores"> Reducción de errores manuales</label>
+                        <label><input type="checkbox" name="beneficios" value="automatizacion"> Automatización de procesos</label>
+                        <label><input type="checkbox" name="beneficios" value="cumplimiento-normativo"> Cumplimiento normativo/regulatorio</label>
+                        <label><input type="checkbox" name="beneficios" value="mejora-calidad"> Mejora en la calidad del servicio</label>
+                        <label><input type="checkbox" name="beneficios" value="reduccion-costos"> Reducción de costos operativos</label>
+                        <label><input type="checkbox" name="beneficios" value="otros" id="check-otros-beneficios"> Otros (especificar)</label>
+                    </div>
+                    <span class="field-hint">Seleccione todos los beneficios que apliquen</span>
+                </div>
+
+                <div class="field-group" id="otros-beneficios-container" style="display: none; margin-left: 20px; border-left: 2px solid #ccc; padding-left: 15px;">
+                    <label for="otros-beneficios-texto">Especifique otros beneficios:</label>
+                    <textarea id="otros-beneficios-texto" rows="3" 
+                        placeholder="Describa otros beneficios no listados anteriormente..."></textarea>
                 </div>
 
                 <div class="field-group">
@@ -165,39 +142,10 @@
 </div>
             </div>
 
-            <!-- SECCIÓN 4: RECURSOS Y PRESUPUESTO -->
+            <!-- SECCIÓN 4: DOCUMENTACIÓN -->
             <div class="section-block">
                 <div class="section-header">
                     <span class="section-number">04</span>
-                    <h3>Recursos y Presupuesto</h3>
-                </div>
-
-                <div class="field-group">
-                    <label for="presupuesto">¿Se cuenta con presupuesto asignado?</label>
-                    <select id="presupuesto">
-                        <option value="">Seleccione una opción</option>
-                        <option value="si">Sí, hay presupuesto aprobado</option>
-                        <option value="tramite">Está en trámite</option>
-                        <option value="no">No, se requiere con recursos internos</option>
-                    </select>
-                </div>
-
-                <div class="field-group">
-                    <label for="prioridad">Prioridad sugerida para el área</label>
-                    <select id="prioridad">
-                        <option value="">Seleccione...</option>
-                        <option value="baja">Baja - Puede esperar</option>
-                        <option value="media">Media - Deseable este año</option>
-                        <option value="alta">Alta - Necesario para operar mejor</option>
-                        <option value="critica">Crítica - Mandatorio por normativa</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- SECCIÓN 5: DOCUMENTACIÓN -->
-            <div class="section-block">
-                <div class="section-header">
-                    <span class="section-number">05</span>
                     <h3>Documentación de Apoyo</h3>
                 </div>
 
@@ -222,69 +170,13 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 6: CONTACTO -->
-            <div class="section-block">
-                <div class="section-header">
-                    <span class="section-number">06</span>
-                    <h3>Datos de Contacto</h3>
-                </div>
-
-                <div class="grid-2">
-                     <div class="field-group">
-                        <label for="nombre-solicitante">Nombre(s) *</label>
-                        <input type="text" id="nombre-solicitante" required 
-                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
-                            title="Solo se permiten letras y espacios"
-                            autocomplete="given-name">
-                    </div>
-                    <div class="field-group">
-                        <label for="apellido-paterno-solicitante">Apellido Paterno *</label>
-                        <input type="text" id="apellido-paterno-solicitante" required 
-                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
-                            title="Solo se permiten letras y espacios"
-                            autocomplete="family-name">
-                    </div>
-                    <div class="field-group">
-                        <label for="apellido-materno-solicitante">Apellido Materno *</label>
-                        <input type="text" id="apellido-materno-solicitante" required 
-                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
-                            title="Solo se permiten letras y espacios"
-                            autocomplete="additional-name">
-                    </div>
-                    <div class="field-group">
-                        <label for="cargo">Cargo o puesto *</label>
-                        <input type="text" id="cargo" required>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="field-group">
-                        <label for="telefono">Teléfono/Extensión *</label>
-                        <input type="tel" id="telefono" required 
-                            placeholder="473-123-4567 o Ext. 1234"
-                            pattern="([0-9]{3}-[0-9]{3}-[0-9]{4})|(Ext\.\s?[0-9]{3,5})"
-                            title="Formato: 473-123-4567 o Ext. 1234"
-                            autocomplete="tel">
-                    </div>
-                    <div class="field-group">
-                        <label for="correo">Correo electrónico *</label>
-                        <input type="email" id="correo" required 
-                            placeholder="nombre@isseg.gob.mx"
-                            pattern=".+@isseg\.gob\.mx"
-                            title="Debe usar su correo institucional @isseg.gob.mx"
-                            autocomplete="email">
-                    </div>
-                </div>
-
-                <div class="alert-info">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="12" y1="16" x2="12" y2="12"/>
-                        <line x1="12" y1="8" x2="12.01" y2="8"/>
-                    </svg>
-                    <p>El Product Manager evaluará su propuesta y le notificará si es aceptada o rechazada, indicando los motivos de la decisión.</p>
-                </div>
-            </div>
+            <!-- Campos ocultos para enviar con el formulario (información interna) -->
+            <input type="hidden" id="nombre-solicitante">
+            <input type="hidden" id="apellido-paterno-solicitante">
+            <input type="hidden" id="apellido-materno-solicitante">
+            <input type="hidden" id="cargo">
+            <input type="hidden" id="telefono">
+            <input type="hidden" id="correo">
 
             <!-- BOTONES -->
             <div class="form-actions">
