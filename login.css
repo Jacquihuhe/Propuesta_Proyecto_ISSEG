@@ -366,7 +366,7 @@ body {
 }
 
 .checkbox-container input[type="checkbox"]:checked + .checkmark::after {
-    content: 'âœ“';
+    content: '\2713';
     color: white;
     font-size: 14px;
     font-weight: bold;
