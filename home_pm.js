@@ -200,6 +200,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // Renderizar notificaciones iniciales
     renderNotifications();
 
+    // Manejar dropdown de perfil de usuario
+    const userProfileBtn = document.getElementById('userProfileBtn');
+    const userDropdownMenu = document.getElementById('userDropdownMenu');
+    
+    if (userProfileBtn && userDropdownMenu) {
+        // Toggle dropdown cuando se hace clic en el botón
+        userProfileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userProfileBtn.classList.toggle('active');
+            userDropdownMenu.classList.toggle('show');
+        });
+        
+        // Cerrar dropdown cuando se hace clic fuera de él
+        document.addEventListener('click', function(e) {
+            if (!userProfileBtn.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+                userProfileBtn.classList.remove('active');
+                userDropdownMenu.classList.remove('show');
+            }
+        });
+        
+        // Cerrar dropdown cuando se hace clic en un item (excepto logout que tiene su propia lógica)
+        const dropdownItems = userDropdownMenu.querySelectorAll('.dropdown-item:not(.logout-item)');
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function() {
+                userProfileBtn.classList.remove('active');
+                userDropdownMenu.classList.remove('show');
+            });
+        });
+    }
+
     // Manejar cierre de sesión
     const btnLogout = document.getElementById('btnLogout');
     if (btnLogout) {

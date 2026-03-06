@@ -8,7 +8,7 @@
     --text: #004B87;
     --text-light: #63666A;
     --text-muted: #97999B;
-    --bg: #F2F5F8;
+    --bg: #C8D8EB;
     --bg-light: #ffffff;
     --border: #C8C9C7;
     --shadow: rgba(0, 0, 0, 0.1);
@@ -41,7 +41,7 @@ body {
     height: 100%;
     z-index: 0;
     overflow: hidden;
-    background: linear-gradient(135deg, #F2F5F8 0%, #DCEAF6 100%);
+    background: linear-gradient(135deg, #C8D8EB 0%, #69B3E7 100%);
 }
 
 .decoration-circle {

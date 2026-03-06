@@ -8,7 +8,7 @@
     --text: #004B87;
     --text-light: #63666A;
     --text-muted: #97999B;
-    --bg: #F2F5F8;
+    --bg: #C8D8EB;
     --bg-light: #ffffff;
     --border: #C8C9C7;
     --shadow: rgba(0, 0, 0, 0.1);
@@ -140,12 +140,12 @@ body {
 }
 
 .problem-card {
-    background: linear-gradient(135deg, #F2F4F6 0%, #EEF2F6 100%);
+    background: linear-gradient(135deg, #D9E6F2 0%, #C8D8EB 100%);
     border-left: 6px solid var(--danger);
 }
 
 .solution-card {
-    background: linear-gradient(135deg, #EAF2F9 0%, #DCEAF6 100%);
+    background: linear-gradient(135deg, #D9E6F2 0%, #C8D8EB 100%);
     border-left: 6px solid var(--success);
 }
 

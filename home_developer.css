@@ -483,6 +483,145 @@ body {
     color: white;
 }
 
+.btn-logout-hidden {
+    display: none !important;
+}
+
+/* ========== USER PROFILE DROPDOWN ========== */
+.user-profile-dropdown {
+    position: relative;
+}
+
+.user-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background: rgba(105, 179, 231, 0.08);
+    border: 1px solid rgba(0, 75, 135, 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.user-profile-btn:hover {
+    background: rgba(105, 179, 231, 0.15);
+    border-color: rgba(0, 75, 135, 0.25);
+}
+
+.user-profile-btn svg:first-child {
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.user-profile-btn .user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-profile-btn .user-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.user-profile-btn .user-role {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.user-profile-btn .dropdown-arrow {
+    color: var(--text-light);
+    transition: transform 0.3s ease;
+}
+
+.user-profile-btn.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.user-profile-btn.active {
+    background: rgba(105, 179, 231, 0.18);
+    border-color: var(--primary);
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 250px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 75, 135, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.user-dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: rgba(105, 179, 231, 0.1);
+    color: var(--primary);
+}
+
+.dropdown-item svg {
+    flex-shrink: 0;
+    color: var(--text-light);
+    transition: color 0.2s ease;
+}
+
+.dropdown-item:hover svg {
+    color: var(--primary);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+}
+
+.dropdown-item.logout-item {
+    color: var(--danger);
+}
+
+.dropdown-item.logout-item svg {
+    color: var(--danger);
+}
+
+.dropdown-item.logout-item:hover {
+    background: rgba(255, 59, 48, 0.1);
+    color: var(--danger);
+}
+
+.dropdown-item.logout-item:hover svg {
+    color: var(--danger);
+}
+
 /* ========== MAIN CONTENT ========== */
 .main-content {
     flex: 1;
