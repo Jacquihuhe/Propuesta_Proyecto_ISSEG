@@ -1,17 +1,17 @@
 :root {
-    --primary: #1a5696;
-    --primary-dark: #144376;
-    --primary-light: #2d6bb0;
-    --success: #28a745;
-    --danger: #d93025;
-    --warning: #ff9800;
-    --info: #17a2b8;
-    --text: #2c3e50;
-    --text-light: #5f6368;
-    --text-muted: #95a5a6;
-    --bg: #f4f7f9;
+    --primary: #004B87;
+    --primary-dark: #003B6D;
+    --primary-light: #69B3E7;
+    --success: #34C759;
+    --danger: #FF3B30;
+    --warning: #FF9500;
+    --info: #69B3E7;
+    --text: #004B87;
+    --text-light: #63666A;
+    --text-muted: #97999B;
+    --bg: #C8D8EB;
     --bg-light: #ffffff;
-    --border: #dcdfe3;
+    --border: #C8C9C7;
     --shadow: rgba(0, 0, 0, 0.1);
     --shadow-lg: rgba(0, 0, 0, 0.15);
 }
@@ -292,7 +292,7 @@ body {
 }
 
 .notification-item.unread {
-    background: rgba(26, 86, 150, 0.05);
+    background: rgba(0, 75, 135, 0.05);
     border-left: 3px solid var(--primary);
 }
 
@@ -307,22 +307,22 @@ body {
 }
 
 .notification-icon.success {
-    background: rgba(40, 167, 69, 0.1);
+    background: rgba(52, 199, 89, 0.1);
     color: var(--success);
 }
 
 .notification-icon.info {
-    background: rgba(23, 162, 184, 0.1);
+    background: rgba(105, 179, 231, 0.1);
     color: var(--info);
 }
 
 .notification-icon.warning {
-    background: rgba(255, 152, 0, 0.1);
+    background: rgba(255, 149, 0, 0.1);
     color: var(--warning);
 }
 
 .notification-icon.danger {
-    background: rgba(217, 48, 37, 0.1);
+    background: rgba(255, 59, 48, 0.1);
     color: var(--danger);
 }
 
@@ -564,22 +564,22 @@ body {
 }
 
 .stat-card.pending .stat-icon {
-    background: linear-gradient(135deg, #ffb74d, var(--warning));
+    background: linear-gradient(135deg, #C8C9C7, var(--warning));
     color: white;
 }
 
 .stat-card.progress .stat-icon {
-    background: linear-gradient(135deg, #42a5f5, var(--info));
+    background: linear-gradient(135deg, #69B3E7, var(--info));
     color: white;
 }
 
 .stat-card.completed .stat-icon {
-    background: linear-gradient(135deg, #48c774, var(--success));
+    background: linear-gradient(135deg, #69B3E7, var(--success));
     color: white;
 }
 
 .stat-card.urgent .stat-icon {
-    background: linear-gradient(135deg, #ef5350, var(--danger));
+    background: linear-gradient(135deg, #97999B, var(--danger));
     color: white;
 }
 
@@ -657,17 +657,17 @@ body {
 }
 
 .action-icon.urgent {
-    background: linear-gradient(135deg, #ef5350, var(--danger));
+    background: linear-gradient(135deg, #97999B, var(--danger));
     color: white;
 }
 
 .action-icon.pending {
-    background: linear-gradient(135deg, #ffb74d, var(--warning));
+    background: linear-gradient(135deg, #C8C9C7, var(--warning));
     color: white;
 }
 
 .action-icon.progress {
-    background: linear-gradient(135deg, #42a5f5, var(--info));
+    background: linear-gradient(135deg, #69B3E7, var(--info));
     color: white;
 }
 
@@ -754,7 +754,7 @@ body {
 }
 
 .requests-table tbody tr:hover {
-    background: #f8f9fa;
+    background: #C8C9C7;
 }
 
 .requests-table td {
@@ -778,23 +778,23 @@ body {
 }
 
 .request-type.nuevo_sistema {
-    background: #e3f2fd;
-    color: #1976d2;
+    background: rgba(105, 179, 231, 0.1);
+    color: var(--info);
 }
 
 .request-type.modificacion {
-    background: #e8f5e9;
-    color: #388e3c;
+    background: rgba(52, 199, 89, 0.1);
+    color: var(--success);
 }
 
 .request-type.requerimientos {
-    background: #fff3e0;
-    color: #f57c00;
+    background: rgba(0, 75, 135, 0.1);
+    color: var(--primary);
 }
 
 .request-type.falla_urgente {
-    background: #ffebee;
-    color: #c62828;
+    background: rgba(255, 59, 48, 0.1);
+    color: var(--danger);
 }
 
 .request-status {
@@ -807,23 +807,23 @@ body {
 }
 
 .request-status.pendiente {
-    background: #fff3cd;
-    color: #856404;
+    background: rgba(200, 201, 199, 0.15);
+    color: var(--text-light);
 }
 
 .request-status.en_desarrollo {
-    background: #d1ecf1;
-    color: #0c5460;
+    background: rgba(105, 179, 231, 0.15);
+    color: var(--info);
 }
 
 .request-status.completada {
-    background: #d4edda;
-    color: #155724;
+    background: rgba(52, 199, 89, 0.15);
+    color: var(--success);
 }
 
 .request-status.urgente {
-    background: #f8d7da;
-    color: #721c24;
+    background: rgba(255, 59, 48, 0.15);
+    color: var(--danger);
 }
 
 .request-priority {
@@ -890,7 +890,7 @@ body {
 }
 
 .btn-edit:hover {
-    background: #138496;
+    background: #69B3E7;
 }
 
 /* Empty State */
@@ -1058,3 +1058,4 @@ body {
         width: 100%;
     }
 }
+

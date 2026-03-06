@@ -1,17 +1,17 @@
 :root {
-    --primary: #1a5696;
-    --primary-dark: #144376;
-    --primary-light: #2d6bb0;
-    --success: #28a745;
-    --danger: #d93025;
-    --warning: #ff9800;
-    --info: #17a2b8;
-    --text: #2c3e50;
-    --text-light: #5f6368;
-    --text-muted: #95a5a6;
-    --bg: #f4f7f9;
+    --primary: #004B87;
+    --primary-dark: #003B6D;
+    --primary-light: #69B3E7;
+    --success: #34C759;
+    --danger: #FF3B30;
+    --warning: #FF9500;
+    --info: #69B3E7;
+    --text: #004B87;
+    --text-light: #63666A;
+    --text-muted: #97999B;
+    --bg: #F2F5F8;
     --bg-light: #ffffff;
-    --border: #dcdfe3;
+    --border: #C8C9C7;
     --shadow: rgba(0, 0, 0, 0.1);
     --shadow-lg: rgba(0, 0, 0, 0.15);
 }
@@ -292,7 +292,7 @@ body {
 }
 
 .notification-item.unread {
-    background: rgba(26, 86, 150, 0.05);
+    background: rgba(0, 75, 135, 0.05);
     border-left: 3px solid var(--primary);
 }
 
@@ -307,22 +307,22 @@ body {
 }
 
 .notification-icon.success {
-    background: rgba(40, 167, 69, 0.1);
+    background: rgba(52, 199, 89, 0.1);
     color: var(--success);
 }
 
 .notification-icon.info {
-    background: rgba(23, 162, 184, 0.1);
+    background: rgba(105, 179, 231, 0.1);
     color: var(--info);
 }
 
 .notification-icon.warning {
-    background: rgba(255, 152, 0, 0.1);
+    background: rgba(255, 149, 0, 0.1);
     color: var(--warning);
 }
 
 .notification-icon.danger {
-    background: rgba(217, 48, 37, 0.1);
+    background: rgba(255, 59, 48, 0.1);
     color: var(--danger);
 }
 
@@ -558,17 +558,17 @@ body {
 }
 
 .stat-icon.success {
-    background: linear-gradient(135deg, #48c774, var(--success));
+    background: linear-gradient(135deg, #69B3E7, var(--success));
     color: white;
 }
 
 .stat-icon.warning {
-    background: linear-gradient(135deg, #ffb74d, var(--warning));
+    background: linear-gradient(135deg, #C8C9C7, var(--warning));
     color: white;
 }
 
 .stat-icon.danger {
-    background: linear-gradient(135deg, #ef5350, var(--danger));
+    background: linear-gradient(135deg, #97999B, var(--danger));
     color: white;
 }
 
@@ -606,7 +606,7 @@ body {
 
 /* ========== DECISION ASSISTANT ========== */
 .decision-assistant {
-    background: linear-gradient(135deg, #fff8e1, #ffecb3);
+    background: linear-gradient(135deg, #EEF2F6, #EEF2F6);
     border-radius: 12px;
     margin-bottom: 30px;
     border-left: 5px solid var(--warning);
@@ -683,7 +683,7 @@ body {
 
 .decision-question.info {
     border-left-color: var(--info);
-    background: #e3f2fd;
+    background: #EAF2F9;
 }
 
 .question-header {
@@ -746,7 +746,7 @@ body {
 
 .answer-box.urgent {
     border-color: var(--danger);
-    background: #ffebee;
+    background: #F2F4F6;
 }
 
 .answer-label {
@@ -823,7 +823,7 @@ body {
 
 .solicitud-card.requires-approval.locked {
     opacity: 0.75;
-    background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+    background: linear-gradient(135deg, #F0F2F4 0%, #F5F6F7 100%);
 }
 
 .approval-badge {
@@ -839,7 +839,7 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
-    box-shadow: 0 2px 6px rgba(23, 162, 184, 0.3);
+    box-shadow: 0 2px 6px rgba(105, 179, 231, 0.3);
 }
 
 .approval-badge svg {
@@ -850,8 +850,8 @@ body {
 /* Locked State */
 .locked-message {
     padding: 18px;
-    background: #fff3cd;
-    border: 2px solid #ffc107;
+    background: #EEF2F6;
+    border: 2px solid #97999B;
     border-radius: 8px;
     display: flex;
     gap: 12px;
@@ -864,7 +864,7 @@ body {
 }
 
 .locked-message svg {
-    color: #ff9800;
+    color: #97999B;
     flex-shrink: 0;
     margin-top: 2px;
 }
@@ -872,31 +872,31 @@ body {
 .locked-message strong {
     display: block;
     font-size: 14px;
-    color: #856404;
+    color: #63666A;
     margin-bottom: 4px;
 }
 
 .locked-message p {
     font-size: 13px;
-    color: #856404;
+    color: #63666A;
     line-height: 1.4;
     margin: 0;
 }
 
 .btn-locked {
-    background: linear-gradient(135deg, #9e9e9e, #757575) !important;
+    background: linear-gradient(135deg, #97999B, #63666A) !important;
     cursor: not-allowed !important;
     pointer-events: none;
     opacity: 0.7;
 }
 
 .btn-card.unlocked {
-    background: linear-gradient(135deg, var(--success), #2e7d32) !important;
-    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    background: linear-gradient(135deg, var(--success), #4CAF50) !important;
+    box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
 }
 
 .btn-card.unlocked:hover {
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    box-shadow: 0 4px 12px rgba(52, 199, 89, 0.4);
 }
 
 .card-icon {
@@ -915,17 +915,17 @@ body {
 }
 
 .card-icon.modification {
-    background: linear-gradient(135deg, #48c774, var(--success));
+    background: linear-gradient(135deg, #69B3E7, var(--success));
     color: white;
 }
 
 .card-icon.requirements {
-    background: linear-gradient(135deg, #42a5f5, var(--info));
+    background: linear-gradient(135deg, #69B3E7, var(--info));
     color: white;
 }
 
 .card-icon.urgent-icon {
-    background: linear-gradient(135deg, #ef5350, var(--danger));
+    background: linear-gradient(135deg, #97999B, var(--danger));
     color: white;
 }
 
@@ -958,7 +958,7 @@ body {
 }
 
 .card-features li::before {
-    content: '✓';
+    content: 'âœ“';
     position: absolute;
     left: 0;
     color: var(--success);
@@ -978,21 +978,21 @@ body {
     font-size: 14px;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(26, 86, 150, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 75, 135, 0.3);
 }
 
 .btn-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(26, 86, 150, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 75, 135, 0.4);
 }
 
 .btn-card.urgent-btn {
-    background: linear-gradient(135deg, var(--danger), #c62828);
-    box-shadow: 0 2px 8px rgba(217, 48, 37, 0.3);
+    background: linear-gradient(135deg, var(--danger), #FF6B6B);
+    box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
 }
 
 .btn-card.urgent-btn:hover {
-    box-shadow: 0 4px 12px rgba(217, 48, 37, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
 }
 
 .btn-card svg {
@@ -1010,7 +1010,7 @@ body {
 
 /* Demo Control Panel */
 .demo-control {
-    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    background: linear-gradient(135deg, #F2F4F6, #EEF2F6);
     padding: 20px 25px;
     border-radius: 12px;
     border-left: 5px solid var(--warning);
@@ -1060,25 +1060,25 @@ body {
 .btn-demo.approve {
     background: var(--success);
     color: white;
-    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
 }
 
 .btn-demo.approve:hover {
-    background: #2e7d32;
+    background: #2DB954;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    box-shadow: 0 4px 12px rgba(52, 199, 89, 0.4);
 }
 
 .btn-demo.revoke {
     background: var(--danger);
     color: white;
-    box-shadow: 0 2px 8px rgba(217, 48, 37, 0.3);
+    box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
 }
 
 .btn-demo.revoke:hover {
-    background: #c62828;
+    background: #FF1F1F;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(217, 48, 37, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
 }
 
 /* Info Grid */
@@ -1090,7 +1090,7 @@ body {
 }
 
 .help-card {
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    background: linear-gradient(135deg, #EAF2F9, #DCEAF6);
     padding: 25px 30px;
     border-radius: 12px;
     display: flex;
@@ -1124,7 +1124,7 @@ body {
 
 /* Tips Card */
 .tips-card {
-    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    background: linear-gradient(135deg, #EAF2F9, #DCEAF6);
     padding: 25px 30px;
     border-radius: 12px;
     border-left: 5px solid var(--success);
@@ -1167,7 +1167,7 @@ body {
 
 /* Process Card */
 .process-card {
-    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+    background: linear-gradient(135deg, #EEF2F6, #DCEAF6);
     padding: 25px 30px;
     border-radius: 12px;
     border-left: 5px solid var(--primary);
@@ -1340,3 +1340,4 @@ body {
         height: 28px;
     }
 }
+

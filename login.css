@@ -1,16 +1,16 @@
 :root {
-    --primary: #1a5696;
-    --primary-dark: #144376;
-    --primary-light: #2d6bb0;
-    --success: #28a745;
-    --danger: #d93025;
-    --warning: #ff9800;
-    --text: #2c3e50;
-    --text-light: #5f6368;
-    --text-muted: #95a5a6;
-    --bg: #f4f7f9;
+    --primary: #004B87;
+    --primary-dark: #003B6D;
+    --primary-light: #69B3E7;
+    --success: #34C759;
+    --danger: #FF3B30;
+    --warning: #FF9500;
+    --text: #004B87;
+    --text-light: #63666A;
+    --text-muted: #97999B;
+    --bg: #F2F5F8;
     --bg-light: #ffffff;
-    --border: #dcdfe3;
+    --border: #C8C9C7;
     --shadow: rgba(0, 0, 0, 0.1);
     --shadow-lg: rgba(0, 0, 0, 0.15);
 }
@@ -41,7 +41,7 @@ body {
     height: 100%;
     z-index: 0;
     overflow: hidden;
-    background: linear-gradient(135deg, #f4f7f9 0%, #e8eef3 100%);
+    background: linear-gradient(135deg, #F2F5F8 0%, #DCEAF6 100%);
 }
 
 .decoration-circle {
@@ -246,14 +246,14 @@ body {
 }
 
 .alert-message.error {
-    background: #ffebee;
-    color: #c62828;
+    background: #F2F4F6;
+    color: #63666A;
     border-left: 4px solid var(--danger);
 }
 
 .alert-message.success {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: #EAF2F9;
+    color: #4F9ED6;
     border-left: 4px solid var(--success);
 }
 
@@ -304,7 +304,7 @@ body {
     outline: none;
     border-color: var(--primary);
     background: white;
-    box-shadow: 0 0 0 4px rgba(26, 86, 150, 0.1);
+    box-shadow: 0 0 0 4px rgba(0, 75, 135, 0.1);
 }
 
 .input-wrapper input::placeholder {
@@ -366,7 +366,7 @@ body {
 }
 
 .checkbox-container input[type="checkbox"]:checked + .checkmark::after {
-    content: '✓';
+    content: 'âœ“';
     color: white;
     font-size: 14px;
     font-weight: bold;
@@ -405,13 +405,13 @@ body {
     justify-content: center;
     gap: 10px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(26, 86, 150, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 75, 135, 0.25);
     margin-top: 5px;
 }
 
 .btn-login:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(26, 86, 150, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 75, 135, 0.4);
 }
 
 .btn-login:active {
@@ -520,3 +520,4 @@ body {
         border-radius: 12px;
     }
 }
+
