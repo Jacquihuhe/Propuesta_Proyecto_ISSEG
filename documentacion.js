@@ -1,455 +1,467 @@
-// ==========================================
-// DOCUMENTACIÓN - JAVASCRIPT
-// ==========================================
+// ============================================
+// Documentación - Repositorio de Documentos
+// ============================================
 
-// Variables del DOM
-let menuToggle, sidebar, overlay, logoutBtn;
-let notificationsToggle, notificationsPanel;
-let docNavBtns, docSections;
-let docSearch;
-let expandBtns, faqQuestions, copyBtns;
+const REQUESTS_STORAGE_KEY = 'developerRequests';
 
-// ==========================================
-// INICIALIZACIÓN
-// ==========================================
+// Estado de la aplicación
+let allDocuments = [];
+let currentFilter = 'todos';
+let currentSearchTerm = '';
+
+// ============================================
+// Inicialización
+// ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    initializeElements();
-    setupEventListeners();
+    checkAuthentication();
     loadUserInfo();
-    highlightSearchResults();
+    initializeEventListeners();
+    loadAndRenderDocuments();
 });
 
-// Inicializar elementos del DOM
-function initializeElements() {
-    // Header elements
-    menuToggle = document.getElementById('menuToggle');
-    sidebar = document.getElementById('sidebar');
-    overlay = document.getElementById('overlay');
-    logoutBtn = document.getElementById('logoutBtn');
-    notificationsToggle = document.getElementById('notificationsToggle');
-    notificationsPanel = document.getElementById('notificationsPanel');
-    
-    // Documentation elements
-    docNavBtns = document.querySelectorAll('.doc-nav-btn');
-    docSections = document.querySelectorAll('.doc-section');
-    docSearch = document.getElementById('docSearch');
-    expandBtns = document.querySelectorAll('.btn-expand');
-    faqQuestions = document.querySelectorAll('.faq-question');
-    copyBtns = document.querySelectorAll('.btn-copy');
-}
-
-// ==========================================
-// EVENT LISTENERS
-// ==========================================
-function setupEventListeners() {
-    // Menu toggle
-    if (menuToggle) {
-        menuToggle.addEventListener('click', toggleSidebar);
-    }
-    
-    // Overlay click
-    if (overlay) {
-        overlay.addEventListener('click', closeSidebar);
-    }
-    
-    // Logout button
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', handleLogout);
-    }
-    
-    // Notifications toggle
-    if (notificationsToggle) {
-        notificationsToggle.addEventListener('click', toggleNotifications);
-    }
-    
-    // Close notifications when clicking outside
-    document.addEventListener('click', function(e) {
-        if (notificationsPanel && 
-            !notificationsPanel.contains(e.target) && 
-            !notificationsToggle.contains(e.target)) {
-            notificationsPanel.classList.remove('show');
-        }
-    });
-    
-    // Documentation navigation
-    docNavBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const section = this.dataset.section;
-            switchDocSection(section);
-        });
-    });
-    
-    // Search functionality
-    if (docSearch) {
-        docSearch.addEventListener('input', handleSearch);
-    }
-    
-    // Expand buttons for guide cards
-    expandBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const contentId = this.dataset.content;
-            toggleCardContent(contentId, this);
-        });
-    });
-    
-    // FAQ accordion
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', function() {
-            toggleFaqItem(this.parentElement);
-        });
-    });
-    
-    // Copy code buttons
-    copyBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const codeId = this.dataset.copy;
-            copyCodeToClipboard(codeId, this);
-        });
-    });
-}
-
-// ==========================================
-// SIDEBAR & NAVIGATION
-// ==========================================
-function toggleSidebar() {
-    sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-    document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
-}
-
-function closeSidebar() {
-    sidebar.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-function toggleNotifications() {
-    notificationsPanel.classList.toggle('show');
-}
-
-// ==========================================
-// AUTHENTICATION
-// ==========================================
-function loadUserInfo() {
+// ============================================
+// Autenticación
+// ============================================
+function checkAuthentication() {
     const currentUser = sessionStorage.getItem('currentUser');
-    
     if (!currentUser) {
         window.location.href = 'login.html';
         return;
     }
-    
-    const userData = JSON.parse(currentUser);
-    const userName = document.getElementById('userName');
-    const userRole = document.getElementById('userRole');
-    
-    if (userName && userData.name) {
-        userName.textContent = userData.name;
-    }
-    
-    if (userRole && userData.role) {
-        userRole.textContent = getRoleDisplayName(userData.role);
+}
+
+function loadUserInfo() {
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (currentUser) {
+        const user = JSON.parse(currentUser);
+        document.getElementById('userName').textContent = user.name || user.email;
+        document.getElementById('userRole').textContent = getRoleDisplay(user.role);
     }
 }
 
-function getRoleDisplayName(role) {
-    const roleNames = {
+function getRoleDisplay(role) {
+    const roles = {
         'developer': 'Desarrollador',
         'pm': 'Project Manager',
-        'cliente': 'Cliente'
+        'client': 'Cliente'
     };
-    return roleNames[role] || role;
+    return roles[role] || role;
 }
 
-function handleLogout() {
-    if (confirm('¿Estás seguro que deseas cerrar sesión?')) {
-        sessionStorage.removeItem('currentUser');
-        window.location.href = 'login.html';
+// ============================================
+// Event Listeners
+// ============================================
+function initializeEventListeners() {
+    // Sidebar toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+
+    // Notifications toggle
+    const notificationsToggle = document.getElementById('notificationsToggle');
+    const notificationsPanel = document.getElementById('notificationsPanel');
+    
+    if (notificationsToggle) {
+        notificationsToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationsPanel.classList.toggle('active');
+        });
+    }
+
+    document.addEventListener('click', (e) => {
+        if (notificationsPanel && !notificationsPanel.contains(e.target) && e.target !== notificationsToggle) {
+            notificationsPanel.classList.remove('active');
+        }
+    });
+
+    // Logout
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        });
+    }
+
+    // Search
+    const searchInput = document.getElementById('docSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            currentSearchTerm = e.target.value.toLowerCase();
+            filterAndRenderDocuments();
+        });
+    }
+
+    // Filter buttons
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            filterAndRenderDocuments();
+        });
+    });
+
+    // Modal close
+    const modalClose = document.getElementById('modalClose');
+    const documentModal = document.getElementById('documentModal');
+    
+    if (modalClose) {
+        modalClose.addEventListener('click', () => {
+            documentModal.classList.remove('active');
+        });
+    }
+
+    if (documentModal) {
+        documentModal.addEventListener('click', (e) => {
+            if (e.target === documentModal) {
+                documentModal.classList.remove('active');
+            }
+        });
     }
 }
 
-// ==========================================
-// DOCUMENTATION SECTIONS
-// ==========================================
-function switchDocSection(sectionName) {
-    // Remove active class from all buttons
-    docNavBtns.forEach(btn => btn.classList.remove('active'));
-    
-    // Add active class to clicked button
-    const activeBtn = document.querySelector(`[data-section="${sectionName}"]`);
-    if (activeBtn) {
-        activeBtn.classList.add('active');
-    }
-    
-    // Hide all sections
-    docSections.forEach(section => section.classList.remove('active'));
-    
-    // Show selected section
-    const activeSection = document.getElementById(`section-${sectionName}`);
-    if (activeSection) {
-        activeSection.classList.add('active');
-    }
-    
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+// ============================================
+// Carga de Documentos
+// ============================================
+function loadAndRenderDocuments() {
+    allDocuments = generateDocumentsFromRequests();
+    updateStatistics(allDocuments);
+    updateFilterCounts(allDocuments);
+    filterAndRenderDocuments();
 }
 
-// ==========================================
-// SEARCH FUNCTIONALITY
-// ==========================================
-function handleSearch(e) {
-    const searchTerm = e.target.value.toLowerCase().trim();
-    
-    if (searchTerm === '') {
-        clearSearchHighlights();
-        return;
-    }
-    
-    searchInDocumentation(searchTerm);
-}
+function generateDocumentsFromRequests() {
+    const requests = JSON.parse(localStorage.getItem(REQUESTS_STORAGE_KEY)) || [];
+    const documents = [];
 
-function searchInDocumentation(term) {
-    let foundResults = false;
-    
-    docSections.forEach(section => {
-        const sectionText = section.textContent.toLowerCase();
+    // Generar documentos de ejemplo para cada solicitud
+    requests.forEach((request, index) => {
+        // Cada solicitud puede tener múltiples documentos
+        const numDocs = Math.floor(Math.random() * 3) + 1; // 1-3 documentos por solicitud
         
-        if (sectionText.includes(term)) {
-            // Highlight matching text
-            highlightText(section, term);
-            foundResults = true;
+        for (let i = 0; i < numDocs; i++) {
+            documents.push(generateDocument(request, i));
         }
     });
-    
-    if (!foundResults) {
-        showNoResultsMessage();
-    }
+
+    return documents;
 }
 
-function highlightText(element, term) {
-    // Simple highlight implementation
-    // In production, use a proper highlighting library
-    const textNodes = getTextNodes(element);
-    
-    textNodes.forEach(node => {
-        const text = node.textContent.toLowerCase();
-        if (text.includes(term)) {
-            const parent = node.parentNode;
-            const html = node.textContent.replace(
-                new RegExp(term, 'gi'),
-                match => `<mark>${match}</mark>`
+function generateDocument(request, docIndex) {
+    const fileTypes = [
+        { ext: 'pdf', name: 'Manual', size: 2457600 },
+        { ext: 'docx', name: 'Especificaciones', size: 1024000 },
+        { ext: 'xlsx', name: 'Datos', size: 512000 },
+        { ext: 'png', name: 'Diagrama', size: 819200 },
+        { ext: 'drawio', name: 'Flujo', size: 256000 },
+        { ext: 'pdf', name: 'Análisis', size: 3145728 },
+        { ext: 'docx', name: 'Requerimientos', size: 768000 },
+        { ext: 'jpg', name: 'Mockup', size: 1536000 },
+        { ext: 'vsdx', name: 'Arquitectura', size: 2048000 }
+    ];
+
+    const fileType = fileTypes[Math.floor(Math.random() * fileTypes.length)];
+    const uploadDate = new Date(request.date);
+    uploadDate.setHours(uploadDate.getHours() + docIndex);
+
+    return {
+        id: `doc-${request.id}-${docIndex}`,
+        requestId: request.id,
+        requestType: request.type,
+        requestDescription: request.description,
+        area: request.area,
+        solicitante: request.solicitante,
+        fileName: `${fileType.name}_${request.area.replace(/\s+/g, '_')}_${docIndex + 1}.${fileType.ext}`,
+        fileType: fileType.ext,
+        fileSize: fileType.size + Math.floor(Math.random() * 100000),
+        uploadDate: uploadDate.toISOString(),
+        uploadedBy: request.solicitante,
+        status: request.status
+    };
+}
+
+// ============================================
+// Filtrado y Búsqueda
+// ============================================
+function filterAndRenderDocuments() {
+    let filteredDocs = [...allDocuments];
+
+    // Aplicar filtro por tipo
+    if (currentFilter !== 'todos') {
+        filteredDocs = filteredDocs.filter(doc => doc.requestType === currentFilter);
+    }
+
+    // Aplicar búsqueda
+    if (currentSearchTerm) {
+        filteredDocs = filteredDocs.filter(doc => {
+            return (
+                doc.fileName.toLowerCase().includes(currentSearchTerm) ||
+                doc.area.toLowerCase().includes(currentSearchTerm) ||
+                doc.requestId.toLowerCase().includes(currentSearchTerm) ||
+                doc.requestDescription.toLowerCase().includes(currentSearchTerm)
             );
-            
-            const span = document.createElement('span');
-            span.innerHTML = html;
-            parent.replaceChild(span, node);
-        }
-    });
-}
-
-function getTextNodes(element) {
-    const textNodes = [];
-    const walker = document.createTreeWalker(
-        element,
-        NodeFilter.SHOW_TEXT,
-        null,
-        false
-    );
-    
-    let node;
-    while (node = walker.nextNode()) {
-        if (node.textContent.trim()) {
-            textNodes.push(node);
-        }
+        });
     }
-    
-    return textNodes;
+
+    renderDocumentsGrid(filteredDocs);
 }
 
-function clearSearchHighlights() {
-    const marks = document.querySelectorAll('.doc-content mark');
-    marks.forEach(mark => {
-        const parent = mark.parentNode;
-        parent.replaceChild(document.createTextNode(mark.textContent), mark);
-    });
-}
+// ============================================
+// Renderizado
+// ============================================
+function renderDocumentsGrid(documents) {
+    const grid = document.getElementById('documentsGrid');
+    const emptyState = document.getElementById('emptyState');
 
-function highlightSearchResults() {
-    // Check if there's a search term in URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchTerm = urlParams.get('search');
-    
-    if (searchTerm && docSearch) {
-        docSearch.value = searchTerm;
-        handleSearch({ target: { value: searchTerm } });
-    }
-}
-
-function showNoResultsMessage() {
-    // Could implement a "no results" message
-    console.log('No search results found');
-}
-
-// ==========================================
-// EXPAND/COLLAPSE CARDS
-// ==========================================
-function toggleCardContent(contentId, button) {
-    const content = document.getElementById(contentId);
-    
-    if (!content) return;
-    
-    const isExpanded = content.classList.contains('show');
-    
-    if (isExpanded) {
-        content.classList.remove('show');
-        button.classList.remove('active');
-    } else {
-        content.classList.add('show');
-        button.classList.add('active');
-    }
-}
-
-// ==========================================
-// FAQ ACCORDION
-// ==========================================
-function toggleFaqItem(faqItem) {
-    const isActive = faqItem.classList.contains('active');
-    
-    // Close all FAQ items
-    document.querySelectorAll('.faq-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    // Open clicked item if it wasn't active
-    if (!isActive) {
-        faqItem.classList.add('active');
-    }
-}
-
-// ==========================================
-// COPY CODE FUNCTIONALITY
-// ==========================================
-function copyCodeToClipboard(codeId, button) {
-    const codeElement = document.getElementById(codeId);
-    
-    if (!codeElement) {
-        console.error('Code element not found:', codeId);
+    if (documents.length === 0) {
+        grid.style.display = 'none';
+        emptyState.style.display = 'flex';
         return;
     }
-    
-    const code = codeElement.textContent;
-    
-    // Use Clipboard API
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(code)
-            .then(() => {
-                showCopySuccess(button);
-            })
-            .catch(err => {
-                console.error('Failed to copy:', err);
-                fallbackCopyToClipboard(code, button);
+
+    grid.style.display = 'grid';
+    emptyState.style.display = 'none';
+
+    grid.innerHTML = documents.map(doc => createDocumentCard(doc)).join('');
+
+    // Agregar event listeners a las tarjetas
+    documents.forEach(doc => {
+        const card = document.getElementById(`card-${doc.id}`);
+        if (card) {
+            card.addEventListener('click', () => showDocumentModal(doc));
+        }
+
+        // Event listeners para los botones de acción (evitar propagación)
+        const viewBtn = document.getElementById(`view-${doc.id}`);
+        const downloadBtn = document.getElementById(`download-${doc.id}`);
+
+        if (viewBtn) {
+            viewBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                viewDocument(doc);
             });
-    } else {
-        fallbackCopyToClipboard(code, button);
-    }
-}
-
-function fallbackCopyToClipboard(text, button) {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-9999px';
-    document.body.appendChild(textArea);
-    textArea.select();
-    
-    try {
-        document.execCommand('copy');
-        showCopySuccess(button);
-    } catch (err) {
-        console.error('Failed to copy:', err);
-        showCopyError(button);
-    }
-    
-    document.body.removeChild(textArea);
-}
-
-function showCopySuccess(button) {
-    const originalText = button.textContent;
-    button.textContent = '✓ Copiado';
-    button.style.background = '#00b894';
-    
-    setTimeout(() => {
-        button.textContent = originalText;
-        button.style.background = '';
-    }, 2000);
-}
-
-function showCopyError(button) {
-    const originalText = button.textContent;
-    button.textContent = '✗ Error';
-    button.style.background = '#d63031';
-    
-    setTimeout(() => {
-        button.textContent = originalText;
-        button.style.background = '';
-    }, 2000);
-}
-
-// ==========================================
-// UTILITY FUNCTIONS
-// ==========================================
-
-// Smooth scroll to section
-function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-// Print documentation
-function printDocumentation() {
-    window.print();
-}
-
-// Export as PDF (requires additional library)
-function exportToPDF() {
-    // Would require html2pdf.js or similar library
-    console.log('PDF export functionality');
-}
-
-// ==========================================
-// KEYBOARD SHORTCUTS
-// ==========================================
-document.addEventListener('keydown', function(e) {
-    // Ctrl/Cmd + K for search focus
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        if (docSearch) {
-            docSearch.focus();
         }
-    }
+
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                downloadDocument(doc);
+            });
+        }
+    });
+}
+
+function createDocumentCard(doc) {
+    const fileTypeClass = doc.fileType.toLowerCase();
+    const requestTypeLabel = getRequestTypeLabel(doc.requestType);
+    const formattedDate = formatDate(doc.uploadDate);
+    const formattedSize = formatFileSize(doc.fileSize);
+
+    return `
+        <div class="document-card" id="card-${doc.id}">
+            <div class="document-header">
+                <div class="file-type-icon ${fileTypeClass}">
+                    ${doc.fileType}
+                </div>
+                <div class="document-info">
+                    <div class="document-title" title="${doc.fileName}">${doc.fileName}</div>
+                    <div class="document-meta">
+                        <span>Solicitud: ${doc.requestId}</span>
+                        <span>Área: ${doc.area}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="document-tags">
+                <span class="doc-tag ${doc.requestType}">${requestTypeLabel}</span>
+            </div>
+            <div class="document-footer">
+                <span class="document-size">${formattedSize}</span>
+                <div class="document-actions">
+                    <button class="doc-action-btn" id="view-${doc.id}" title="Ver detalles">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                    <button class="doc-action-btn" id="download-${doc.id}" title="Descargar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// ============================================
+// Modal de Detalles
+// ============================================
+function showDocumentModal(doc) {
+    const modal = document.getElementById('documentModal');
+    const modalBody = document.getElementById('modalBody');
+
+    const fileTypeClass = doc.fileType.toLowerCase();
+    const requestTypeLabel = getRequestTypeLabel(doc.requestType);
+    const formattedDate = formatDate(doc.uploadDate);
+    const formattedDateTime = formatDateTime(doc.uploadDate);
+    const formattedSize = formatFileSize(doc.fileSize);
+
+    modalBody.innerHTML = `
+        <div class="modal-document-info">
+            <div class="modal-file-preview">
+                <div class="modal-file-icon file-type-icon ${fileTypeClass}">
+                    ${doc.fileType}
+                </div>
+                <div class="modal-file-details">
+                    <h4>${doc.fileName}</h4>
+                    <p><strong>Tamaño:</strong> ${formattedSize}</p>
+                    <p><strong>Tipo:</strong> ${doc.fileType.toUpperCase()}</p>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h4>Información de la Solicitud</h4>
+                <p><strong>ID:</strong> ${doc.requestId}</p>
+                <p><strong>Tipo:</strong> ${requestTypeLabel}</p>
+                <p><strong>Área:</strong> ${doc.area}</p>
+                <p><strong>Descripción:</strong> ${doc.requestDescription}</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Detalles del Archivo</h4>
+                <p><strong>Subido por:</strong> ${doc.uploadedBy}</p>
+                <p><strong>Fecha de carga:</strong> ${formattedDateTime}</p>
+                <p><strong>Estado de solicitud:</strong> <span class="doc-tag ${doc.requestType}">${requestTypeLabel}</span></p>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="downloadDocument(${JSON.stringify(doc).replace(/"/g, '&quot;')})">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Descargar Archivo
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="viewDocument(${JSON.stringify(doc).replace(/"/g, '&quot;')})">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    Ver Documento
+                </button>
+            </div>
+        </div>
+    `;
+
+    modal.classList.add('active');
+}
+
+// ============================================
+// Acciones de Documento
+// ============================================
+function viewDocument(doc) {
+    alert(`Ver documento: ${doc.fileName}\n\nEsta es una demostración. En producción, aquí se abriría el visor de documentos.`);
+}
+
+function downloadDocument(doc) {
+    alert(`Descargar: ${doc.fileName}\nTamaño: ${formatFileSize(doc.fileSize)}\n\nEsta es una demostración. En producción, aquí se descargaría el archivo.`);
+}
+
+// ============================================
+// Estadísticas
+// ============================================
+function updateStatistics(documents) {
+    // Total de documentos
+    document.getElementById('total-documents').textContent = documents.length;
+
+    // Total de solicitudes únicas
+    const uniqueRequests = new Set(documents.map(doc => doc.requestId));
+    document.getElementById('total-requests').textContent = uniqueRequests.size;
+
+    // Tamaño total
+    const totalSize = documents.reduce((sum, doc) => sum + doc.fileSize, 0);
+    document.getElementById('total-size').textContent = formatFileSize(totalSize);
+}
+
+function updateFilterCounts(documents) {
+    // Contar todos
+    document.getElementById('count-todos').textContent = documents.length;
+
+    // Contar por tipo
+    const countsByType = {
+        requerimientos: 0,
+        modificacion: 0,
+        urgente: 0
+    };
+
+    documents.forEach(doc => {
+        if (countsByType.hasOwnProperty(doc.requestType)) {
+            countsByType[doc.requestType]++;
+        }
+    });
+
+    document.getElementById('count-requerimientos').textContent = countsByType.requerimientos;
+    document.getElementById('count-modificacion').textContent = countsByType.modificacion;
+    document.getElementById('count-urgente').textContent = countsByType.urgente;
+}
+
+// ============================================
+// Utilidades
+// ============================================
+function getRequestTypeLabel(type) {
+    const labels = {
+        'requerimientos': 'Requerimiento',
+        'modificacion': 'Modificación',
+        'urgente': 'Urgente',
+        'viabilidad': 'Viabilidad'
+    };
+    return labels[type] || type;
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
     
-    // Escape to close search/sidebar
-    if (e.key === 'Escape') {
-        if (sidebar && sidebar.classList.contains('active')) {
-            closeSidebar();
-        }
-        if (docSearch && document.activeElement === docSearch) {
-            docSearch.blur();
-            clearSearchHighlights();
-            docSearch.value = '';
-        }
-    }
-});
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+}
 
-// ==========================================
-// WINDOW RESIZE HANDLER
-// ==========================================
-window.addEventListener('resize', function() {
-    // Close sidebar on desktop
-    if (window.innerWidth > 768) {
-        closeSidebar();
-    }
-});
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('es-ES', options);
+}
 
-console.log('✅ Documentación cargada correctamente');
+function formatDateTime(dateString) {
+    const date = new Date(dateString);
+    const options = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    };
+    return date.toLocaleDateString('es-ES', options);
+}
