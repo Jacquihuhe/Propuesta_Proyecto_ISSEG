@@ -201,3 +201,269 @@ function getPositionByRole(role) {
     };
     return positions[role] || 'No especificado';
 }
+
+// ========== FUNCIONES PARA CONFIGURACIÓN ==========
+function saveConfiguration() {
+    const emailNotif = document.getElementById('emailNotifications')?.checked;
+    const browserNotif = document.getElementById('browserNotifications')?.checked;
+    const dailySummary = document.getElementById('dailySummary')?.checked;
+    const notifSound = document.getElementById('notificationSound')?.checked;
+    const language = document.getElementById('language')?.value;
+    const timezone = document.getElementById('timezone')?.value;
+    const dateFormat = document.getElementById('dateFormat')?.value;
+    const twoFactor = document.getElementById('twoFactorAuth')?.checked;
+    const autoLogout = document.getElementById('autoLogout')?.checked;
+    const theme = document.getElementById('theme')?.value;
+    const density = document.getElementById('density')?.value;
+    const animations = document.getElementById('animations')?.checked;
+
+    const config = {
+        emailNotifications: emailNotif,
+        browserNotifications: browserNotif,
+        dailySummary: dailySummary,
+        notificationSound: notifSound,
+        language: language,
+        timezone: timezone,
+        dateFormat: dateFormat,
+        twoFactorAuth: twoFactor,
+        autoLogout: autoLogout,
+        theme: theme,
+        density: density,
+        animations: animations
+    };
+
+    // Guardar en localStorage
+    localStorage.setItem('userConfiguration', JSON.stringify(config));
+    
+    console.log('Configuración guardada:', config);
+    alert('✅ Configuración guardada exitosamente');
+}
+
+// ========== FUNCIONES PARA CAMBIO DE CONTRASEÑA ==========
+function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    const button = field.parentElement.querySelector('.toggle-password');
+    
+    if (field.type === 'password') {
+        field.type = 'text';
+        button.innerHTML = `
+            <svg class="eye-off-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+            </svg>
+        `;
+    } else {
+        field.type = 'password';
+        button.innerHTML = `
+            <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+        `;
+    }
+}
+
+function checkPasswordStrength(password) {
+    let strength = 0;
+    const strengthBar = document.querySelector('.strength-fill');
+    const strengthText = document.querySelector('.strength-text');
+    
+    // Criterios de fortaleza
+    if (password.length >= 8) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    
+    // Actualizar barra
+    const percentage = (strength / 5) * 100;
+    strengthBar.style.width = percentage + '%';
+    
+    // Actualizar clase y texto
+    strengthBar.className = 'strength-fill';
+    if (strength <= 2) {
+        strengthBar.classList.add('weak');
+        strengthText.textContent = 'Débil';
+    } else if (strength <= 4) {
+        strengthBar.classList.add('medium');
+        strengthText.textContent = 'Media';
+    } else {
+        strengthBar.classList.add('strong');
+        strengthText.textContent = 'Fuerte';
+    }
+}
+
+function checkPasswordMatch() {
+    const newPassword = document.getElementById('newPassword')?.value;
+    const confirmPassword = document.getElementById('confirmPassword')?.value;
+    const matchIndicator = document.querySelector('.password-match');
+    
+    if (confirmPassword.length === 0) {
+        matchIndicator.textContent = '';
+        matchIndicator.className = 'password-match';
+        return;
+    }
+    
+    if (newPassword === confirmPassword) {
+        matchIndicator.textContent = '✓ Las contraseñas coinciden';
+        matchIndicator.className = 'password-match match';
+    } else {
+        matchIndicator.textContent = '✗ Las contraseñas no coinciden';
+        matchIndicator.className = 'password-match no-match';
+    }
+}
+
+function submitPasswordChange(event) {
+    event.preventDefault();
+    
+    const currentPassword = document.getElementById('currentPassword')?.value;
+    const newPassword = document.getElementById('newPassword')?.value;
+    const confirmPassword = document.getElementById('confirmPassword')?.value;
+    
+    // Validaciones
+    if (!currentPassword || !newPassword || !confirmPassword) {
+        alert('❌ Por favor completa todos los campos');
+        return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+        alert('❌ Las contraseñas nuevas no coinciden');
+        return;
+    }
+    
+    if (newPassword.length < 8) {
+        alert('❌ La contraseña debe tener al menos 8 caracteres');
+        return;
+    }
+    
+    // Simular cambio de contraseña (en producción se enviaría al servidor)
+    console.log('Cambiando contraseña...');
+    
+    // Limpiar campos
+    document.getElementById('passwordForm').reset();
+    document.querySelector('.strength-fill').style.width = '0';
+    document.querySelector('.password-match').textContent = '';
+    
+    alert('✅ Contraseña actualizada correctamente');
+}
+
+// ========== FUNCIONES PARA PREFERENCIAS ==========
+function clearCache() {
+    if (confirm('¿Estás seguro de que deseas borrar el caché? Esta acción no se puede deshacer.')) {
+        localStorage.removeItem('formData');
+        localStorage.removeItem('cachedRequests');
+        console.log('Caché borrado');
+        alert('✅ Caché borrado exitosamente');
+    }
+}
+
+function savePreferences() {
+    const defaultView = document.getElementById('defaultView')?.value;
+    const itemsPerPage = document.getElementById('itemsPerPage')?.value;
+    const confirmSubmit = document.getElementById('confirmSubmit')?.checked;
+    const autoSave = document.getElementById('autoSave')?.checked;
+    
+    const statusUpdates = document.getElementById('statusUpdates')?.checked;
+    const commentNotifs = document.getElementById('commentNotifications')?.checked;
+    const assignmentNotifs = document.getElementById('assignmentNotifications')?.checked;
+    const reminders = document.getElementById('reminders')?.checked;
+    const newsletter = document.getElementById('newsletter')?.checked;
+    
+    const showStats = document.getElementById('showStats')?.checked;
+    const showRecent = document.getElementById('showRecent')?.checked;
+    const showAssistant = document.getElementById('showAssistant')?.checked;
+    const showTips = document.getElementById('showTips')?.checked;
+    
+    const rememberForms = document.getElementById('rememberForms')?.checked;
+    const rememberSession = document.getElementById('rememberSession')?.checked;
+
+    const preferences = {
+        workflow: { defaultView, itemsPerPage, confirmSubmit, autoSave },
+        email: { statusUpdates, commentNotifs, assignmentNotifs, reminders, newsletter },
+        dashboard: { showStats, showRecent, showAssistant, showTips },
+        data: { rememberForms, rememberSession }
+    };
+
+    localStorage.setItem('userPreferences', JSON.stringify(preferences));
+    console.log('Preferencias guardadas:', preferences);
+    alert('✅ Preferencias guardadas exitosamente');
+}
+
+// ========== FUNCIONES PARA ACCESIBILIDAD ==========
+function resetAccessibility() {
+    if (confirm('¿Restablecer todas las opciones de accesibilidad a sus valores predeterminados?')) {
+        // Restablecer todos los controles a valores por defecto
+        document.getElementById('fontSize')?.value = 'normal';
+        document.getElementById('lineHeight')?.value = 'normal';
+        document.getElementById('highContrast')?.checked = false;
+        document.getElementById('underlineLinks')?.checked = false;
+        document.getElementById('sansSerif')?.checked = false;
+        
+        document.getElementById('reduceMotion')?.checked = false;
+        document.getElementById('disableAutoplay')?.checked = false;
+        document.getElementById('pauseOnFocus')?.checked = false;
+        
+        document.getElementById('focusHighlight')?.checked = true;
+        document.getElementById('keyboardShortcuts')?.checked = true;
+        document.getElementById('skipToContent')?.checked = true;
+        
+        document.getElementById('screenReaderMode')?.checked = false;
+        document.getElementById('ariaLive')?.checked = true;
+        document.getElementById('extendedDescriptions')?.checked = false;
+        
+        document.getElementById('colorFilter')?.value = 'none';
+        document.getElementById('usePatterns')?.checked = false;
+        
+        localStorage.removeItem('accessibilitySettings');
+        alert('✅ Configuración de accesibilidad restablecida');
+    }
+}
+
+function saveAccessibilitySettings() {
+    const settings = {
+        fontSize: document.getElementById('fontSize')?.value,
+        lineHeight: document.getElementById('lineHeight')?.value,
+        highContrast: document.getElementById('highContrast')?.checked,
+        underlineLinks: document.getElementById('underlineLinks')?.checked,
+        sansSerif: document.getElementById('sansSerif')?.checked,
+        reduceMotion: document.getElementById('reduceMotion')?.checked,
+        disableAutoplay: document.getElementById('disableAutoplay')?.checked,
+        pauseOnFocus: document.getElementById('pauseOnFocus')?.checked,
+        focusHighlight: document.getElementById('focusHighlight')?.checked,
+        keyboardShortcuts: document.getElementById('keyboardShortcuts')?.checked,
+        skipToContent: document.getElementById('skipToContent')?.checked,
+        screenReaderMode: document.getElementById('screenReaderMode')?.checked,
+        ariaLive: document.getElementById('ariaLive')?.checked,
+        extendedDescriptions: document.getElementById('extendedDescriptions')?.checked,
+        colorFilter: document.getElementById('colorFilter')?.value,
+        usePatterns: document.getElementById('usePatterns')?.checked
+    };
+
+    localStorage.setItem('accessibilitySettings', JSON.stringify(settings));
+    console.log('Configuración de accesibilidad guardada:', settings);
+    alert('✅ Configuración de accesibilidad guardada exitosamente');
+}
+
+// ========== FUNCIONES PARA CERTIFICADOS ==========
+function addCertificate() {
+    alert('📋 Función para agregar nuevo certificado\n\nEsta funcionalidad permitirá cargar:\n- Nombre del certificado\n- Institución emisora\n- Fecha de emisión\n- Fecha de vencimiento\n- Archivo PDF del certificado');
+}
+
+function viewCertificate(certName) {
+    alert(`👁️ Visualizando certificado: ${certName}`);
+}
+
+function downloadCertificate(certName) {
+    alert(`⬇️ Descargando certificado: ${certName}`);
+}
+
+function shareCertificate(certName) {
+    alert(`🔗 Compartiendo certificado: ${certName}\n\nSe generará un enlace seguro para compartir.`);
+}
+
+function verifyCertificate(certName) {
+    alert(`✓ Verificando certificado: ${certName}\n\nVerificación exitosa.`);
+}
+
+function renewCertificate(certName) {
+    alert(`🔄 Renovando certificado: ${certName}\n\nRedirigiendo al proceso de renovación...`);
+}

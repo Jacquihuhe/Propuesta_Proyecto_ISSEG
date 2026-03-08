@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (files.length > 0) {
                 const label = this.nextElementSibling;
                 label.querySelector('p').textContent = `${files.length} archivo(s) seleccionado(s)`;
-                label.style.borderColor = '#d93025';
-                label.style.backgroundColor = '#fff5f5';
+                label.style.borderColor = '#FF3B30';
+                label.style.backgroundColor = '#ffebea';
             }
         });
     }

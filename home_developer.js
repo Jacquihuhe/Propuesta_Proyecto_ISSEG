@@ -191,6 +191,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // Renderizar notificaciones iniciales
     renderNotifications();
 
+    // Manejar dropdown de perfil de usuario
+    const userProfileBtn = document.getElementById('userProfileBtn');
+    const userDropdownMenu = document.getElementById('userDropdownMenu');
+    
+    if (userProfileBtn && userDropdownMenu) {
+        // Toggle dropdown cuando se hace clic en el botón
+        userProfileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userProfileBtn.classList.toggle('active');
+            userDropdownMenu.classList.toggle('show');
+        });
+        
+        // Cerrar dropdown cuando se hace clic fuera de él
+        document.addEventListener('click', function(e) {
+            if (!userProfileBtn.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+                userProfileBtn.classList.remove('active');
+                userDropdownMenu.classList.remove('show');
+            }
+        });
+        
+        // Cerrar dropdown cuando se hace clic en un item (excepto logout que tiene su propia lógica)
+        const dropdownItems = userDropdownMenu.querySelectorAll('.dropdown-item:not(.logout-item)');
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function() {
+                userProfileBtn.classList.remove('active');
+                userDropdownMenu.classList.remove('show');
+            });
+        });
+    }
+
     // Manejar cierre de sesión
     const btnLogout = document.getElementById('btnLogout');
     if (btnLogout) {
@@ -202,12 +232,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Cargar datos de solicitudes
-    loadRequests();
-    
-    // Configurar filtros
-    setupFilters();
+    // Cargar datos de solicitudes solo si la vista contiene la tabla de solicitudes
+    if (document.getElementById('requestsTableBody')) {
+        loadRequests();
+        setupFilters();
+    }
 });
+
+const REQUESTS_STORAGE_KEY = 'developerRequests';
 
 // Datos de ejemplo de solicitudes
 const mockRequests = [
@@ -313,7 +345,28 @@ const mockRequests = [
     }
 ];
 
-let currentRequests = [...mockRequests];
+function getStoredRequests() {
+    const saved = localStorage.getItem(REQUESTS_STORAGE_KEY);
+    if (!saved) {
+        localStorage.setItem(REQUESTS_STORAGE_KEY, JSON.stringify(mockRequests));
+        return [...mockRequests];
+    }
+
+    try {
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed : [...mockRequests];
+    } catch (error) {
+        localStorage.setItem(REQUESTS_STORAGE_KEY, JSON.stringify(mockRequests));
+        return [...mockRequests];
+    }
+}
+
+function saveRequests(requests) {
+    localStorage.setItem(REQUESTS_STORAGE_KEY, JSON.stringify(requests));
+}
+
+let allRequests = getStoredRequests();
+let currentRequests = [...allRequests];
 
 function loadRequests() {
     renderRequests(currentRequests);
@@ -324,6 +377,10 @@ function renderRequests(requests) {
     const tbody = document.getElementById('requestsTableBody');
     const emptyState = document.getElementById('emptyState');
     const tableContainer = document.querySelector('.requests-table-container');
+
+    if (!tbody || !emptyState || !tableContainer) {
+        return;
+    }
     
     if (requests.length === 0) {
         tableContainer.style.display = 'none';
@@ -334,7 +391,9 @@ function renderRequests(requests) {
     tableContainer.style.display = 'block';
     emptyState.style.display = 'none';
     
-    tbody.innerHTML = requests.map(req => `
+    const previewRequests = requests.slice(0, 5);
+
+    tbody.innerHTML = previewRequests.map(req => `
         <tr>
             <td><span class="request-id">${req.id}</span></td>
             <td><span class="request-type ${req.type}">${getTypeLabel(req.type)}</span></td>
@@ -351,8 +410,20 @@ function renderRequests(requests) {
             <td>${formatDate(req.date)}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn-action btn-view" onclick="viewRequest('${req.id}')">Ver</button>
-                    <button class="btn-action btn-edit" onclick="editRequest('${req.id}')">Editar</button>
+                    <button class="btn-action btn-view icon" onclick="viewRequest('${req.id}')" title="Ver solicitud">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <span>Ver</span>
+                    </button>
+                    <button class="btn-action btn-edit icon" onclick="editRequest('${req.id}')" title="Editar solicitud">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+                        </svg>
+                        <span>Editar</span>
+                    </button>
                 </div>
             </td>
         </tr>
@@ -396,31 +467,47 @@ function formatDate(dateStr) {
 
 function updateStats() {
     const stats = {
-        pendientes: currentRequests.filter(r => r.status === 'pendiente').length,
-        enDesarrollo: currentRequests.filter(r => r.status === 'en_desarrollo').length,
-        completadas: currentRequests.filter(r => r.status === 'completada').length,
-        urgentes: currentRequests.filter(r => r.status === 'urgente').length
+        pendientes: allRequests.filter(r => r.status === 'pendiente').length,
+        enDesarrollo: allRequests.filter(r => r.status === 'en_desarrollo').length,
+        completadas: allRequests.filter(r => r.status === 'completada').length,
+        urgentes: allRequests.filter(r => r.status === 'urgente').length
     };
-    
-    document.getElementById('statPendientes').textContent = stats.pendientes;
-    document.getElementById('statEnDesarrollo').textContent = stats.enDesarrollo;
-    document.getElementById('statCompletadas').textContent = stats.completadas;
-    document.getElementById('statUrgentes').textContent = stats.urgentes;
+
+    const statPendientes = document.getElementById('statPendientes');
+    const statEnDesarrollo = document.getElementById('statEnDesarrollo');
+    const statCompletadas = document.getElementById('statCompletadas');
+    const statUrgentes = document.getElementById('statUrgentes');
+
+    if (statPendientes) statPendientes.textContent = stats.pendientes;
+    if (statEnDesarrollo) statEnDesarrollo.textContent = stats.enDesarrollo;
+    if (statCompletadas) statCompletadas.textContent = stats.completadas;
+    if (statUrgentes) statUrgentes.textContent = stats.urgentes;
 }
 
 function setupFilters() {
     const filterStatus = document.getElementById('filterStatus');
     const filterType = document.getElementById('filterType');
-    
+
+    if (!filterStatus || !filterType) {
+        return;
+    }
+
     filterStatus.addEventListener('change', applyFilters);
     filterType.addEventListener('change', applyFilters);
 }
 
 function applyFilters() {
-    const filterStatus = document.getElementById('filterStatus').value;
-    const filterType = document.getElementById('filterType').value;
-    
-    let filtered = [...mockRequests];
+    const filterStatusElement = document.getElementById('filterStatus');
+    const filterTypeElement = document.getElementById('filterType');
+
+    if (!filterStatusElement || !filterTypeElement) {
+        return;
+    }
+
+    const filterStatus = filterStatusElement.value;
+    const filterType = filterTypeElement.value;
+
+    let filtered = [...allRequests];
     
     if (filterStatus !== 'all') {
         filtered = filtered.filter(r => r.status === filterStatus);
@@ -436,36 +523,22 @@ function applyFilters() {
 
 // Funciones de filtrado rápido
 window.filterRequests = function(status) {
-    document.getElementById('filterStatus').value = status;
-    applyFilters();
+    const filterStatus = document.getElementById('filterStatus');
+    if (filterStatus) {
+        filterStatus.value = status;
+        applyFilters();
+    }
 };
 
 window.showAllRequests = function() {
-    document.getElementById('filterStatus').value = 'all';
-    document.getElementById('filterType').value = 'all';
-    applyFilters();
+    window.location.href = 'mis_tareas.html';
 };
 
 // Funciones de acción sobre solicitudes
 window.viewRequest = function(id) {
-    const request = mockRequests.find(r => r.id === id);
-    if (request) {
-        alert(`📄 Detalles de Solicitud\n\nID: ${request.id}\nTipo: ${getTypeLabel(request.type)}\nSolicitante: ${request.solicitante}\nÁrea: ${request.area}\nDescripción: ${request.description}\nPrioridad: ${getPriorityLabel(request.priority)}\nEstado: ${getStatusLabel(request.status)}\nFecha: ${formatDate(request.date)}`);
-    }
+    window.location.href = `mis_tareas.html?id=${encodeURIComponent(id)}&mode=view`;
 };
 
 window.editRequest = function(id) {
-    const request = mockRequests.find(r => r.id === id);
-    if (request) {
-        const newStatus = prompt(`Cambiar estado de la solicitud ${id}\n\nEstado actual: ${getStatusLabel(request.status)}\n\nOpciones:\n- pendiente\n- en_desarrollo\n- completada\n- urgente\n\nIngresa el nuevo estado:`);
-        
-        if (newStatus && ['pendiente', 'en_desarrollo', 'completada', 'urgente'].includes(newStatus)) {
-            request.status = newStatus;
-            renderRequests(currentRequests);
-            updateStats();
-            alert('✅ Estado actualizado correctamente');
-        } else if (newStatus) {
-            alert('❌ Estado no válido');
-        }
-    }
+    window.location.href = `mis_tareas.html?id=${encodeURIComponent(id)}&mode=edit`;
 };
