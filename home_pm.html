@@ -83,61 +83,63 @@
         </nav>
     </aside>
     
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <div class="brand">
-                    <button class="menu-toggle" id="menuToggle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="3" y1="12" x2="21" y2="12"></line>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg>
-                    </button>
-                    <div class="logo-container">
-                        <img src="logo_ISSEG.jpeg" alt="ISSEG Logo" class="logo">
-                    </div>
-                    <div class="brand-text">
-                        <h1 class="system-title">SGSPCSI</h1>
-                        <p class="system-subtitle">Panel de Product Manager</p>
-                    </div>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <img src="logo_ISSEG.jpeg" alt="ISSEG" class="header-logo">
+                <div class="header-info">
+                    <h1 class="system-title">SGSPCSI</h1>
+                    <p class="system-subtitle">Panel de Product Manager</p>
                 </div>
-                <div class="user-section">
-                    <button class="notifications-btn" id="notificationsBtn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                        </svg>
-                        <span class="notification-badge" id="notificationBadge">6</span>
-                    </button>
-                    <div class="user-info">
-                        <svg class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
+            </div>
+            <div class="header-right">
+                <button class="notifications-btn" id="notificationsBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="notification-badge" id="notificationBadge">6</span>
+                </button>
+                <div class="user-info">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <div class="user-details">
                         <span class="user-name" id="userName">Product Manager</span>
+                        <span class="user-role">Gestión de Proyectos</span>
                     </div>
-                    <button class="btn-logout" id="btnLogout">
-                        <span>Cerrar Sesión</span>
-                    </button>
                 </div>
+                <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
             </div>
-            
-            <!-- Notifications Panel -->
-            <div class="notifications-panel" id="notificationsPanel">
-                <div class="notifications-header">
-                    <h3>Notificaciones</h3>
-                    <button class="mark-all-read" id="markAllRead">Marcar todas como leídas</button>
-                </div>
-                <div class="notifications-list" id="notificationsList">
-                    <!-- Se llenará dinámicamente -->
-                </div>
-                <div class="notifications-footer">
-                    <a href="notificaciones.html">Ver todas las notificaciones</a>
-                </div>
+        </div>
+        
+        <!-- Notifications Panel -->
+        <div class="notifications-panel" id="notificationsPanel">
+            <div class="notifications-header">
+                <h3>Notificaciones</h3>
+                <button class="mark-all-read" id="markAllRead">Marcar todas como leídas</button>
             </div>
-        </header>
+            <div class="notifications-list" id="notificationsList">
+                <!-- Se llenará dinámicamente -->
+            </div>
+            <div class="notifications-footer">
+                <a href="notificaciones.html">Ver todas las notificaciones</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-container">
 
         <!-- Welcome Section -->
         <section class="welcome-section">
@@ -378,11 +380,13 @@
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2026 ISSEG - Instituto de Seguridad Social del Estado de Guanajuato</p>
-        </footer>
-    </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2026 ISSEG - Instituto de Seguridad Social del Estado de Guanajuato</p>
+    </footer>
 
     <script src="home_pm.js"></script>
 </body>
