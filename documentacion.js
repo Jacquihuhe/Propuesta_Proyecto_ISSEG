@@ -165,15 +165,17 @@ function generateDocumentsFromRequests() {
 
 function generateDocument(request, docIndex) {
     const fileTypes = [
-        { ext: 'pdf', name: 'Manual', size: 2457600 },
-        { ext: 'docx', name: 'Especificaciones', size: 1024000 },
-        { ext: 'xlsx', name: 'Datos', size: 512000 },
-        { ext: 'png', name: 'Diagrama', size: 819200 },
-        { ext: 'drawio', name: 'Flujo', size: 256000 },
-        { ext: 'pdf', name: 'Análisis', size: 3145728 },
-        { ext: 'docx', name: 'Requerimientos', size: 768000 },
-        { ext: 'jpg', name: 'Mockup', size: 1536000 },
-        { ext: 'vsdx', name: 'Arquitectura', size: 2048000 }
+        { ext: 'pdf', name: 'Manual', size: 2457600, category: 'documentacion' },
+        { ext: 'docx', name: 'Especificaciones', size: 1024000, category: 'documentacion' },
+        { ext: 'xlsx', name: 'Datos', size: 512000, category: 'documentacion' },
+        { ext: 'png', name: 'Diagrama', size: 819200, category: 'diagrama' },
+        { ext: 'drawio', name: 'Flujo', size: 256000, category: 'diagrama' },
+        { ext: 'pdf', name: 'Cuestionario_Satisfaccion', size: 156000, category: 'cuestionario' },
+        { ext: 'docx', name: 'Cuestionario_Requisitos', size: 128000, category: 'cuestionario' },
+        { ext: 'pdf', name: 'Análisis', size: 3145728, category: 'documentacion' },
+        { ext: 'docx', name: 'Requerimientos', size: 768000, category: 'documentacion' },
+        { ext: 'jpg', name: 'Mockup', size: 1536000, category: 'diagrama' },
+        { ext: 'vsdx', name: 'Arquitectura', size: 2048000, category: 'diagrama' }
     ];
 
     const fileType = fileTypes[Math.floor(Math.random() * fileTypes.length)];
@@ -190,6 +192,7 @@ function generateDocument(request, docIndex) {
         fileName: `${fileType.name}_${request.area.replace(/\s+/g, '_')}_${docIndex + 1}.${fileType.ext}`,
         fileType: fileType.ext,
         fileSize: fileType.size + Math.floor(Math.random() * 100000),
+        fileCategory: fileType.category,
         uploadDate: uploadDate.toISOString(),
         uploadedBy: request.solicitante,
         status: request.status
@@ -249,19 +252,11 @@ function renderDocumentsGrid(documents) {
 
         // Event listeners para los botones de acción (evitar propagación)
         const viewBtn = document.getElementById(`view-${doc.id}`);
-        const downloadBtn = document.getElementById(`download-${doc.id}`);
 
         if (viewBtn) {
             viewBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 viewDocument(doc);
-            });
-        }
-
-        if (downloadBtn) {
-            downloadBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                downloadDocument(doc);
             });
         }
     });
@@ -299,13 +294,7 @@ function createDocumentCard(doc) {
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                     </button>
-                    <button class="doc-action-btn" id="download-${doc.id}" title="Descargar">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                    </button>
+                    <!-- Download button removed -->
                 </div>
             </div>
         </div>
@@ -319,55 +308,101 @@ function showDocumentModal(doc) {
     const modal = document.getElementById('documentModal');
     const modalBody = document.getElementById('modalBody');
 
-    const fileTypeClass = doc.fileType.toLowerCase();
+    // Get all docs for this request
+    const requestDocs = allDocuments.filter(d => d.requestId === doc.requestId);
     const requestTypeLabel = getRequestTypeLabel(doc.requestType);
-    const formattedDate = formatDate(doc.uploadDate);
-    const formattedDateTime = formatDateTime(doc.uploadDate);
-    const formattedSize = formatFileSize(doc.fileSize);
+
+    // Group docs by category
+    const categories = {
+        'cuestionario': { title: 'Cuestionarios y Formularios', docs: [] },
+        'diagrama': { title: 'Diagramas y Flujos', docs: [] },
+        'documentacion': { title: 'Documentación Técnica', docs: [] },
+        'otros': { title: 'Otros Archivos', docs: [] }
+    };
+
+    requestDocs.forEach(d => {
+        const cat = d.fileCategory && categories[d.fileCategory] ? d.fileCategory : 'otros';
+        categories[cat].docs.push(d);
+    });
+
+    let filesHtml = '';
+    
+    // Generate HTML for each category
+    Object.entries(categories).forEach(([key, category]) => {
+        if (category.docs.length > 0) {
+            const fileItems = category.docs.map(d => {
+                const fileTypeClass = d.fileType.toLowerCase();
+                const formattedDate = formatDateTime(d.uploadDate);
+                const formattedSize = formatFileSize(d.fileSize);
+                const contentHtml = renderDocumentContent(d);
+                
+                return `
+                    <div class="doc-viewer-card">
+                        <div class="doc-viewer-header">
+                            <div class="modal-item-icon file-type-icon ${fileTypeClass}">
+                                ${d.fileType}
+                            </div>
+                            <div class="modal-item-info">
+                                <div class="modal-item-name">${d.fileName}</div>
+                                <div class="modal-item-meta">${formattedSize} • ${formattedDate}</div>
+                            </div>
+                        </div>
+                        <div class="doc-viewer-body">
+                            ${contentHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            filesHtml += `
+                <div class="modal-file-category">
+                    <h5 class="category-title">${category.title}</h5>
+                    <div class="modal-file-list">
+                        ${fileItems}
+                    </div>
+                </div>
+            `;
+        }
+    });
 
     modalBody.innerHTML = `
         <div class="modal-document-info">
-            <div class="modal-file-preview">
-                <div class="modal-file-icon file-type-icon ${fileTypeClass}">
-                    ${doc.fileType}
+            <div class="modal-section" style="padding-top: 0;">
+                <h4 style="font-size: 1.25rem; margin-bottom: 1rem;">${doc.requestId} - Detalles del Proyecto</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <p style="color: #666; font-size: 0.85rem;">Area</p>
+                        <p style="font-weight: 500;">${doc.area}</p>
+                    </div>
+                    <div>
+                        <p style="color: #666; font-size: 0.85rem;">Solicitante</p>
+                        <p style="font-weight: 500;">${doc.solicitante}</p>
+                    </div>
+                    <div>
+                        <p style="color: #666; font-size: 0.85rem;">Tipo</p>
+                        <span class="doc-tag ${doc.requestType}" style="font-size: 0.85rem;">${requestTypeLabel}</span>
+                    </div>
+                    <div>
+                        <p style="color: #666; font-size: 0.85rem;">Estado</p>
+                        <span class="doc-tag ${doc.status === 'completada' ? 'viabilidad' : 'urgente'}" style="background:#e8f5e9; color:#2e7d32;">${doc.status ? doc.status.replace('-', ' ').toUpperCase() : 'PENDIENTE'}</span>
+                    </div>
                 </div>
-                <div class="modal-file-details">
-                    <h4>${doc.fileName}</h4>
-                    <p><strong>Tamaño:</strong> ${formattedSize}</p>
-                    <p><strong>Tipo:</strong> ${doc.fileType.toUpperCase()}</p>
+                <div>
+                     <p style="color: #666; font-size: 0.85rem;">Descripción</p>
+                     <p>${doc.requestDescription}</p>
                 </div>
             </div>
 
-            <div class="modal-section">
-                <h4>Información de la Solicitud</h4>
-                <p><strong>ID:</strong> ${doc.requestId}</p>
-                <p><strong>Tipo:</strong> ${requestTypeLabel}</p>
-                <p><strong>Área:</strong> ${doc.area}</p>
-                <p><strong>Descripción:</strong> ${doc.requestDescription}</p>
+            <div class="modal-section" style="border-bottom: none;">
+                <h4 style="margin-bottom: 1.5rem;">Expediente Digital</h4>
+                <div class="expediente-container">
+                    ${filesHtml}
+                </div>
             </div>
-
-            <div class="modal-section">
-                <h4>Detalles del Archivo</h4>
-                <p><strong>Subido por:</strong> ${doc.uploadedBy}</p>
-                <p><strong>Fecha de carga:</strong> ${formattedDateTime}</p>
-                <p><strong>Estado de solicitud:</strong> <span class="doc-tag ${doc.requestType}">${requestTypeLabel}</span></p>
-            </div>
-
+            
             <div class="modal-actions">
-                <button class="modal-btn modal-btn-primary" onclick="downloadDocument(${JSON.stringify(doc).replace(/"/g, '&quot;')})">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                    Descargar Archivo
-                </button>
-                <button class="modal-btn modal-btn-secondary" onclick="viewDocument(${JSON.stringify(doc).replace(/"/g, '&quot;')})">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                    Ver Documento
+                <button class="modal-btn modal-btn-secondary" onclick="document.getElementById('documentModal').classList.remove('active')">
+                    Cerrar
                 </button>
             </div>
         </div>
@@ -376,11 +411,98 @@ function showDocumentModal(doc) {
     modal.classList.add('active');
 }
 
-// ============================================
-// Acciones de Documento
-// ============================================
-function viewDocument(doc) {
-    alert(`Ver documento: ${doc.fileName}\n\nEsta es una demostración. En producción, aquí se abriría el visor de documentos.`);
+function renderDocumentContent(doc) {
+    if (doc.fileCategory === 'cuestionario') {
+        return renderMockForm(doc);
+    } else if (doc.fileCategory === 'diagrama') {
+        return renderMockImage(doc);
+    } else {
+        return `<div class="doc-preview-placeholder">
+            <div class="placeholder-icon">📄</div>
+            <p>Vista previa no disponible para archivos .${doc.fileType}</p>
+            <small>El archivo es parte del expediente técnico.</small>
+        </div>`;
+    }
+}
+
+function renderMockForm(doc) {
+    let fields = [];
+    
+    // Simular campos basados en el tipo de solicitud
+    if (doc.requestType === 'falla_urgente' || doc.fileName.toLowerCase().includes('urgente')) {
+        fields = [
+            { label: 'Sistema Afectado', value: 'Sistema de Nómina (Oracle)' },
+            { label: 'Mensaje de Error', value: 'ORA-12154: TNS:could not resolve the connect identifier specified' },
+            { label: 'Pasos para Reproducir', value: '1. Ingresar al módulo de pagos.\n2. Seleccionar el periodo actual.\n3. Click en "Calcular".' },
+            { label: 'Nivel de Impacto', value: 'Crítico - Detiene la operación' },
+            { label: 'Usuarios Afectados', value: 'Todo el departamento de RRHH' }
+        ];
+    } else if (doc.requestType === 'modificacion' || doc.fileName.toLowerCase().includes('modificacion')) {
+        fields = [
+            { label: 'Módulo a Modificar', value: 'Catálogo de Proveedores' },
+            { label: 'Justificación', value: 'Actualización de normativa fiscal 2026' },
+            { label: 'Descripción del Cambio', value: 'Agregar campos para el nuevo régimen fiscal y validar RFC con la nueva API del SAT.' },
+            { label: 'Beneficio Esperado', value: 'Cumplimiento normativo y reducción de errores de captura.' }
+        ];
+    } else {
+        // Genérico / Requerimientos
+        fields = [
+            { label: 'Objetivo del Proyecto', value: 'Automatizar la generación de reportes mensuales.' },
+            { label: 'Alcance', value: 'Departamentos de Finanzas y Contabilidad.' },
+            { label: 'Requisitos Funcionales', value: '- Exportación a Excel y PDF.\n- Envío automático por correo.\n- Filtros por fecha y centro de costos.' },
+            { label: 'Presupuesto Estimado', value: '$50,000 MXN' }
+        ];
+    }
+
+    const fieldsHtml = fields.map(f => `
+        <div class="form-field">
+            <dt>${f.label}</dt>
+            <dd>${f.value.replace(/\n/g, '<br>')}</dd>
+        </div>
+    `).join('');
+
+    return `
+        <div class="form-preview">
+            <div class="form-preview-header">Respuestas del Formulario</div>
+            <dl class="form-preview-list">
+                ${fieldsHtml}
+            </dl>
+        </div>
+    `;
+}
+
+function renderMockImage(doc) {
+    // Colores pastel para los placeholders
+    const colors = ['#e3f2fd', '#f3e5f5', '#e8f5e9', '#fff3e0'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    
+    return `
+        <div class="image-preview" style="background-color: ${color};">
+            <div class="mock-image-content">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <span>Vista Previa del Diagrama</span>
+                <small>${doc.fileName}</small>
+            </div>
+        </div>
+    `;
+}
+
+// Wrapper to handle string/object passing
+function viewDocument(input) {
+    let doc;
+    if (typeof input === 'string') {
+        doc = allDocuments.find(d => d.id === input);
+    } else {
+        doc = input;
+    }
+    
+    if (doc) {
+        alert(`Visualizando documento: ${doc.fileName}\n\nEn un entorno real, esto abriría el visor de documentos.`);
+    }
 }
 
 function downloadDocument(doc) {
@@ -399,6 +521,7 @@ function updateStatistics(documents) {
     document.getElementById('total-requests').textContent = uniqueRequests.size;
 
     // Tamaño total
+    // TODO: Validar si este dato es relevante para el usuario o se debe eliminar
     const totalSize = documents.reduce((sum, doc) => sum + doc.fileSize, 0);
     document.getElementById('total-size').textContent = formatFileSize(totalSize);
 }
