@@ -1,16 +1,16 @@
 :root {
-    --primary: #1a5696;
-    --primary-dark: #144376;
-    --primary-light: #2d6bb0;
-    --success: #28a745;
-    --danger: #d93025;
-    --warning: #ff9800;
-    --text: #2c3e50;
-    --text-light: #5f6368;
-    --text-muted: #95a5a6;
-    --bg: #f4f7f9;
+    --primary: #004B87;
+    --primary-dark: #003B6D;
+    --primary-light: #69B3E7;
+    --success: #34C759;
+    --danger: #FF3B30;
+    --warning: #FF9500;
+    --text: #004B87;
+    --text-light: #63666A;
+    --text-muted: #97999B;
+    --bg: #C8D8EB;
     --bg-light: #ffffff;
-    --border: #dcdfe3;
+    --border: #C8C9C7;
     --shadow: rgba(0, 0, 0, 0.1);
     --shadow-lg: rgba(0, 0, 0, 0.15);
 }
@@ -118,7 +118,7 @@ body {
     font-weight: 600;
 }
 
-/* ========== PROBLEMA-SOLUCIÓN ========== */
+/* ========== PROBLEMA-SOLUCIÃ“N ========== */
 .problem-solution {
     padding: 80px 20px;
     background: white;
@@ -140,12 +140,12 @@ body {
 }
 
 .problem-card {
-    background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+    background: linear-gradient(135deg, #D9E6F2 0%, #C8D8EB 100%);
     border-left: 6px solid var(--danger);
 }
 
 .solution-card {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    background: linear-gradient(135deg, #D9E6F2 0%, #C8D8EB 100%);
     border-left: 6px solid var(--success);
 }
 
@@ -275,7 +275,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(26, 86, 150, 0.95), transparent);
+    background: linear-gradient(to top, rgba(0, 75, 135, 0.95), transparent);
     padding: 30px 20px 20px;
     text-align: center;
     opacity: 0;
@@ -341,7 +341,7 @@ body {
 }
 
 .featured-badge {
-    background: linear-gradient(135deg, #ff9800, #ff5722);
+    background: linear-gradient(135deg, #97999B, #97999B);
 }
 
 @keyframes pulse-badge {
@@ -405,7 +405,7 @@ body {
 }
 
 .urgente-btn:hover {
-    background: #b71c1c;
+    background: #63666A;
 }
 
 .featured-btn {
@@ -489,7 +489,7 @@ body {
 }
 
 .benefit-card {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: linear-gradient(135deg, #F5F6F7 0%, #E5E7E9 100%);
     padding: 30px;
     border-radius: 12px;
     border-left: 5px solid var(--primary);
@@ -666,3 +666,4 @@ body {
 .benefit-card {
     animation: fadeInUp 0.6s ease-out;
 }
+

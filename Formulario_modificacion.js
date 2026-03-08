@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     const fileNames = Array.from(files).map(f => f.name).join(', ');
                     label.querySelector('p').textContent = `${files.length} archivo(s) seleccionado(s)`;
                     label.querySelector('small').textContent = fileNames;
-                    label.style.borderColor = '#28a745';
-                    label.style.backgroundColor = '#d4edda';
+                    label.style.borderColor = '#34C759';
+                    label.style.backgroundColor = '#e8f8ed';
                 }
             });
         }
