@@ -9,6 +9,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const userData = JSON.parse(currentUser);
     
+    // ========== SIDEBAR MENU ==========
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebarClose = document.getElementById('sidebarClose');
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+    }
+    
+    if (sidebarClose) {
+        sidebarClose.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+    }
+    
+    overlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+    });
+
     // Datos de perfil de ejemplo (en producción vendrían del servidor)
     const profileData = {
         firstName: 'Juan Carlos',
@@ -40,13 +68,146 @@ document.addEventListener('DOMContentLoaded', function() {
     // Manejar cierre de sesión
     const btnLogout = document.getElementById('btnLogout');
     if (btnLogout) {
-        btnLogout.addEventListener('click', function() {
+        btnLogout.addEventListener('click', function(e) {
+            e.preventDefault();
             if (confirm('¿Estás seguro que deseas cerrar sesión?')) {
                 sessionStorage.removeItem('currentUser');
                 window.location.href = 'login.html';
             }
         });
     }
+
+    // ========== NOTIFICATIONS ==========
+    const notificationsBtn = document.getElementById('notificationsBtn');
+    const notificationsPanel = document.getElementById('notificationsPanel');
+    const notificationsList = document.getElementById('notificationsList');
+    const notificationBadge = document.getElementById('notificationBadge');
+    const markAllReadBtn = document.getElementById('markAllRead');
+    
+    const mockNotifications = [
+        {
+            id: 1,
+            type: 'success',
+            title: 'Solicitud Aprobada',
+            message: 'Tu solicitud REQ-2026-003 ha sido aprobada por el Product Manager',
+            time: 'Hace 5 minutos',
+            read: false
+        },
+        {
+            id: 2,
+            type: 'info',
+            title: 'En Desarrollo',
+            message: 'Tu solicitud de modificación está siendo desarrollada',
+            time: 'Hace 1 hora',
+            read: false
+        },
+        {
+            id: 3,
+            type: 'warning',
+            title: 'Información Adicional',
+            message: 'El desarrollador solicita más detalles sobre tu requerimiento',
+            time: 'Hace 2 horas',
+            read: false
+        }
+    ];
+    
+    function renderNotifications() {
+        const unreadCount = mockNotifications.filter(n => !n.read).length;
+        
+        if (unreadCount > 0) {
+            notificationBadge.textContent = unreadCount;
+            notificationBadge.style.display = 'block';
+        } else {
+            notificationBadge.style.display = 'none';
+        }
+        
+        if (notificationsList) {
+            notificationsList.innerHTML = mockNotifications.map(n => `
+                <div class="notification-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
+                    <div class="notification-icon ${n.type}">
+                        ${getNotificationIcon(n.type)}
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${n.title}</div>
+                        <div class="notification-message">${n.message}</div>
+                        <div class="notification-time">${n.time}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const notifId = parseInt(this.dataset.id);
+                    markAsRead(notifId);
+                });
+            });
+        }
+    }
+    
+    function getNotificationIcon(type) {
+        const icons = {
+            success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+            info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>',
+            warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
+            danger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'
+        };
+        return icons[type] || icons.info;
+    }
+    
+    function markAsRead(notifId) {
+        const notification = mockNotifications.find(n => n.id === notifId);
+        if (notification) {
+            notification.read = true;
+            renderNotifications();
+        }
+    }
+    
+    if (notificationsBtn) {
+        notificationsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationsPanel.classList.toggle('active');
+            if (userDropdownMenu && userDropdownMenu.classList.contains('show')) {
+                userDropdownMenu.classList.remove('show');
+                userProfileBtn.classList.remove('active');
+            }
+        });
+    }
+    
+    if (markAllReadBtn) {
+        markAllReadBtn.addEventListener('click', function() {
+            mockNotifications.forEach(n => n.read = true);
+            renderNotifications();
+        });
+    }
+    
+    renderNotifications();
+
+    // Manejar dropdown de perfil
+    const userProfileBtn = document.getElementById('userProfileBtn');
+    const userDropdownMenu = document.getElementById('userDropdownMenu');
+
+    if (userProfileBtn && userDropdownMenu) {
+        userProfileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdownMenu.classList.toggle('show');
+            userProfileBtn.classList.toggle('active');
+            if (notificationsPanel && notificationsPanel.classList.contains('active')) {
+                notificationsPanel.classList.remove('active');
+            }
+        });
+
+        // Cerrar dropdown al hacer click fuera
+        document.addEventListener('click', function(e) {
+            if (!userProfileBtn.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+                userDropdownMenu.classList.remove('show');
+                userProfileBtn.classList.remove('active');
+            }
+            if (notificationsPanel && notificationsBtn && !notificationsPanel.contains(e.target) && !notificationsBtn.contains(e.target)) {
+                notificationsPanel.classList.remove('active');
+            }
+        });
+    }
+});
 
     // Manejar edición de perfil
     const btnEdit = document.getElementById('btnEdit');
@@ -91,20 +252,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const pushNotifications = document.getElementById('pushNotifications');
     const darkMode = document.getElementById('darkMode');
 
-    emailNotifications.addEventListener('change', function() {
-        savePreference('emailNotifications', this.checked);
-    });
+    if (emailNotifications) {
+        emailNotifications.addEventListener('change', function() {
+            savePreference('emailNotifications', this.checked);
+        });
+    }
 
-    pushNotifications.addEventListener('change', function() {
-        savePreference('pushNotifications', this.checked);
-    });
+    if (pushNotifications) {
+        pushNotifications.addEventListener('change', function() {
+            savePreference('pushNotifications', this.checked);
+        });
+    }
 
-    darkMode.addEventListener('change', function() {
-        savePreference('darkMode', this.checked);
-        if (this.checked) {
-            alert('💡 El modo oscuro se implementará en una futura actualización');
-        }
-    });
+    if (darkMode) {
+        darkMode.addEventListener('change', function() {
+            savePreference('darkMode', this.checked);
+            if (this.checked) {
+                alert('💡 El modo oscuro se implementará en una futura actualización');
+            }
+        });
+    }
 });
 
 function loadProfileData(data) {

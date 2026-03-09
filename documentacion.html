@@ -13,49 +13,59 @@
         <div class="header-container">
             <div class="header-left">
                 <button class="menu-toggle" id="menuToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <div class="logo">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z"></path>
-                        <path d="M2 17L12 22L22 17"></path>
-                        <path d="M2 12L12 17L22 12"></path>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
                     </svg>
-                </div>
+                </button>
+                <img src="logo_ISSEG.jpeg" alt="ISSEG" class="header-logo">
                 <div class="header-info">
-                    <h1>Documentación del Sistema</h1>
-                    <span class="subtitle">Guías y Referencias</span>
+                    <h1 class="system-title">SGSPCSI</h1>
+                    <p class="system-subtitle">Documentación del Sistema</p>
                 </div>
             </div>
             <div class="header-right">
-                <button class="notifications-btn" id="notificationsToggle">
+                <button class="notifications-btn" id="notificationsBtn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                     </svg>
-                    <span class="badge">3</span>
+                    <span class="notification-badge" id="notificationBadge">3</span>
                 </button>
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
+                <div class="user-profile-dropdown">
+                    <button class="user-profile-btn" id="userProfileBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
                         </svg>
-                    </div>
-                    <div class="user-details">
-                        <span class="user-name" id="userName">Usuario</span>
-                        <span class="user-role" id="userRole">Developer</span>
+                        <div class="user-details">
+                            <span class="user-name" id="userName">Usuario</span>
+                            <span class="user-role" id="userRole">Developer</span>
+                        </div>
+                        <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="user-dropdown-menu" id="userDropdownMenu">
+                        <a href="perfil.html" class="dropdown-item">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <span>Editar perfil</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout-item" id="btnLogout">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                <polyline points="16 17 21 12 16 7"/>
+                                <line x1="21" y1="12" x2="9" y2="12"/>
+                            </svg>
+                            <span>Cerrar Sesión</span>
+                        </a>
                     </div>
                 </div>
-                <button class="btn-logout" id="logoutBtn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                </button>
             </div>
         </div>
         
@@ -63,29 +73,28 @@
         <div class="notifications-panel" id="notificationsPanel">
             <div class="notifications-header">
                 <h3>Notificaciones</h3>
-                <button class="mark-read">Marcar todas como leídas</button>
+                <button class="mark-all-read" id="markAllRead">Marcar todas como leídas</button>
             </div>
-            <div class="notifications-list">
-                <div class="notification-item unread">
-                    <div class="notification-icon info">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                    </div>
-                    <div class="notification-content">
-                        <p><strong>Nueva actualización</strong></p>
-                        <p>Se ha actualizado la documentación de la API</p>
-                        <span class="notification-time">Hace 5 minutos</span>
-                    </div>
-                </div>
+            <div class="notifications-list" id="notificationsList">
+                <!-- Se llenará dinámicamente -->
+            </div>
+            <div class="notifications-footer">
+                <a href="notificaciones.html">Ver todas las notificaciones</a>
             </div>
         </div>
     </header>
 
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menú</h3>
+            <button class="sidebar-close" id="sidebarClose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
         <nav class="sidebar-nav">
             <a href="home_developer.html" class="nav-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -108,20 +117,6 @@
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
                 <span>Documentación</span>
-            </a>
-            <a href="repositorio.html" class="nav-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                </svg>
-                <span>Repositorio</span>
-            </a>
-            <a href="perfil.html" class="nav-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                <span>Mi Perfil</span>
             </a>
         </nav>
     </aside>
@@ -196,6 +191,7 @@
                     </div>
                 </div>
 
+                <!-- TODO: Validar si este panel de Tamaño Total se queda o se elimina más adelante -->
                 <div class="stat-card">
                     <div class="stat-icon size">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -246,392 +242,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-                            <p>Aprende a gestionar tus tareas, actualizar estados y documentar tu trabajo.</p>
-                            <button class="btn-expand" data-content="developer-guide">
-                                Ver más
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="doc-card-content" id="developer-guide">
-                                <h4>Gestión de Tareas</h4>
-                                <ol>
-                                    <li><strong>Ver tus tareas:</strong> Accede a "Mis Tareas" desde el menú lateral</li>
-                                    <li><strong>Revisar detalles:</strong> Haz clic en el botón de visualización (ojo) para ver los detalles completos</li>
-                                    <li><strong>Editar tareas:</strong> Usa el botón de edición (lápiz) para modificar información</li>
-                                    <li><strong>Actualizar estado:</strong> Cambia el estado según el progreso: Pendiente → En Desarrollo → Completada</li>
-                                    <li><strong>Agregar documentación:</strong> Documenta tu trabajo en la sección correspondiente</li>
-                                </ol>
-                                <h4>Estados de Tareas</h4>
-                                <ul>
-                                    <li><span class="doc-badge pendiente">Pendiente</span> - Tarea asignada, aún no iniciada</li>
-                                    <li><span class="doc-badge en-desarrollo">En Desarrollo</span> - Trabajo en progreso</li>
-                                    <li><span class="doc-badge completada">Completada</span> - Tarea finalizada</li>
-                                    <li><span class="doc-badge urgente">Urgente</span> - Requiere atención inmediata</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="doc-card">
-                            <div class="doc-card-icon pm">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="9" cy="7" r="4"></circle>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                </svg>
-                            </div>
-                            <h3>Guía para Project Managers</h3>
-                            <p>Gestiona solicitudes, asigna tareas y supervisa el progreso del equipo.</p>
-                            <button class="btn-expand" data-content="pm-guide">
-                                Ver más
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="doc-card-content" id="pm-guide">
-                                <h4>Gestión de Solicitudes</h4>
-                                <ol>
-                                    <li><strong>Revisar solicitudes:</strong> Accede al dashboard para ver todas las solicitudes pendientes</li>
-                                    <li><strong>Evaluar viabilidad:</strong> Analiza cada solicitud y determina su factibilidad</li>
-                                    <li><strong>Asignar tareas:</strong> Asigna las solicitudes aprobadas a los desarrolladores disponibles</li>
-                                    <li><strong>Monitorear progreso:</strong> Supervisa el estado de cada tarea en tiempo real</li>
-                                    <li><strong>Aprobar entregables:</strong> Revisa y aprueba el trabajo completado</li>
-                                </ol>
-                                <h4>Panel de Control</h4>
-                                <ul>
-                                    <li>Vista general de solicitudes por estado</li>
-                                    <li>Asignación de recursos del equipo</li>
-                                    <li>Seguimiento de plazos y prioridades</li>
-                                    <li>Reportes de productividad</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="doc-card">
-                            <div class="doc-card-icon client">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
-                            </div>
-                            <h3>Guía para Clientes</h3>
-                            <p>Crea solicitudes, da seguimiento y recibe actualizaciones de tu proyecto.</p>
-                            <button class="btn-expand" data-content="client-guide">
-                                Ver más
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="doc-card-content" id="client-guide">
-                                <h4>Creación de Solicitudes</h4>
-                                <ol>
-                                    <li><strong>Nuevo requerimiento:</strong> Haz clic en "Nueva Solicitud" desde tu dashboard</li>
-                                    <li><strong>Tipo de solicitud:</strong> Selecciona entre Requerimiento, Modificación o Urgente</li>
-                                    <li><strong>Completa los detalles:</strong> Proporciona toda la información necesaria</li>
-                                    <li><strong>Adjunta archivos:</strong> Incluye documentos de soporte si es necesario</li>
-                                    <li><strong>Enviar solicitud:</strong> Revisa y envía tu solicitud para evaluación</li>
-                                </ol>
-                                <h4>Seguimiento</h4>
-                                <ul>
-                                    <li>Accede a "Mis Solicitudes" para ver el estado actual</li>
-                                    <li>Recibe notificaciones sobre cambios de estado</li>
-                                    <li>Comunícate con el equipo a través de comentarios</li>
-                                    <li>Descarga entregables cuando estén listos</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- API Section -->
-                <section id="section-api" class="doc-section">
-                    <h2 class="doc-title">Referencia API</h2>
-                    
-                    <div class="api-section">
-                        <h3>LocalStorage API</h3>
-                        <p>El sistema utiliza localStorage para persistir datos en el navegador del cliente.</p>
-                        
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span class="code-language">JavaScript</span>
-                                <button class="btn-copy" data-copy="api-example-1">Copiar</button>
-                            </div>
-                            <pre id="api-example-1"><code>// Estructura de datos de solicitudes
-const REQUEST_STORAGE_KEY = 'developerRequests';
-
-// Obtener todas las solicitudes
-const requests = JSON.parse(localStorage.getItem(REQUEST_STORAGE_KEY)) || [];
-
-// Guardar solicitudes
-localStorage.setItem(REQUEST_STORAGE_KEY, JSON.stringify(requests));
-
-// Ejemplo de objeto solicitud
-{
-    id: "REQ-2024-001",
-    title: "Nueva funcionalidad",
-    description: "Descripción detallada...",
-    type: "requerimiento", // "requerimiento" | "modificacion" | "urgente"
-    status: "pendiente", // "pendiente" | "en-desarrollo" | "completada"
-    priority: "alta", // "baja" | "media" | "alta"
-    assignedTo: "developer@example.com",
-    createdBy: "client@example.com",
-    createdAt: "2024-01-15T10:30:00",
-    updatedAt: "2024-01-15T15:45:00"
-}</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="api-section">
-                        <h3>Métodos Principales</h3>
-                        
-                        <div class="api-method">
-                            <div class="api-method-header">
-                                <span class="method-type get">GET</span>
-                                <code>loadRequests()</code>
-                            </div>
-                            <p>Carga todas las solicitudes desde localStorage.</p>
-                            <div class="code-block">
-                                <pre><code>function loadRequests() {
-    return JSON.parse(localStorage.getItem(REQUEST_STORAGE_KEY)) || [];
-}</code></pre>
-                            </div>
-                        </div>
-
-                        <div class="api-method">
-                            <div class="api-method-header">
-                                <span class="method-type post">POST</span>
-                                <code>saveRequest(requestData)</code>
-                            </div>
-                            <p>Guarda una nueva solicitud en localStorage.</p>
-                            <div class="code-block">
-                                <pre><code>function saveRequest(requestData) {
-    const requests = loadRequests();
-    requests.push({
-        ...requestData,
-        id: generateRequestId(),
-        createdAt: new Date().toISOString()
-    });
-    localStorage.setItem(REQUEST_STORAGE_KEY, JSON.stringify(requests));
-}</code></pre>
-                            </div>
-                        </div>
-
-                        <div class="api-method">
-                            <div class="api-method-header">
-                                <span class="method-type put">PUT</span>
-                                <code>updateRequestStatus(requestId, newStatus)</code>
-                            </div>
-                            <p>Actualiza el estado de una solicitud existente.</p>
-                            <div class="code-block">
-                                <pre><code>function updateRequestStatus(requestId, newStatus) {
-    const requests = loadRequests();
-    const index = requests.findIndex(r => r.id === requestId);
-    if (index !== -1) {
-        requests[index].status = newStatus;
-        requests[index].updatedAt = new Date().toISOString();
-        localStorage.setItem(REQUEST_STORAGE_KEY, JSON.stringify(requests));
-    }
-}</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Flujos Section -->
-                <section id="section-flujos" class="doc-section">
-                    <h2 class="doc-title">Flujos de Trabajo</h2>
-                    
-                    <div class="flow-card">
-                        <h3>Flujo de Solicitud de Requerimiento</h3>
-                        <div class="flow-diagram">
-                            <div class="flow-step">
-                                <div class="flow-icon client">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                </div>
-                                <h4>1. Cliente</h4>
-                                <p>Crea solicitud con detalles del requerimiento</p>
-                            </div>
-                            <div class="flow-arrow">→</div>
-                            <div class="flow-step">
-                                <div class="flow-icon pm">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                    </svg>
-                                </div>
-                                <h4>2. Project Manager</h4>
-                                <p>Evalúa viabilidad y asigna a desarrollador</p>
-                            </div>
-                            <div class="flow-arrow">→</div>
-                            <div class="flow-step">
-                                <div class="flow-icon developer">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="16 18 22 12 16 6"></polyline>
-                                        <polyline points="8 6 2 12 8 18"></polyline>
-                                    </svg>
-                                </div>
-                                <h4>3. Desarrollador</h4>
-                                <p>Implementa solución y documenta cambios</p>
-                            </div>
-                            <div class="flow-arrow">→</div>
-                            <div class="flow-step">
-                                <div class="flow-icon pm">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                </div>
-                                <h4>4. Aprobación</h4>
-                                <p>PM revisa y aprueba el trabajo completado</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flow-card">
-                        <h3>Estados de una Solicitud</h3>
-                        <div class="status-flow">
-                            <div class="status-step">
-                                <span class="doc-badge pendiente">Pendiente</span>
-                                <p>Solicitud creada, esperando asignación</p>
-                            </div>
-                            <div class="flow-arrow-down">↓</div>
-                            <div class="status-step">
-                                <span class="doc-badge en-desarrollo">En Desarrollo</span>
-                                <p>Desarrollador trabajando en la tarea</p>
-                            </div>
-                            <div class="flow-arrow-down">↓</div>
-                            <div class="status-step">
-                                <span class="doc-badge completada">Completada</span>
-                                <p>Tarea finalizada y aprobada</p>
-                            </div>
-                        </div>
-                        <div class="status-note">
-                            <strong>Nota:</strong> Las solicitudes marcadas como <span class="doc-badge urgente">Urgente</span> pueden saltar pasos en el flujo normal para atención prioritaria.
-                        </div>
-                    </div>
-                </section>
-
-                <!-- FAQ Section -->
-                <section id="section-faq" class="doc-section">
-                    <h2 class="doc-title">Preguntas Frecuentes</h2>
-                    
-                    <div class="faq-list">
-                        <div class="faq-item">
-                            <button class="faq-question">
-                                <span>¿Cómo puedo cambiar el estado de una tarea?</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="faq-answer">
-                                <p>Para cambiar el estado de una tarea:</p>
-                                <ol>
-                                    <li>Ve a "Mis Tareas" en el menú lateral</li>
-                                    <li>Haz clic en el botón de edición (lápiz) de la tarea</li>
-                                    <li>En el panel de edición, selecciona el nuevo estado en el menú desplegable</li>
-                                    <li>Los cambios se guardan automáticamente</li>
-                                </ol>
-                            </div>
-                        </div>
-
-                        <div class="faq-item">
-                            <button class="faq-question">
-                                <span>¿Por qué no veo mis cambios reflejados en el sistema?</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="faq-answer">
-                                <p>Esto puede deberse a varias razones:</p>
-                                <ul>
-                                    <li><strong>Caché del navegador:</strong> Intenta hacer un "hard refresh" (Ctrl+Shift+R en Windows/Linux o Cmd+Shift+R en Mac)</li>
-                                    <li><strong>LocalStorage:</strong> Los datos se guardan por origen (protocolo + dominio + puerto). Asegúrate de usar siempre la misma URL</li>
-                                    <li><strong>Navegador diferente:</strong> Si cambias de navegador, los datos no se comparten (usa el mismo navegador)</li>
-                                    <li><strong>Servidor local:</strong> Asegúrate de estar accediendo a través de http://localhost:8080 y no file://</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="faq-item">
-                            <button class="faq-question">
-                                <span>¿Cuál es la diferencia entre los tipos de solicitud?</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="faq-answer">
-                                <ul>
-                                    <li><strong>Requerimiento:</strong> Nueva funcionalidad o característica que no existe en el sistema</li>
-                                    <li><strong>Modificación:</strong> Cambio o mejora de una funcionalidad existente</li>
-                                    <li><strong>Urgente:</strong> Problema crítico que requiere atención inmediata (bug crítico, caída del sistema, etc.)</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="faq-item">
-                            <button class="faq-question">
-                                <span>¿Cómo se asignan las prioridades a las tareas?</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="faq-answer">
-                                <p>Las prioridades se asignan de la siguiente manera:</p>
-                                <ul>
-                                    <li><strong>Alta:</strong> Tareas urgentes o críticas que bloquean otras funcionalidades</li>
-                                    <li><strong>Media:</strong> Tareas importantes pero no urgentes</li>
-                                    <li><strong>Baja:</strong> Mejoras, optimizaciones o tareas que pueden esperar</li>
-                                </ul>
-                                <p>El Project Manager evalúa y asigna la prioridad al revisar cada solicitud.</p>
-                            </div>
-                        </div>
-
-                        <div class="faq-item">
-                            <button class="faq-question">
-                                <span>¿Puedo adjuntar archivos a mis solicitudes?</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="faq-answer">
-                                <p>Actualmente, el sistema permite documentar archivos mediante:</p>
-                                <ul>
-                                    <li>URLs de documentos alojados en repositorios compartidos</li>
-                                    <li>Enlaces a Google Drive, OneDrive u otros servicios de almacenamiento</li>
-                                    <li>Referencias a commits en el repositorio de código</li>
-                                </ul>
-                                <p><em>Nota: La funcionalidad de carga directa de archivos está en desarrollo.</em></p>
-                            </div>
-                        </div>
-
-                        <div class="faq-item">
-                            <button class="faq-question">
-                                <span>¿Cómo puedo contactar al equipo de soporte?</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="faq-answer">
-                                <p>Puedes contactar al equipo a través de:</p>
-                                <ul>
-                                    <li><strong>Email:</strong> soporte@sistema.com</li>
-                                    <li><strong>Chat interno:</strong> Usa el sistema de notificaciones para enviar mensajes</li>
-                                    <li><strong>Solicitud urgente:</strong> Crea una solicitud de tipo "Urgente" para problemas críticos</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </main>
 
     <!-- Footer -->
     <footer class="main-footer">

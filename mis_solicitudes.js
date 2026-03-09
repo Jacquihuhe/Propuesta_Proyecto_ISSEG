@@ -136,10 +136,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // User Dropdown Elements
+    const userProfileBtn = document.getElementById('userProfileBtn');
+    const userDropdownMenu = document.getElementById('userDropdownMenu');
+
     notificationsBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         notificationsPanel.classList.toggle('active');
+        if (userDropdownMenu && userDropdownMenu.classList.contains('show')) {
+            userDropdownMenu.classList.remove('show');
+            userProfileBtn.classList.remove('active');
+        }
     });
+
+    if (userProfileBtn && userDropdownMenu) {
+        userProfileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdownMenu.classList.toggle('show');
+            userProfileBtn.classList.toggle('active');
+            if (notificationsPanel && notificationsPanel.classList.contains('active')) {
+                notificationsPanel.classList.remove('active');
+            }
+        });
+    }
     
     markAllReadBtn.addEventListener('click', function() {
         mockNotifications.forEach(n => n.read = true);
@@ -149,6 +168,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function(e) {
         if (!notificationsPanel.contains(e.target) && !notificationsBtn.contains(e.target)) {
             notificationsPanel.classList.remove('active');
+        }
+        if (userDropdownMenu && userProfileBtn && !userDropdownMenu.contains(e.target) && !userProfileBtn.contains(e.target)) {
+            userDropdownMenu.classList.remove('show');
+            userProfileBtn.classList.remove('active');
         }
     });
     

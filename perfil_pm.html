@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil - SGSPCSI | ISSEG</title>
-    <link rel="stylesheet" href="home_cliente.css">
+    <title>Mi Perfil - PM | SGSPCSI</title>
+    <link rel="stylesheet" href="home_pm.css">
     <link rel="stylesheet" href="perfil.css">
 </head>
 <body>
@@ -21,22 +21,43 @@
             </button>
         </div>
         <nav class="sidebar-nav">
-            <a href="home_cliente.html" class="nav-item">
+            <a href="home_pm.html" class="nav-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
                 <span>Inicio</span>
             </a>
-            <a href="mis_solicitudes.html" class="nav-item">
+            <a href="dashboard_pm.html" class="nav-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <polyline points="10 9 9 9 8 9"></polyline>
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
                 </svg>
-                <span>Mis Solicitudes</span>
+                <span>Dashboard Ejecutivo</span>
+            </a>
+            <a href="aprobaciones.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <span>Aprobaciones</span>
+            </a>
+            <a href="presupuestos.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                <span>Presupuestos</span>
+            </a>
+            <a href="equipo.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>Gestión de Equipo</span>
             </a>
         </nav>
     </aside>
@@ -55,7 +76,7 @@
                 <img src="logo_ISSEG.jpeg" alt="ISSEG" class="header-logo">
                 <div class="header-info">
                     <h1 class="system-title">SGSPCSI</h1>
-                    <p class="system-subtitle">Mi Perfil</p>
+                    <p class="system-subtitle">Perfil de Usuario</p>
                 </div>
             </div>
             <div class="header-right">
@@ -64,7 +85,7 @@
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                     </svg>
-                    <span class="notification-badge" id="notificationBadge">3</span>
+                    <span class="notification-badge" id="notificationBadge">6</span>
                 </button>
                 <div class="user-profile-dropdown">
                     <button class="user-profile-btn" id="userProfileBtn">
@@ -73,15 +94,15 @@
                             <circle cx="12" cy="7" r="4"/>
                         </svg>
                         <div class="user-details">
-                            <span class="user-name" id="userName">Usuario</span>
-                            <span class="user-role">Solicitante</span>
+                            <span class="user-name" id="userName">Product Manager</span>
+                            <span class="user-role">Gestión de Proyectos</span>
                         </div>
                         <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </button>
                     <div class="user-dropdown-menu" id="userDropdownMenu">
-                        <a href="perfil.html" class="dropdown-item">
+                        <a href="perfil_pm.html" class="dropdown-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                                 <circle cx="12" cy="7" r="4"/>
@@ -99,20 +120,6 @@
                         </a>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Notifications Panel -->
-        <div class="notifications-panel" id="notificationsPanel">
-            <div class="notifications-header">
-                <h3>Notificaciones</h3>
-                <button class="mark-all-read" id="markAllRead">Marcar todas como leídas</button>
-            </div>
-            <div class="notifications-list" id="notificationsList">
-                <!-- Se llenará dinámicamente -->
-            </div>
-            <div class="notifications-footer">
-                <a href="notificaciones.html">Ver todas las notificaciones</a>
             </div>
         </div>
     </header>
@@ -140,9 +147,9 @@
                     </button>
                 </div>
                 <div class="profile-summary">
-                    <h2 id="profileName">Nombre del Usuario</h2>
-                    <p class="profile-email" id="profileEmail">usuario@isseg.gob.mx</p>
-                    <p class="profile-position" id="profilePosition">Área de Sistemas</p>
+                    <h2 id="profileName">Product Manager</h2>
+                    <p class="profile-email" id="profileEmail">pm@isseg.gob.mx</p>
+                    <p class="profile-position" id="profilePosition">Gerente de Proyectos</p>
                 </div>
             </section>
 
@@ -163,42 +170,42 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="firstName">Nombre(s)</label>
-                            <input type="text" id="firstName" name="firstName" value="Juan Carlos" disabled>
+                            <input type="text" id="firstName" name="firstName" value="Product" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="lastName">Apellidos</label>
-                            <input type="text" id="lastName" name="lastName" value="García Hernández" disabled>
+                            <input type="text" id="lastName" name="lastName" value="Manager" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Correo Institucional</label>
-                            <input type="email" id="email" name="email" value="usuario@isseg.gob.mx" disabled>
+                            <input type="email" id="email" name="email" value="pm@isseg.gob.mx" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="phone">Teléfono</label>
-                            <input type="tel" id="phone" name="phone" value="(473) 123-4567" disabled>
+                            <input type="tel" id="phone" name="phone" value="(473) 555-0123" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="extension">Extensión</label>
-                            <input type="text" id="extension" name="extension" value="1234" disabled>
+                            <input type="text" id="extension" name="extension" value="5678" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="employeeId">Número de Empleado</label>
-                            <input type="text" id="employeeId" name="employeeId" value="EMP-2024-0123" disabled>
+                            <input type="text" id="employeeId" name="employeeId" value="EMP-2024-9999" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="department">Departamento</label>
-                            <input type="text" id="department" name="department" value="Sistemas" disabled>
+                            <input type="text" id="department" name="department" value="Dirección de Proyectos" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="position">Puesto</label>
-                            <input type="text" id="position" name="position" value="Analista de Sistemas" disabled>
+                            <input type="text" id="position" name="position" value="Gerente" disabled>
                         </div>
                     </div>
 
@@ -208,56 +215,8 @@
                     </div>
                 </form>
             </section>
-
-
-
-            <!-- Preferences Section -->
-            <section class="preferences-section">
-                <div class="section-header">
-                    <h3>Preferencias</h3>
-                </div>
-
-                <div class="preference-item">
-                    <div class="preference-info">
-                        <h4>Notificaciones por Correo</h4>
-                        <p>Recibir actualizaciones sobre mis solicitudes</p>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="emailNotifications" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-
-                <div class="preference-item">
-                    <div class="preference-info">
-                        <h4>Notificaciones Push</h4>
-                        <p>Recibir notificaciones en tiempo real</p>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="pushNotifications" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-
-                <div class="preference-item">
-                    <div class="preference-info">
-                        <h4>Modo Oscuro</h4>
-                        <p>Cambiar la apariencia del sistema</p>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="darkMode">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-            </section>
-
         </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 ISSEG - Instituto de Seguridad Social del Estado de Guanajuato</p>
-    </footer>
 
     <script src="perfil.js"></script>
 </body>
