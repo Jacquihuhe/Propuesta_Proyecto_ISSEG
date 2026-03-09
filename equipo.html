@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Equipo - SGSPCSI</title>
     <link rel="stylesheet" href="home_pm.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
     <style>
         .team-stats {
             display: grid;
@@ -19,6 +20,7 @@
             padding: 25px;
             box-shadow: 0 2px 10px var(--shadow);
             transition: all 0.3s ease;
+            border: 1px solid #e4ebf3;
         }
 
         .stat-card:hover {
@@ -156,6 +158,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            min-height: 300px;
         }
 
         .member-card:hover {
@@ -306,12 +309,13 @@
         }
 
         .btn-view-profile {
-            background: rgba(105, 179, 231, 0.1);
-            color: #69B3E7;
+            background: #e6f1fb;
+            color: #0a4f8f;
+            border: 1px solid #bdd8f1;
         }
 
         .btn-view-profile:hover {
-            background: #69B3E7;
+            background: #0a4f8f;
             color: white;
         }
 
@@ -374,17 +378,104 @@
             box-shadow: 0 2px 10px var(--shadow);
         }
 
-        .calendar-placeholder {
-            width: 100%;
-            height: 400px;
-            background: var(--light-bg);
-            border-radius: 8px;
+        .calendar-toolbar {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
+            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .calendar-title {
             font-size: 14px;
-            margin-top: 20px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .calendar-filter {
+            min-width: 260px;
+            max-width: 320px;
+        }
+
+        #teamCalendar {
+            margin-top: 4px;
+            border: 1px solid #dbe6f2;
+            border-radius: 10px;
+            padding: 10px;
+            background: #fbfdff;
+        }
+
+        .calendar-legend {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f3f7fb;
+            border: 1px solid #dce8f5;
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 12px;
+            color: #325172;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .fc .fc-toolbar-title {
+            font-size: 1.05rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .fc .fc-button-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .fc .fc-button-primary:hover,
+        .fc .fc-button-primary:focus {
+            background: #003c6c;
+            border-color: #003c6c;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .profile-item {
+            border: 1px solid #e0e9f3;
+            border-radius: 8px;
+            background: #f9fbfd;
+            padding: 10px;
+        }
+
+        .profile-item .label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: 0.4px;
+        }
+
+        .profile-item .value {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 600;
         }
 
         .modal {
@@ -519,6 +610,11 @@
 
             .filter-item {
                 width: 100%;
+            }
+
+            .calendar-filter {
+                width: 100%;
+                max-width: none;
             }
         }
     </style>
@@ -1066,8 +1162,24 @@
             <div class="section-header">
                 <h3 class="section-title">Calendario de Disponibilidad</h3>
             </div>
-            <div class="calendar-placeholder">
-                <p>📅 Calendario interactivo mostrando disponibilidad del equipo (Implementar con FullCalendar.js)</p>
+            <div class="calendar-toolbar">
+                <span class="calendar-title">Disponibilidad, vacaciones y asignaciones del equipo</span>
+                <select id="calendarMemberFilter" class="filter-select calendar-filter">
+                    <option value="all">Todos los miembros</option>
+                    <option value="CM">Carlos Martínez</option>
+                    <option value="AL">Ana López</option>
+                    <option value="JR">Juan Rodríguez</option>
+                    <option value="MS">María Sánchez</option>
+                    <option value="PH">Pedro Hernández</option>
+                    <option value="LG">Laura García</option>
+                </select>
+            </div>
+            <div id="teamCalendar"></div>
+            <div class="calendar-legend">
+                <span class="legend-item"><span class="legend-dot" style="background:#16a34a"></span>Disponible</span>
+                <span class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Ocupado</span>
+                <span class="legend-item"><span class="legend-dot" style="background:#3b82f6"></span>Asignación Proyecto</span>
+                <span class="legend-item"><span class="legend-dot" style="background:#ef4444"></span>Ausencia / Incidencia</span>
             </div>
         </div>
 
@@ -1173,9 +1285,150 @@
         </div>
     </div>
 
+    <!-- Modal para Ver Perfil -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="profileModalTitle">Perfil de Miembro</h3>
+                <button class="modal-close" onclick="closeModal('profileModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-grid" id="profileDetailsGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-action-small btn-cancel" onclick="closeModal('profileModal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <script src="home_pm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/locales-all.global.min.js"></script>
     <script>
         let currentMemberId = null;
+        let teamCalendar = null;
+
+        const teamMembers = {
+            CM: {
+                name: 'Carlos Martínez', role: 'Full Stack Developer', status: 'Disponible',
+                email: 'carlos.martinez@isseg.gob.mx', phone: '477-102-3456',
+                projects: 3, completed: 18, performance: '4.8', workload: '65%',
+                specialty: 'Backend/API y arquitectura de módulos', seniority: 'Senior (6 años)',
+                currentTask: 'REQ-2024-091 - Integración de tablero',
+                activeAssignments: [
+                    'REQ-2024-091 - Integración de tablero ejecutivo',
+                    'MOD-2024-033 - Ajuste de API de nómina',
+                    'Mejora técnica - Optimización de consultas SQL'
+                ]
+            },
+            AL: {
+                name: 'Ana López', role: 'Frontend Developer', status: 'Ocupado',
+                email: 'ana.lopez@isseg.gob.mx', phone: '477-201-4455',
+                projects: 4, completed: 22, performance: '4.9', workload: '85%',
+                specialty: 'UI Reactiva y accesibilidad', seniority: 'Senior (5 años)',
+                currentTask: 'MOD-2024-033 - Pantallas de nómina',
+                activeAssignments: [
+                    'MOD-2024-033 - Pantallas de nómina (frontend)',
+                    'REQ-2024-091 - Componentes de visualización KPI',
+                    'Ajuste UX - Flujo de aprobaciones urgentes'
+                ]
+            },
+            JR: {
+                name: 'Juan Rodríguez', role: 'Backend Developer', status: 'Disponible',
+                email: 'juan.rodriguez@isseg.gob.mx', phone: '477-144-7788',
+                projects: 2, completed: 15, performance: '4.5', workload: '45%',
+                specialty: 'Servicios y bases de datos', seniority: 'Mid (4 años)',
+                currentTask: 'Soporte API autenticación',
+                activeAssignments: [
+                    'URG-2024-008 - Soporte API autenticación',
+                    'REQ-2024-091 - Exposición de endpoints de reportes'
+                ]
+            },
+            MS: {
+                name: 'María Sánchez', role: 'UI/UX Designer', status: 'Disponible',
+                email: 'maria.sanchez@isseg.gob.mx', phone: '477-303-2121',
+                projects: 3, completed: 20, performance: '5.0', workload: '55%',
+                specialty: 'Diseño de experiencia y prototipos', seniority: 'Senior (7 años)',
+                currentTask: 'Mejora de flujo aprobaciones',
+                activeAssignments: [
+                    'REQ-2024-091 - Diseño de experiencia del tablero',
+                    'MOD-2024-033 - Prototipo de pantalla de recibo'
+                ]
+            },
+            PH: {
+                name: 'Pedro Hernández', role: 'QA Tester', status: 'Ocupado',
+                email: 'pedro.hernandez@isseg.gob.mx', phone: '477-890-4433',
+                projects: 5, completed: 25, performance: '4.7', workload: '78%',
+                specialty: 'Pruebas funcionales y regresión', seniority: 'Mid (3 años)',
+                currentTask: 'Plan de pruebas URG-2024-008',
+                activeAssignments: [
+                    'URG-2024-008 - Plan de pruebas críticas',
+                    'MOD-2024-033 - Suite de regresión de nómina',
+                    'REQ-2024-091 - Matriz QA de reportes'
+                ]
+            },
+            LG: {
+                name: 'Laura García', role: 'Frontend Developer', status: 'Desconectado',
+                email: 'laura.garcia@isseg.gob.mx', phone: '477-612-9012',
+                projects: 2, completed: 12, performance: '4.4', workload: '40%',
+                specialty: 'Componentes y estilos', seniority: 'Junior (2 años)',
+                currentTask: 'Sin asignación activa',
+                activeAssignments: []
+            }
+        };
+
+        const availabilityEvents = [
+            { title: 'CM Disponible', start: '2026-03-10', color: '#16a34a', extendedProps: { memberId: 'CM' } },
+            { title: 'CM - REQ-2024-091', start: '2026-03-12', end: '2026-03-14', color: '#3b82f6', extendedProps: { memberId: 'CM' } },
+            { title: 'AL Ocupado', start: '2026-03-11', end: '2026-03-13', color: '#f59e0b', extendedProps: { memberId: 'AL' } },
+            { title: 'JR Disponible', start: '2026-03-09', color: '#16a34a', extendedProps: { memberId: 'JR' } },
+            { title: 'MS - Taller UX', start: '2026-03-15', color: '#3b82f6', extendedProps: { memberId: 'MS' } },
+            { title: 'PH QA Sprint', start: '2026-03-09', end: '2026-03-12', color: '#3b82f6', extendedProps: { memberId: 'PH' } },
+            { title: 'LG Incidencia', start: '2026-03-17', color: '#ef4444', extendedProps: { memberId: 'LG' } }
+        ];
+
+        function initCalendar() {
+            const calendarEl = document.getElementById('teamCalendar');
+            if (!calendarEl || typeof FullCalendar === 'undefined') {
+                return;
+            }
+
+            teamCalendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'es',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,listWeek'
+                },
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    list: 'Lista'
+                },
+                height: 520,
+                events: availabilityEvents,
+                eventClick: function(info) {
+                    const memberId = info.event.extendedProps.memberId;
+                    if (memberId) {
+                        viewProfile(memberId);
+                    }
+                }
+            });
+
+            teamCalendar.render();
+        }
+
+        function filterCalendarByMember(memberId) {
+            if (!teamCalendar) return;
+            const events = memberId === 'all'
+                ? availabilityEvents
+                : availabilityEvents.filter(event => event.extendedProps.memberId === memberId);
+
+            teamCalendar.removeAllEvents();
+            events.forEach(event => teamCalendar.addEvent(event));
+        }
 
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
@@ -1187,8 +1440,48 @@
         }
 
         function viewProfile(memberId) {
-            alert(`Ver perfil completo de ${memberId}`);
-            // Aquí iría la navegación a la página de perfil del miembro
+            const member = teamMembers[memberId];
+            if (!member) {
+                alert('No se encontró información del miembro.');
+                return;
+            }
+
+            const assignments = Array.isArray(member.activeAssignments) && member.activeAssignments.length > 0
+                ? member.activeAssignments
+                : ['Sin asignación activa'];
+
+            const title = document.getElementById('profileModalTitle');
+            const grid = document.getElementById('profileDetailsGrid');
+            if (title) {
+                title.textContent = `Perfil de ${member.name}`;
+            }
+
+            if (grid) {
+                const fields = [
+                    { label: 'ID', value: memberId },
+                    { label: 'Nombre', value: member.name },
+                    { label: 'Rol', value: member.role },
+                    { label: 'Estado', value: member.status },
+                    { label: 'Correo', value: member.email },
+                    { label: 'Teléfono', value: member.phone },
+                    { label: 'Especialidad', value: member.specialty },
+                    { label: 'Seniority', value: member.seniority },
+                    { label: 'Proyectos activos', value: String(member.projects) },
+                    { label: 'Completados', value: String(member.completed) },
+                    { label: 'Rendimiento', value: `${member.performance} / 5` },
+                    { label: 'Carga actual', value: member.workload },
+                    { label: 'Asignaciones activas', value: assignments }
+                ];
+
+                grid.innerHTML = fields.map(field => `
+                    <div class="profile-item">
+                        <span class="label">${field.label}</span>
+                        <div class="value">${Array.isArray(field.value) ? field.value.map(item => `• ${item}`).join('<br>') : field.value}</div>
+                    </div>
+                `).join('');
+            }
+
+            openModal('profileModal');
         }
 
         function assignTask(memberId) {
@@ -1228,6 +1521,16 @@
             closeModal('addMemberModal');
             // Aquí iría la lógica para agregar el miembro
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initCalendar();
+            const calendarFilter = document.getElementById('calendarMemberFilter');
+            if (calendarFilter) {
+                calendarFilter.addEventListener('change', function() {
+                    filterCalendarByMember(this.value);
+                });
+            }
+        });
 
         // Cerrar modal al hacer click fuera
         window.onclick = function(event) {
