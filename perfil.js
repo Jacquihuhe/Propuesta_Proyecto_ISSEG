@@ -252,20 +252,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const pushNotifications = document.getElementById('pushNotifications');
     const darkMode = document.getElementById('darkMode');
 
-    emailNotifications.addEventListener('change', function() {
-        savePreference('emailNotifications', this.checked);
-    });
+    if (emailNotifications) {
+        emailNotifications.addEventListener('change', function() {
+            savePreference('emailNotifications', this.checked);
+        });
+    }
 
-    pushNotifications.addEventListener('change', function() {
-        savePreference('pushNotifications', this.checked);
-    });
+    if (pushNotifications) {
+        pushNotifications.addEventListener('change', function() {
+            savePreference('pushNotifications', this.checked);
+        });
+    }
 
-    darkMode.addEventListener('change', function() {
-        savePreference('darkMode', this.checked);
-        if (this.checked) {
-            alert('💡 El modo oscuro se implementará en una futura actualización');
-        }
-    });
+    if (darkMode) {
+        darkMode.addEventListener('change', function() {
+            savePreference('darkMode', this.checked);
+            if (this.checked) {
+                alert('💡 El modo oscuro se implementará en una futura actualización');
+            }
+        });
+    }
 });
 
 function loadProfileData(data) {
