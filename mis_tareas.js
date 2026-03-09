@@ -80,6 +80,31 @@ document.addEventListener('DOMContentLoaded', function() {
     setupTableActions();
     setupEditor();
 
+    // Setup user dropdown
+    const userProfileBtn = document.getElementById('userProfileBtn');
+    const userDropdownMenu = document.getElementById('userDropdownMenu');
+    
+    if (userProfileBtn && userDropdownMenu) {
+        userProfileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userProfileBtn.classList.toggle('active');
+            userDropdownMenu.classList.toggle('show');
+            
+            // Cerrar notificaciones si están abiertas
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            const notificationsBtn = document.getElementById('notificationsBtn');
+            if (notificationsPanel) notificationsPanel.classList.remove('active');
+            if (notificationsBtn) notificationsBtn.classList.remove('active');
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!userProfileBtn.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+                userProfileBtn.classList.remove('active');
+                userDropdownMenu.classList.remove('show');
+            }
+        });
+    }
+
     allRequests = readRequests();
     filteredRequests = [...allRequests];
 
@@ -145,40 +170,129 @@ function setupNotifications() {
     const panel = document.getElementById('notificationsPanel');
     const list = document.getElementById('notificationsList');
     const badge = document.getElementById('notificationBadge');
-    const markAll = document.getElementById('markAllRead');
+    const markAllReadBtn = document.getElementById('markAllRead');
 
-    if (!notificationsBtn || !panel || !list || !badge || !markAll) {
+    if (!notificationsBtn || !panel || !list || !badge || !markAllReadBtn) {
         return;
     }
 
+    // Notificaciones de ejemplo (igual que home_developer.js)
     const notifications = [
-        { id: 1, title: 'Nueva solicitud urgente', time: 'Hace 10 min', read: false },
-        { id: 2, title: 'Comentario del PM', time: 'Hace 45 min', read: false }
+        {
+            id: 1,
+            type: 'warning',
+            title: 'Nueva Solicitud Urgente',
+            message: 'Se ha asignado una falla urgente en el sistema de nómina',
+            time: 'Hace 10 minutos',
+            read: false
+        },
+        {
+            id: 2,
+            type: 'info',
+            title: 'Solicitud Aprobada',
+            message: 'REQ-2026-007 ha sido aprobada y asignada a tu equipo',
+            time: 'Hace 30 minutos',
+            read: false
+        },
+        {
+            id: 3,
+            type: 'success',
+            title: 'Código Revisado',
+            message: 'Tu pull request para REQ-2026-002 ha sido aprobado',
+            time: 'Hace 1 hora',
+            read: false
+        },
+        {
+            id: 4,
+            type: 'info',
+            title: 'Comentario Nuevo',
+            message: 'El cliente agregó comentarios en REQ-2026-005',
+            time: 'Hace 2 horas',
+            read: false
+        },
+        {
+            id: 5,
+            type: 'danger',
+            title: 'Error en Producción',
+            message: 'Se detectó un error crítico en el módulo de reportes',
+            time: 'Hace 3 horas',
+            read: false
+        },
+        {
+            id: 6,
+            type: 'success',
+            title: 'Deploy Exitoso',
+            message: 'La versión 2.3.1 se desplegó correctamente',
+            time: 'Ayer',
+            read: true
+        }
     ];
 
-    function drawNotifications() {
-        const unread = notifications.filter(function(n) { return !n.read; }).length;
-        badge.style.display = unread ? 'block' : 'none';
-        badge.textContent = String(unread);
+    function getNotificationIcon(type) {
+        const icons = {
+            success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+            info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>',
+            warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
+            danger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'
+        };
+        return icons[type] || icons.info;
+    }
 
-        list.innerHTML = notifications.map(function(n) {
-            return '<div class="notification-item ' + (n.read ? '' : 'unread') + '">' +
-                '<div class="notification-icon info">' +
-                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>' +
-                '</div>' +
-                '<div class="notification-content"><div class="notification-title">' + n.title + '</div><div class="notification-time">' + n.time + '</div></div>' +
-                '</div>';
-        }).join('');
+    function renderNotifications() {
+        const unreadCount = notifications.filter(n => !n.read).length;
+        
+        // Actualizar badge
+        if (unreadCount > 0) {
+            badge.textContent = unreadCount;
+            badge.style.display = 'block';
+        } else {
+            badge.style.display = 'none';
+        }
+
+        list.innerHTML = notifications.map(n => `
+            <div class="notification-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
+                <div class="notification-icon ${n.type}">
+                    ${getNotificationIcon(n.type)}
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">${n.title}</div>
+                    <div class="notification-message">${n.message}</div>
+                    <div class="notification-time">${n.time}</div>
+                </div>
+            </div>
+        `).join('');
+
+        // Agregar eventos de click a notificaciones
+        document.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const notifId = parseInt(this.dataset.id);
+                markAsRead(notifId);
+            });
+        });
+    }
+
+    function markAsRead(notifId) {
+        const notification = notifications.find(n => n.id === notifId);
+        if (notification) {
+            notification.read = true;
+            renderNotifications();
+        }
     }
 
     notificationsBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         panel.classList.toggle('active');
+        
+        // Cerrar menú de usuario si está abierto
+        const userMenu = document.getElementById('userDropdownMenu');
+        const userBtn = document.getElementById('userProfileBtn');
+        if (userMenu) userMenu.classList.remove('show');
+        if (userBtn) userBtn.classList.remove('active');
     });
 
-    markAll.addEventListener('click', function() {
-        notifications.forEach(function(n) { n.read = true; });
-        drawNotifications();
+    markAllReadBtn.addEventListener('click', function() {
+        notifications.forEach(n => n.read = true);
+        renderNotifications();
     });
 
     document.addEventListener('click', function(e) {
@@ -187,7 +301,7 @@ function setupNotifications() {
         }
     });
 
-    drawNotifications();
+    renderNotifications();
 }
 
 function setupLogout() {

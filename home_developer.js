@@ -173,6 +173,12 @@ document.addEventListener('DOMContentLoaded', function() {
     notificationsBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         notificationsPanel.classList.toggle('active');
+        
+        // Cerrar menú de usuario si está abierto
+        const userMenu = document.getElementById('userDropdownMenu');
+        const userBtn = document.getElementById('userProfileBtn');
+        if (userMenu) userMenu.classList.remove('show');
+        if (userBtn) userBtn.classList.remove('active');
     });
     
     // Marcar todas como leídas
@@ -201,6 +207,10 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
             userProfileBtn.classList.toggle('active');
             userDropdownMenu.classList.toggle('show');
+            
+            // Cerrar notificaciones si están abiertas
+            if (notificationsPanel) notificationsPanel.classList.remove('active');
+            if (notificationsBtn) notificationsBtn.classList.remove('active');
         });
         
         // Cerrar dropdown cuando se hace clic fuera de él

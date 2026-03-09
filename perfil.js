@@ -40,13 +40,35 @@ document.addEventListener('DOMContentLoaded', function() {
     // Manejar cierre de sesión
     const btnLogout = document.getElementById('btnLogout');
     if (btnLogout) {
-        btnLogout.addEventListener('click', function() {
+        btnLogout.addEventListener('click', function(e) {
+            e.preventDefault();
             if (confirm('¿Estás seguro que deseas cerrar sesión?')) {
                 sessionStorage.removeItem('currentUser');
                 window.location.href = 'login.html';
             }
         });
     }
+
+    // Manejar dropdown de perfil
+    const userProfileBtn = document.getElementById('userProfileBtn');
+    const userDropdownMenu = document.getElementById('userDropdownMenu');
+
+    if (userProfileBtn && userDropdownMenu) {
+        userProfileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdownMenu.classList.toggle('show');
+            userProfileBtn.classList.toggle('active');
+        });
+
+        // Cerrar dropdown al hacer click fuera
+        document.addEventListener('click', function(e) {
+            if (!userProfileBtn.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+                userDropdownMenu.classList.remove('show');
+                userProfileBtn.classList.remove('active');
+            }
+        });
+    }
+});
 
     // Manejar edición de perfil
     const btnEdit = document.getElementById('btnEdit');
