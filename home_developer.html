@@ -105,7 +105,6 @@
                         </a>
                     </div>
                 </div>
-                <button class="btn-logout-hidden" style="display: none;">Cerrar Sesión</button>
             </div>
         </div>
         
@@ -192,154 +191,251 @@
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <section class="actions-section">
-                <h3 class="section-title">Acciones Rápidas</h3>
-                
-                <div class="actions-grid">
-                    <button class="action-card" onclick="filterRequests('urgente')">
-                        <div class="action-icon urgent">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="12" y1="8" x2="12" y2="12"/>
-                                <line x1="12" y1="16" x2="12.01" y2="16"/>
-                            </svg>
-                        </div>
-                        <h4>Ver Urgentes</h4>
-                        <p>Solicitudes críticas</p>
-                    </button>
-
-                    <button class="action-card" onclick="filterRequests('pendiente')">
-                        <div class="action-icon pending">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                            </svg>
-                        </div>
-                        <h4>Nuevas Solicitudes</h4>
-                        <p>Sin revisar</p>
-                    </button>
-
-                    <button class="action-card" onclick="filterRequests('en_desarrollo')">
-                        <div class="action-icon progress">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="16 18 22 12 16 6"/>
-                                <polyline points="8 6 2 12 8 18"/>
-                            </svg>
-                        </div>
-                        <h4>En Desarrollo</h4>
-                        <p>Proyectos activos</p>
-                    </button>
-
-                    <button class="action-card" onclick="showAllRequests()">
-                        <div class="action-icon all">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="8" y1="6" x2="21" y2="6"/>
-                                <line x1="8" y1="12" x2="21" y2="12"/>
-                                <line x1="8" y1="18" x2="21" y2="18"/>
-                                <line x1="3" y1="6" x2="3.01" y2="6"/>
-                                <line x1="3" y1="12" x2="3.01" y2="12"/>
-                                <line x1="3" y1="18" x2="3.01" y2="18"/>
-                            </svg>
-                        </div>
-                        <h4>Todas las Solicitudes</h4>
-                        <p>Vista completa</p>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Solicitudes Recientes -->
-            <section class="requests-section">
+            <!-- Mis Tareas Asignadas -->
+            <section class="my-tasks-section">
                 <div class="section-header">
-                    <h3 class="section-title">Solicitudes Recientes (Vista Previa)</h3>
-                    <div class="filter-controls">
-                        <a href="mis_tareas.html" class="btn-open-tasks">Abrir gestor de tareas</a>
-                        <select id="filterStatus" class="filter-select">
-                            <option value="all">Todas</option>
-                            <option value="urgente">Urgentes</option>
-                            <option value="pendiente">Pendientes</option>
-                            <option value="en_desarrollo">En Desarrollo</option>
-                            <option value="completada">Completadas</option>
-                        </select>
-                        <select id="filterType" class="filter-select">
-                            <option value="all">Todos los tipos</option>
-                            <option value="nuevo_sistema">Nuevo Sistema</option>
-                            <option value="modificacion">Modificación</option>
-                            <option value="requerimientos">Requerimientos</option>
-                            <option value="falla_urgente">Falla Urgente</option>
-                        </select>
+                    <h3 class="section-title">Mis Tareas Asignadas</h3>
+                    <a href="mis_tareas.html" class="btn-view-all">
+                        Ver todas mis tareas
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+                
+                <div class="tasks-kanban" id="tasksKanban">
+                    <!-- To Do -->
+                    <div class="kanban-column">
+                        <div class="kanban-header pending">
+                            <h4>Por Hacer</h4>
+                            <span class="task-count" id="todoCount">0</span>
+                        </div>
+                        <div class="kanban-tasks" id="todoTasks">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- In Progress -->
+                    <div class="kanban-column">
+                        <div class="kanban-header progress">
+                            <h4>En Progreso</h4>
+                            <span class="task-count" id="inProgressCount">0</span>
+                        </div>
+                        <div class="kanban-tasks" id="inProgressTasks">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Blocked -->
+                    <div class="kanban-column">
+                        <div class="kanban-header blocked">
+                            <h4>Bloqueadas</h4>
+                            <span class="task-count" id="blockedCount">0</span>
+                        </div>
+                        <div class="kanban-tasks" id="blockedTasks">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Testing -->
+                    <div class="kanban-column">
+                        <div class="kanban-header testing">
+                            <h4>En Pruebas</h4>
+                            <span class="task-count" id="testingCount">0</span>
+                        </div>
+                        <div class="kanban-tasks" id="testingTasks">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
                     </div>
                 </div>
-
-                <!-- Tabla de Solicitudes -->
-                <div class="requests-table-container">
-                    <table class="requests-table" id="requestsTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tipo</th>
-                                <th>Solicitante</th>
-                                <th>Área</th>
-                                <th>Descripción</th>
-                                <th>Prioridad</th>
-                                <th>Estado</th>
-                                <th>Fecha</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="requestsTableBody">
-                            <!-- Las filas se generarán dinámicamente con JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Empty State -->
-                <div class="empty-state" id="emptyState" style="display: none;">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <h3>No hay solicitudes</h3>
-                    <p>No se encontraron solicitudes con los filtros seleccionados</p>
-                </div>
             </section>
 
-            <!-- Tools Section -->
+            <!-- Activity Dashboard -->
+            <div class="dashboard-grid">
+                <!-- Recent Activity -->
+                <section class="activity-section">
+                    <h3 class="section-title">Actividad Reciente</h3>
+                    <div class="activity-list" id="activityList">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Quick Stats & Actions -->
+                <section class="quick-panel">
+                    <h3 class="section-title">Métricas Personales</h3>
+                    
+                    <div class="personal-stats">
+                        <div class="personal-stat">
+                            <div class="stat-icon-small success">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="stat-label-small">Completadas (mes)</p>
+                                <p class="stat-value-small" id="personalCompleted">0</p>
+                            </div>
+                        </div>
+
+                        <div class="personal-stat">
+                            <div class="stat-icon-small progress">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="stat-label-small">En desarrollo</p>
+                                <p class="stat-value-small" id="personalInProgress">0</p>
+                            </div>
+                        </div>
+
+                        <div class="personal-stat">
+                            <div class="stat-icon-small warning">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="stat-label-small">Promedio (días)</p>
+                                <p class="stat-value-small" id="personalAvgTime">0</p>
+                            </div>
+                        </div>
+
+                        <div class="personal-stat">
+                            <div class="stat-icon-small info">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="stat-label-small">Tasa de éxito</p>
+                                <p class="stat-value-small" id="personalSuccessRate">0%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions-panel">
+                        <h4>Acciones Rápidas</h4>
+                        <button class="quick-action-btn" onclick="window.location.href='mis_tareas.html'">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="9" y1="9" x2="15" y2="9"></line>
+                            </svg>
+                            Gestionar mis tareas
+                        </button>
+                        <button class="quick-action-btn" onclick="window.location.href='documentacion.html'">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            Ver documentación
+                        </button>
+                        <button class="quick-action-btn" onclick="reportIssue()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            Reportar problema
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Resources & Tools -->
             <section class="tools-section">
-                <h3 class="section-title">Herramientas de Desarrollo</h3>
+                <h3 class="section-title">Recursos y Herramientas</h3>
                 
                 <div class="tools-grid">
-                    <div class="tool-card">
+                    <a href="documentacion.html" class="tool-card clickable">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
                         <div class="tool-content">
-                            <h4>Gestión de Tareas</h4>
-                            <p>Organiza y prioriza el trabajo de desarrollo</p>
+                            <h4>Documentación Técnica</h4>
+                            <p>Especificaciones, APIs y guías de desarrollo</p>
                         </div>
-                    </div>
+                        <svg class="tool-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
 
-                    <div class="tool-card">
+                    <a href="#" onclick="openExternalTool('git'); return false;" class="tool-card clickable">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="16 18 22 12 16 6"/>
                             <polyline points="8 6 2 12 8 18"/>
                         </svg>
                         <div class="tool-content">
-                            <h4>Repositorio de Código</h4>
-                            <p>Accede a los proyectos en GitHub/GitLab</p>
+                            <h4>Control de Versiones</h4>
+                            <p>Repositorio Git del proyecto</p>
                         </div>
-                    </div>
+                        <svg class="tool-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
 
-                    <div class="tool-card">
+                    <a href="#" onclick="openExternalTool('api'); return false;" class="tool-card clickable">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
                         </svg>
                         <div class="tool-content">
-                            <h4>Documentación Técnica</h4>
-                            <p>Consulta y descarga especificaciones</p>
+                            <h4>API Testing</h4>
+                            <p>Prueba endpoints y servicios</p>
                         </div>
-                    </div>
+                        <svg class="tool-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+
+                    <a href="#" onclick="openExternalTool('db'); return false;" class="tool-card clickable">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                        </svg>
+                        <div class="tool-content">
+                            <h4>Base de Datos</h4>
+                            <p>Administrador de base de datos</p>
+                        </div>
+                        <svg class="tool-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+
+                    <a href="#" onclick="openExternalTool('logs'); return false;" class="tool-card clickable">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                        <div class="tool-content">
+                            <h4>Logs del Sistema</h4>
+                            <p>Monitoreo y debugging en tiempo real</p>
+                        </div>
+                        <svg class="tool-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+
+                    <a href="#" onclick="openExternalTool('ci'); return false;" class="tool-card clickable">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M12 1v6m0 6v6m4.22-13.22l-4.24 4.24m0 5.96l4.24 4.24M19 12h-6m0 0H7m5.78 7.22l-4.24-4.24m5.96 0l4.24 4.24"></path>
+                        </svg>
+                        <div class="tool-content">
+                            <h4>CI/CD Pipeline</h4>
+                            <p>Estado de builds y deployments</p>
+                        </div>
+                        <svg class="tool-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
                 </div>
             </section>
 
