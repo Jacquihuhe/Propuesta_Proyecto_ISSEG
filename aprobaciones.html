@@ -386,6 +386,190 @@
         .btn-cancel:hover {
             background: var(--border);
         }
+
+        .details-modal-content {
+            max-width: 1020px;
+            width: 94%;
+            max-height: 90vh;
+            overflow: auto;
+            padding: 24px;
+        }
+
+        .details-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .summary-item {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .summary-item .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .summary-item .value {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .details-section {
+            background: #f9fbfd;
+            border: 1px solid #e6edf5;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .details-section h4 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            color: var(--primary);
+        }
+
+        .details-description {
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .detail-field {
+            background: white;
+            border: 1px solid #e6edf5;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .detail-field .field-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 4px;
+        }
+
+        .detail-field .field-value {
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .form-answers-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .form-answer-item {
+            background: white;
+            border: 1px solid #d6e1ee;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .form-answer-item .question {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .form-answer-item .answer {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .media-card {
+            background: white;
+            border: 1px solid #dfe7f2;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .media-card img {
+            display: block;
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            background: #eef3f9;
+        }
+
+        .media-card .media-caption {
+            padding: 10px;
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .document-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .document-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid #dfe7f2;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .document-name {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .document-action {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .details-modal-content {
+                width: 96%;
+                padding: 16px;
+            }
+
+            .form-answer-item .answer {
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -816,9 +1000,309 @@
         </div>
     </div>
 
+    <!-- Modal para Ver Detalles -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content details-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="detailsModalTitle">Detalle de Solicitud</h3>
+                <button class="modal-close" onclick="closeModal('detailsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="details-summary-grid" id="detailsSummary"></div>
+
+                <div class="details-section">
+                    <h4>Descripcion General</h4>
+                    <p class="details-description" id="detailsDescription"></p>
+                </div>
+
+                <div class="details-section">
+                    <h4>Respuestas del Formulario</h4>
+                    <div class="form-answers-list" id="detailsFormAnswers"></div>
+                </div>
+
+                <div class="details-section">
+                    <h4>Informacion Enviada</h4>
+                    <div class="details-grid" id="detailsFields"></div>
+                </div>
+
+                <div class="details-section">
+                    <h4>Imagenes y Diagramas</h4>
+                    <div class="media-grid" id="detailsMedia"></div>
+                </div>
+
+                <div class="details-section">
+                    <h4>Documentacion Adicional</h4>
+                    <div class="document-list" id="detailsDocuments"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-action btn-cancel" onclick="closeModal('detailsModal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <script src="home_pm.js"></script>
     <script>
         let currentRequestId = null;
+
+        const requestDetailsData = {
+            'REQ-2024-091': {
+                title: 'Sistema de Reportes Ejecutivos',
+                formTemplate: 'Formulario_Requerimientos.html',
+                type: 'Nuevo Sistema',
+                priority: 'Alta',
+                requester: 'Maria Gonzalez',
+                area: 'Contabilidad',
+                date: '05/Mar/2026',
+                waitTime: '2 dias',
+                description: 'Se requiere un sistema de reportes ejecutivos que permita visualizar metricas financieras en tiempo real, con capacidad de generar graficos interactivos y exportar datos a Excel/PDF.',
+                formResponses: [
+                    { question: 'Contexto actual del area', answer: 'El area consolida informacion financiera desde 4 sistemas y hojas de calculo manuales.' },
+                    { question: 'Problematica especifica', answer: 'El cierre mensual tarda entre 3 y 4 dias por validaciones manuales y diferencias entre fuentes.' },
+                    { question: 'Objetivo principal del sistema', answer: 'Centralizar indicadores y generar reportes ejecutivos con filtros por periodo, area y centro de costo.' },
+                    { question: 'Alcance funcional', answer: 'Tablero KPI, exportacion a Excel/PDF, bitacora de cambios y alertas de variacion.' },
+                    { question: 'Usuarios y roles esperados', answer: 'Direcciones, jefaturas y analistas con roles de visualizacion, validacion y administracion.' },
+                    { question: 'Criterio de exito', answer: 'Reducir en 30% el tiempo de elaboracion de reportes y eliminar duplicidad de capturas.' }
+                ],
+                fields: [
+                    { label: 'Objetivo principal', value: 'Visualizar KPI financieros por area en tiempo real.' },
+                    { label: 'Usuarios estimados', value: '95 usuarios internos y 12 directivos.' },
+                    { label: 'Integraciones', value: 'Nomina, Contabilidad, Presupuesto y RH.' },
+                    { label: 'Entregable esperado', value: 'Dashboard web, exportacion Excel y PDF, y alertas semanales.' },
+                    { label: 'Fecha objetivo', value: '30/Abr/2026' },
+                    { label: 'Impacto', value: 'Reducir 30% el tiempo de consolidacion de reportes.' }
+                ],
+                media: [
+                    { src: 'logo_ISSEG.jpeg', caption: 'Boceto visual del tablero ejecutivo' },
+                    { src: 'logo_ISSEG.jpeg', caption: 'Diagrama de flujo del proceso de reporte' }
+                ],
+                documents: [
+                    { name: 'Diagrama de flujo.mmd', href: 'Diagrama de flujo.mmd' },
+                    { name: 'roles.mmd', href: 'roles.mmd' },
+                    { name: 'README del proyecto', href: 'README.md' }
+                ]
+            },
+            'MOD-2024-033': {
+                title: 'Actualizacion Modulo de Nomina',
+                formTemplate: 'Formulario_modificacion.html',
+                type: 'Modificacion',
+                priority: 'Media',
+                requester: 'Carlos Ramirez',
+                area: 'Recursos Humanos',
+                date: '06/Mar/2026',
+                waitTime: '1 dia',
+                description: 'Agregar funcionalidad para calcular automaticamente deducciones por impuestos y mostrar desglose detallado en recibos de nomina.',
+                formResponses: [
+                    { question: 'Tipo de solicitud', answer: 'Evolutiva' },
+                    { question: 'Modulo afectado', answer: 'Nomina - calculo de deducciones e impresion de recibo.' },
+                    { question: 'Detalle del cambio', answer: 'Incorporar reglas fiscales 2026 y desglose visual por concepto de deduccion.' },
+                    { question: 'Prioridad declarada', answer: 'Media' },
+                    { question: 'Riesgos identificados', answer: 'Ajustes en formulas historicas y pruebas de regresion en timbrado.' },
+                    { question: 'Validadores de negocio', answer: 'RH, Fiscalizacion y Product Manager.' }
+                ],
+                fields: [
+                    { label: 'Tipo de cambio', value: 'Mejora funcional en calculo y visualizacion.' },
+                    { label: 'Motivo', value: 'Cumplimiento de lineamientos fiscales 2026.' },
+                    { label: 'Modulo impactado', value: 'Nomina / Recibos / Reportes RH.' },
+                    { label: 'Riesgo tecnico', value: 'Medio: requiere pruebas de regresion en timbrado.' },
+                    { label: 'Ventana de despliegue', value: 'Fin de semana con congelamiento de cambios.' },
+                    { label: 'Aprobacion solicitada a', value: 'PM, TI y area de fiscalizacion.' }
+                ],
+                media: [
+                    { src: 'logo_ISSEG.jpeg', caption: 'Comparativo de pantalla actual vs propuesta' },
+                    { src: 'logo_ISSEG.jpeg', caption: 'Diagrama de dependencias del modulo de nomina' }
+                ],
+                documents: [
+                    { name: 'Formulario de Modificacion', href: 'Formulario_modificacion.html' },
+                    { name: 'Flujo actualizado de aprobaciones', href: 'Diagrama de flujo.mmd' },
+                    { name: 'Estandares de formularios', href: 'formularios_estandar.css' }
+                ]
+            },
+            'URG-2024-008': {
+                title: 'Falla Critica en Sistema de Acceso',
+                formTemplate: 'Formulario_Urgente.html',
+                type: 'Falla Urgente',
+                priority: 'Alta',
+                requester: 'Ana Lopez',
+                area: 'TI',
+                date: '08/Mar/2026',
+                waitTime: '3 horas',
+                description: 'El sistema de control de acceso no registra correctamente entradas y salidas del personal. Requiere intervencion inmediata para evitar incidencias operativas.',
+                formResponses: [
+                    { question: 'Incidente reportado', answer: 'Falla en registro de entradas/salidas en sistema de control de acceso.' },
+                    { question: 'Impacto operativo', answer: 'Alto: afecta control de asistencia y seguridad de instalaciones.' },
+                    { question: 'Fecha y hora de inicio', answer: '08/Mar/2026 07:40' },
+                    { question: 'Acciones de contencion', answer: 'Registro manual temporal y monitoreo presencial en accesos principales.' },
+                    { question: 'Servicio requerido', answer: 'Correccion inmediata y validacion de sincronizacion con servidor central.' },
+                    { question: 'Tiempo maximo aceptable', answer: '4 horas para restablecimiento completo.' }
+                ],
+                fields: [
+                    { label: 'Severidad reportada', value: 'Critica - impacto operativo inmediato.' },
+                    { label: 'Ambiente afectado', value: 'Produccion, modulo de control de acceso.' },
+                    { label: 'Sintoma principal', value: 'Lectores no sincronizan con servicio central.' },
+                    { label: 'Fecha/hora inicio', value: '08/Mar/2026 07:40' },
+                    { label: 'Contencion aplicada', value: 'Registro manual temporal y bitacora fisica.' },
+                    { label: 'Equipo involucrado', value: 'Soporte TI, Seguridad y Operaciones.' }
+                ],
+                media: [
+                    { src: 'logo_ISSEG.jpeg', caption: 'Evidencia de la falla en terminal de acceso' },
+                    { src: 'logo_ISSEG.jpeg', caption: 'Diagrama de arquitectura del punto de control' }
+                ],
+                documents: [
+                    { name: 'Formulario Urgente', href: 'Formulario_Urgente.html' },
+                    { name: 'Matriz de escalamiento', href: 'README.md' },
+                    { name: 'Diagrama de roles operativos', href: 'roles.mmd' }
+                ]
+            }
+        };
+
+        const formQuestionsCache = {};
+
+        function normalizeText(value) {
+            return (value || '')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/\*/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        async function extractQuestionsFromForm(formTemplate) {
+            if (!formTemplate) {
+                return [];
+            }
+
+            if (formQuestionsCache[formTemplate]) {
+                return formQuestionsCache[formTemplate];
+            }
+
+            try {
+                const response = await fetch(formTemplate, { cache: 'no-store' });
+                if (!response.ok) {
+                    formQuestionsCache[formTemplate] = [];
+                    return [];
+                }
+
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const labels = Array.from(doc.querySelectorAll('label[for]'));
+                const uniqueQuestions = [];
+                const seen = new Set();
+
+                labels.forEach(label => {
+                    const text = (label.textContent || '').replace(/\s+/g, ' ').trim();
+                    const normalized = normalizeText(text);
+                    if (!normalized || seen.has(normalized)) {
+                        return;
+                    }
+                    seen.add(normalized);
+                    uniqueQuestions.push(text.replace(/\*\s*$/, '').trim());
+                });
+
+                formQuestionsCache[formTemplate] = uniqueQuestions;
+                return uniqueQuestions;
+            } catch (error) {
+                formQuestionsCache[formTemplate] = [];
+                return [];
+            }
+        }
+
+        function renderSummary(data, requestId) {
+            const summary = document.getElementById('detailsSummary');
+            if (!summary) return;
+
+            const items = [
+                { label: 'Folio', value: requestId },
+                { label: 'Tipo', value: data.type },
+                { label: 'Prioridad', value: data.priority },
+                { label: 'Solicitante', value: data.requester },
+                { label: 'Area', value: data.area },
+                { label: 'Fecha', value: data.date },
+                { label: 'Tiempo esperando', value: data.waitTime }
+            ];
+
+            summary.innerHTML = items.map(item => `
+                <div class="summary-item">
+                    <div class="label">${item.label}</div>
+                    <div class="value">${item.value}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderFields(data) {
+            const fieldsContainer = document.getElementById('detailsFields');
+            if (!fieldsContainer) return;
+
+            fieldsContainer.innerHTML = data.fields.map(field => `
+                <div class="detail-field">
+                    <span class="field-label">${field.label}</span>
+                    <div class="field-value">${field.value}</div>
+                </div>
+            `).join('');
+        }
+
+        async function renderFormAnswers(data) {
+            const answersContainer = document.getElementById('detailsFormAnswers');
+            if (!answersContainer) return;
+
+            const answers = Array.isArray(data.formResponses) ? data.formResponses : [];
+            const knownAnswersMap = {};
+
+            answers.forEach(item => {
+                knownAnswersMap[normalizeText(item.question)] = item.answer;
+            });
+
+            const allQuestions = await extractQuestionsFromForm(data.formTemplate);
+            const mergedAnswers = allQuestions.length > 0
+                ? allQuestions.map(question => ({
+                    question,
+                    answer: knownAnswersMap[normalizeText(question)] || 'Sin respuesta capturada.'
+                }))
+                : answers;
+
+            if (mergedAnswers.length === 0) {
+                answersContainer.innerHTML = `
+                    <div class="form-answer-item">
+                        <span class="question">Sin respuestas capturadas</span>
+                        <div class="answer">No hay informacion del formulario para esta solicitud.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            answersContainer.innerHTML = mergedAnswers.map(item => `
+                <div class="form-answer-item">
+                    <span class="question">${item.question}</span>
+                    <div class="answer">${item.answer}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderMedia(data) {
+            const mediaContainer = document.getElementById('detailsMedia');
+            if (!mediaContainer) return;
+
+            mediaContainer.innerHTML = data.media.map(item => `
+                <div class="media-card">
+                    <img src="${item.src}" alt="${item.caption}">
+                    <div class="media-caption">${item.caption}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderDocuments(data) {
+            const docsContainer = document.getElementById('detailsDocuments');
+            if (!docsContainer) return;
+
+            docsContainer.innerHTML = data.documents.map(doc => `
+                <div class="document-item">
+                    <span class="document-name">${doc.name}</span>
+                    <a class="document-action" href="${doc.href}" target="_blank" rel="noopener noreferrer">Abrir</a>
+                </div>
+            `).join('');
+        }
 
         function approveRequest(requestId) {
             currentRequestId = requestId;
@@ -837,7 +1321,9 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
-            currentRequestId = null;
+            if (modalId !== 'detailsModal') {
+                currentRequestId = null;
+            }
         }
 
         function confirmApprove() {
@@ -869,9 +1355,41 @@
             // Aquí iría la lógica para enviar la solicitud
         }
 
-        function viewDetails(requestId) {
-            alert(`Ver detalles completos de ${requestId}`);
-            // Aquí iría la navegación a la página de detalles
+        async function viewDetails(requestId) {
+            const details = requestDetailsData[requestId];
+            if (!details) {
+                alert(`No se encontro informacion de detalle para ${requestId}`);
+                return;
+            }
+
+            const title = document.getElementById('detailsModalTitle');
+            const description = document.getElementById('detailsDescription');
+
+            if (title) {
+                title.textContent = `${requestId} - ${details.title}`;
+            }
+
+            if (description) {
+                description.textContent = details.description;
+            }
+
+            const answersContainer = document.getElementById('detailsFormAnswers');
+            if (answersContainer) {
+                answersContainer.innerHTML = `
+                    <div class="form-answer-item">
+                        <span class="question">Cargando formulario completo</span>
+                        <div class="answer">Obteniendo todas las preguntas registradas...</div>
+                    </div>
+                `;
+            }
+
+            renderSummary(details, requestId);
+            await renderFormAnswers(details);
+            renderFields(details);
+            renderMedia(details);
+            renderDocuments(details);
+
+            document.getElementById('detailsModal').classList.add('active');
         }
 
         // Cerrar modal al hacer click fuera

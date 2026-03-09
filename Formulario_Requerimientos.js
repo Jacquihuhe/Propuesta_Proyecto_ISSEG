@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('formRequerimientos');
+    const isPreviewMode = new URLSearchParams(window.location.search).get('preview') === '1';
+
+    if (isPreviewMode) {
+        return;
+    }
 
     // ========== AUTO-RELLENAR DATOS DEL USUARIO ==========
     const currentUser = sessionStorage.getItem('currentUser');
