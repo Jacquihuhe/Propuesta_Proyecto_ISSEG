@@ -378,23 +378,3 @@ window.incrementUserStat = function(type) {
         incrementStat('user_total_solicitudes');
     }
 };
-
-// Función para aprobar solicitud de sistema nuevo (para uso en el formulario)
-window.aprobarSistemaNuevo = function() {
-    localStorage.setItem('sistema_nuevo_aprobado', 'true');
-    console.log('✅ Sistema nuevo aprobado - Formulario de requerimientos desbloqueado');
-};
-
-// Función para revocar aprobación (para testing)
-window.revocarAprobacion = function() {
-    localStorage.removeItem('sistema_nuevo_aprobado');
-    console.log('🔒 Aprobación revocada - Formulario de requerimientos bloqueado');
-    if (window.location.href.includes('home_cliente.html')) {
-        location.reload();
-    }
-};
-
-// Función helper para verificar si tiene acceso
-window.tieneAccesoRequerimientos = function() {
-    return localStorage.getItem('sistema_nuevo_aprobado') === 'true';
-};

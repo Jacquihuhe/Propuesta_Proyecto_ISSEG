@@ -1,0 +1,134 @@
+graph TD
+    subgraph Login["🔐 AUTENTICACIÓN"]
+        L1["Usuario accede al sistema"]
+        L2{¿Credenciales válidas?}
+        L3["Cargar Usuario + Área + Permisos"]
+        L4{¿Autorizado en área?}
+        L5["Acceso solo lectura"]
+        L6["Cargar sistemas del área"]
+        
+        L1 --> L2
+        L2 -->|No| L3A["Error<br/>Reintentar"]
+        L3A --> L1
+        L2 -->|Sí| L3
+        L3 --> L4
+        L4 -->|No| L5
+        L4 -->|Sí| L6
+    end
+    
+    subgraph Dashboard["📊 DASHBOARD PRINCIPAL"]
+        D1["Ver Mis Solicitudes<br/>Ver Mis Sistemas<br/>Ver Incidencias"]
+        D2{Seleccionar Acción}
+        
+        L6 --> D1
+        L5 --> D1
+        D1 --> D2
+    end
+    
+    subgraph FlujoCracion["✨ FLUJO 1: CREAR SISTEMA NUEVO"]
+        FC1{Permiso crear<br/>sistema nuevo?}
+        FC2["Llenar Formulario A<br/>- Justificación<br/>- Alcance<br/>- Beneficios"]
+        FC3{Revisión ISSEG}
+        FC4["Rechazo<br/>+ Motivo"]
+        FC5["Asignar Equipo<br/>- Dev, PM, Arquitecto"]
+        FC6["Solicitar Formulario C<br/>Requerimientos"]
+        FC7["Usuario completa<br/>Requerimientos"]
+        FC8{Validar<br/>Requerimientos?}
+        FC9["Crear en BD:<br/>Tabla: Sistemas<br/>Estado: Planeación<br/>Versión: 1.0"]
+        FC10["AUDITORÍA:<br/>Tabla: Audit_Sistemas_Nuevos"]
+        FC11["Uptime inicial"]
+        FC12["✅ Sistema Creado"]
+        
+        D2 -->|Crear Sistema| FC1
+        FC1 -->|No| DA["No autorizado"]
+        DA --> D1
+        FC1 -->|Sí| FC2
+        FC2 --> FC3
+        FC3 -->|Rechazado| FC4
+        FC4 --> D1
+        FC3 -->|Aprobado| FC5
+        FC5 --> FC6
+        FC6 --> FC7
+        FC7 --> FC8
+        FC8 -->|Incompleto| FC7
+        FC8 -->|Completo| FC9
+        FC9 --> FC10
+        FC10 --> FC11
+        FC11 --> FC12
+    end
+    
+    subgraph FlujoModificacion["🔄 FLUJO 2: SOLICITAR MODIFICACIÓN"]
+        FM1{Permiso<br/>modificar?}
+        FM2["Seleccionar Sistema<br/>de lista filtrada"]
+        FM3["Llenar Formulario B<br/>- Tipo cambio<br/>- Descripción<br/>- Impacto estimado"]
+        FM4{Revisión ISSEG}
+        FM5["Rechazo"]
+        FM6["Asignar Desarrollador"]
+        FM7["Crear Ticket Modificación"]
+        FM8["REGISTRAR:<br/>Tabla: Historial_Cambios<br/>Versión++<br/>Estado: En Desarrollo"]
+        FM9["AUDITORÍA:<br/>Tabla: Audit_Modificaciones<br/>Qué, Quién, Cuándo<br/>Impacto real vs est."]
+        FM10["✅ Modificación Iniciada"]
+        
+        D2 -->|Modificar| FM1
+        FM1 -->|No| DA2["No autorizado"]
+        DA2 --> D1
+        FM1 -->|Sí| FM2
+        FM2 --> FM3
+        FM3 --> FM4
+        FM4 -->|Rechazado| FM5
+        FM5 --> D1
+        FM4 -->|Aprobado| FM6
+        FM6 --> FM7
+        FM7 --> FM8
+        FM8 --> FM9
+        FM9 --> FM10
+    end
+    
+    subgraph FlujoProblema["🚨 FLUJO 3: REPORTAR PROBLEMA"]
+        FP1{Permiso<br/>reportar?}
+        FP2["Seleccionar Sistema"]
+        FP3["Llenar Formulario Problema<br/>- Descripción<br/>- Urgencia: Crítica/Alta/Media/Baja<br/>- Módulo<br/>- Pasos reproducir"]
+        FP4["Definir SLA según Urgencia<br/>Crítica: 1 hora respuesta<br/>Alta: 4 horas<br/>Media: 8 horas<br/>Baja: 24 horas"]
+        FP5{Revisión ISSEG}
+        FP6["Rechazo"]
+        FP7["Asignar Responsable"]
+        FP8["Iniciar Reloj SLA"]
+        FP9["REGISTRAR:<br/>Tabla: Problemas_Reportados<br/>Estado: Abierto<br/>Urgencia registrada"]
+        FP10["CONTROL TEMPORAL:<br/>Tabla: Control_Incidencias<br/>Fecha_Hora_Reporte<br/>Tiempos acumulados"]
+        FP11["ALERTAS:<br/>Si incumple SLA<br/>→ Alerta automática<br/>→ Escalation"]
+        FP12["✅ Problema Registrado"]
+        
+        D2 -->|Reportar Problema| FP1
+        FP1 -->|No| DA3["No autorizado"]
+        DA3 --> D1
+        FP1 -->|Sí| FP2
+        FP2 --> FP3
+        FP3 --> FP4
+        FP4 --> FP5
+        FP5 -->|Rechazado| FP6
+        FP6 --> D1
+        FP5 -->|Aprobado| FP7
+        FP7 --> FP8
+        FP8 --> FP9
+        FP9 --> FP10
+        FP10 --> FP11
+        FP11 --> FP12
+    end
+    
+    subgraph Cierre["🔚 CIERRE DE SESIÓN"]
+        CS1["Guardar estado"]
+        CS2["Cerrar sesión"]
+        D2 -->|Cerrar| CS1
+        CS1 --> CS2
+    end
+    
+    style Login fill:#E8F4F8,stroke:#0288D1,stroke-width:3px
+    style Dashboard fill:#FFF9E6,stroke:#F57C00,stroke-width:3px
+    style FlujoCracion fill:#E8F5E9,stroke:#388E3C,stroke-width:3px
+    style FlujoModificacion fill:#F3E5F5,stroke:#7B1FA2,stroke-width:3px
+    style FlujoProblema fill:#FFEBEE,stroke:#C62828,stroke-width:3px
+    style Cierre fill:#F5F5F5,stroke:#616161,stroke-width:2px
+    
+    style FC12 fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px
+    style FM10 fill:#E1BEE7,stroke:#6A1B9A,stroke-width:2px
+    style FP12 fill:#EF9A9A,stroke:#B71C1C,stroke-width:2px
