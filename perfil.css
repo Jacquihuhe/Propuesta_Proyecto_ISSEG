@@ -300,7 +300,7 @@ body {
 }
 
 .content-container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 30px;
     display: flex;
@@ -478,8 +478,10 @@ body {
 }
 
 .form-group input:disabled {
-    background: var(--bg);
-    cursor: not-allowed;
+    background: #e9ecef; /* Light gray for better contrast */
+    color: var(--text); /* Keep text dark/readable */
+    opacity: 1; /* Ensure text is not faded */
+    cursor: default;
 }
 
 .form-actions {

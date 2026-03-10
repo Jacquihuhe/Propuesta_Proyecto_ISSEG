@@ -11,6 +11,11 @@
     <script>
         // Verificar acceso antes de cargar el formulario
         (function() {
+            const isPreviewMode = new URLSearchParams(window.location.search).get('preview') === '1';
+            if (isPreviewMode) {
+                return;
+            }
+
             const hasApproval = localStorage.getItem('sistema_nuevo_aprobado') === 'true';
             
             if (!hasApproval) {

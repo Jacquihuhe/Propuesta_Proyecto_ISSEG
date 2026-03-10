@@ -28,6 +28,87 @@ body {
     color: var(--text-primary);
 }
 
+/* ========== MAIN HEADER ========== */
+.main-header {
+    background: white;
+    box-shadow: 0 2px 10px var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 998;
+}
+
+.header-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-logo {
+    height: 50px;
+    width: auto;
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.system-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.system-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main-content {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 30px;
+    min-height: calc(100vh - 200px);
+}
+
+.content-container {
+    width: 100%;
+}
+
+/* ========== MAIN FOOTER ========== */
+.main-footer {
+    background: var(--white);
+    padding: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    box-shadow: 0 -2px 10px var(--shadow);
+    margin-top: 40px;
+}
+
+.main-footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
 /* ========== SIDEBAR MENU ========== */
 .sidebar {
     position: fixed;
@@ -417,19 +498,6 @@ body {
 .brand-text {
     display: flex;
     flex-direction: column;
-}
-
-.system-title {
-    font-size: 1.8rem;
-    color: var(--primary);
-    font-weight: 700;
-    margin: 0;
-}
-
-.system-subtitle {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin: 0;
 }
 
 .user-section {

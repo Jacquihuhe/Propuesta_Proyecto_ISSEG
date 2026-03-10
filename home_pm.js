@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
+﻿document.addEventListener('DOMContentLoaded', function() {
+
     // Verificar si hay sesión activa
     const currentUser = sessionStorage.getItem('currentUser');
     
@@ -7,7 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    const userData = JSON.parse(currentUser);
+    let userData;
+    try {
+        userData = JSON.parse(currentUser);
+    } catch (error) {
+        console.error('Sesion invalida en currentUser:', error);
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+        return;
+    }
     
     // Verificar que el usuario tenga rol de product_manager
     if (userData.role !== 'product_manager') {
@@ -24,9 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mostrar información del usuario
     const userNameElement = document.getElementById('userName');
     if (userNameElement) {
-        const emailName = userData.username.split('@')[0];
-        const displayName = emailName === 'pm' ? 'Product Manager' : 
-                          emailName.charAt(0).toUpperCase() + emailName.slice(1);
+        const rawIdentifier = userData.username || userData.email || userData.name || 'pm';
+        const emailName = String(rawIdentifier).split('@')[0];
+        const displayName = emailName === 'pm'
+            ? 'Product Manager'
+            : emailName.charAt(0).toUpperCase() + emailName.slice(1);
         userNameElement.textContent = displayName;
     }
 
@@ -40,30 +51,62 @@ document.addEventListener('DOMContentLoaded', function() {
     overlay.className = 'sidebar-overlay';
     document.body.appendChild(overlay);
     
-    // Abrir sidebar
-    menuToggle.addEventListener('click', function() {
-        sidebar.classList.add('open');
-        overlay.classList.add('active');
-    });
+    // Referencias del menu de perfil para poder cerrar paneles entre si.
+    const userProfileBtn = document.getElementById('userProfileBtn');
+    const userDropdownMenu = document.getElementById('userDropdownMenu');
     
-    // Cerrar sidebar con botón X
-    sidebarClose.addEventListener('click', function() {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('active');
-    });
-    
-    // Cerrar sidebar al hacer click en overlay
-    overlay.addEventListener('click', function() {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('active');
-    });
-
     // ========== NOTIFICATIONS ==========
     const notificationsBtn = document.getElementById('notificationsBtn');
     const notificationsPanel = document.getElementById('notificationsPanel');
     const notificationsList = document.getElementById('notificationsList');
     const notificationBadge = document.getElementById('notificationBadge');
     const markAllReadBtn = document.getElementById('markAllRead');
+
+    // Cierra todos los paneles flotantes para que solo se vea uno a la vez.
+    function closeFloatingPanels(options = {}) {
+        const keepSidebar = options.keepSidebar === true;
+        const keepNotifications = options.keepNotifications === true;
+        const keepUserMenu = options.keepUserMenu === true;
+
+        if (!keepSidebar && sidebar) {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        }
+
+        if (!keepNotifications && notificationsPanel) {
+            notificationsPanel.classList.remove('active');
+        }
+
+        if (!keepUserMenu && userProfileBtn && userDropdownMenu) {
+            userProfileBtn.classList.remove('active');
+            userDropdownMenu.classList.remove('show');
+        }
+    }
+    
+    // Abrir sidebar
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', function() {
+            closeFloatingPanels({ keepSidebar: true });
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+    }
+    
+    // Cerrar sidebar con botón X
+    if (sidebarClose && sidebar) {
+        sidebarClose.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+    }
+    
+    // Cerrar sidebar al hacer click en overlay
+    overlay.addEventListener('click', function() {
+        if (sidebar) {
+            sidebar.classList.remove('open');
+        }
+        overlay.classList.remove('active');
+    });
     
     // Notificaciones de ejemplo para Product Manager
     const mockNotifications = [
@@ -127,6 +170,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Renderizar notificaciones
     function renderNotifications() {
+        if (!notificationsList || !notificationBadge) {
+            return;
+        }
+
         const unreadCount = mockNotifications.filter(n => !n.read).length;
         
         // Actualizar badge
@@ -179,21 +226,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Toggle panel de notificaciones
-    notificationsBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        notificationsPanel.classList.toggle('active');
-    });
+    if (notificationsBtn && notificationsPanel) {
+        notificationsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            if (!notificationsPanel.classList.contains('active')) {
+                closeFloatingPanels({ keepNotifications: true });
+            }
+
+            notificationsPanel.classList.toggle('active');
+        });
+    }
     
     // Marcar todas como leídas
-    markAllReadBtn.addEventListener('click', function() {
-        mockNotifications.forEach(n => n.read = true);
-        renderNotifications();
-    });
+    if (markAllReadBtn) {
+        markAllReadBtn.addEventListener('click', function() {
+            mockNotifications.forEach(n => n.read = true);
+            renderNotifications();
+        });
+    }
     
     // Cerrar panel al hacer click fuera
     document.addEventListener('click', function(e) {
-        if (!notificationsPanel.contains(e.target) && !notificationsBtn.contains(e.target)) {
-            notificationsPanel.classList.remove('active');
+        if (notificationsPanel && notificationsBtn) {
+            if (!notificationsPanel.contains(e.target) && !notificationsBtn.contains(e.target)) {
+                notificationsPanel.classList.remove('active');
+            }
         }
     });
     
@@ -201,13 +259,15 @@ document.addEventListener('DOMContentLoaded', function() {
     renderNotifications();
 
     // Manejar dropdown de perfil de usuario
-    const userProfileBtn = document.getElementById('userProfileBtn');
-    const userDropdownMenu = document.getElementById('userDropdownMenu');
-    
     if (userProfileBtn && userDropdownMenu) {
         // Toggle dropdown cuando se hace clic en el botón
         userProfileBtn.addEventListener('click', function(e) {
             e.stopPropagation();
+
+            if (!userDropdownMenu.classList.contains('show')) {
+                closeFloatingPanels({ keepUserMenu: true });
+            }
+
             userProfileBtn.classList.toggle('active');
             userDropdownMenu.classList.toggle('show');
         });
@@ -680,7 +740,17 @@ window.showAllRequests = function() {
 window.viewRequest = function(id) {
     const request = mockRequests.find(r => r.id === id);
     if (request) {
-        alert(`📄 Detalles de Solicitud\n\nID: ${request.id}\nTipo: ${getTypeLabel(request.type)}\nSolicitante: ${request.solicitante}\nÁrea: ${request.area}\nDescripción: ${request.description}\nPrioridad: ${getPriorityLabel(request.priority)}\nEstado: ${getStatusLabel(request.status)}\nFecha: ${formatDate(request.date)}`);
+        alert(
+            `Detalles de Solicitud\n\n` +
+            `ID: ${request.id}\n` +
+            `Tipo: ${getTypeLabel(request.type)}\n` +
+            `Solicitante: ${request.solicitante}\n` +
+            `Area: ${request.area}\n` +
+            `Descripcion: ${request.description}\n` +
+            `Prioridad: ${getPriorityLabel(request.priority)}\n` +
+            `Estado: ${getStatusLabel(request.status)}\n` +
+            `Fecha: ${formatDate(request.date)}`
+        );
     }
 };
 
@@ -693,9 +763,9 @@ window.approveRequest = function(id) {
             // Si es un nuevo sistema, activar el flag para habilitar Requerimientos
             if (request.type === 'nuevo_sistema') {
                 localStorage.setItem('sistema_nuevo_aprobado', 'true');
-                alert('✅ Solicitud aprobada\n\n💡 Se ha habilitado el formulario de Requerimientos Técnicos para el solicitante.');
+                alert('Solicitud aprobada\n\nSe ha habilitado el formulario de Requerimientos Tecnicos para el solicitante.');
             } else {
-                alert('✅ Solicitud aprobada correctamente');
+                alert('Solicitud aprobada correctamente');
             }
             
             renderRequests(currentRequests);
@@ -710,9 +780,11 @@ window.rejectRequest = function(id) {
         const motivo = prompt(`Motivo del rechazo de la solicitud ${id}:`);
         if (motivo) {
             request.status = 'rechazada';
-            alert(`❌ Solicitud rechazada\n\nMotivo: ${motivo}`);
+            alert(`Solicitud rechazada\n\nMotivo: ${motivo}`);
             renderRequests(currentRequests);
             updateStats();
         }
     }
 };
+
+
