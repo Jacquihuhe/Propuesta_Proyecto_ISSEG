@@ -242,245 +242,268 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Cargar datos de solicitudes solo si la vista contiene la tabla de solicitudes
-    if (document.getElementById('requestsTableBody')) {
-        loadRequests();
-        setupFilters();
-    }
+    // Cargar datos iniciales
+    loadMyTasks();
+    loadRecentActivity();
+    updatePersonalStats();
+    updateGlobalStats();
 });
 
-const REQUESTS_STORAGE_KEY = 'developerRequests';
-
-// Datos de ejemplo de solicitudes
-const mockRequests = [
+// ========== DATOS DE EJEMPLO ==========
+const mockTasks = [
     {
         id: 'REQ-2026-001',
-        type: 'falla_urgente',
-        solicitante: 'Ana García',
-        area: 'Prestaciones',
-        description: 'Sistema de nómina caído, no permite procesar pagos',
+        title: 'Sistema de nómina caído',
+        description: 'No permite procesar pagos',
         priority: 'alta',
-        status: 'urgente',
-        date: '2026-02-26'
+        status: 'todo',
+        deadline: '2026-03-10',
+        estimatedHours: 4,
+        type: 'falla_urgente',
+        assignedTo: 'developer'
     },
     {
         id: 'REQ-2026-002',
-        type: 'modificacion',
-        solicitante: 'Carlos Ruiz',
-        area: 'RH',
+        title: 'Campo CURP en formulario',
         description: 'Agregar campo de CURP en formulario de empleados',
         priority: 'media',
-        status: 'en_desarrollo',
-        date: '2026-02-25'
-    },
-    {
-        id: 'REQ-2026-003',
-        type: 'nuevo_sistema',
-        solicitante: 'María López',
-        area: 'Finanzas',
-        description: 'Sistema de control de gastos y presupuestos',
-        priority: 'media',
-        status: 'pendiente',
-        date: '2026-02-24'
-    },
-    {
-        id: 'REQ-2026-004',
-        type: 'falla_urgente',
-        solicitante: 'Pedro Sánchez',
-        area: 'Cobranza',
-        description: 'Error en cálculo de intereses moratorios',
-        priority: 'alta',
-        status: 'urgente',
-        date: '2026-02-26'
+        status: 'in_progress',
+        deadline: '2026-03-15',
+        estimatedHours: 8,
+        hoursSpent: 4,
+        type: 'modificacion',
+        assignedTo: 'developer'
     },
     {
         id: 'REQ-2026-005',
-        type: 'requerimientos',
-        solicitante: 'Laura Martínez',
-        area: 'Sistemas',
+        title: 'Documentación portal afiliados',
         description: 'Documentación técnica para portal de afiliados',
         priority: 'media',
-        status: 'en_desarrollo',
-        date: '2026-02-23'
-    },
-    {
-        id: 'REQ-2026-006',
-        type: 'modificacion',
-        solicitante: 'José Hernández',
-        area: 'Prestaciones',
-        description: 'Optimizar tiempos de respuesta en consultas',
-        priority: 'baja',
-        status: 'pendiente',
-        date: '2026-02-22'
-    },
-    {
-        id: 'REQ-2026-007',
-        type: 'nuevo_sistema',
-        solicitante: 'Diana Torres',
-        area: 'RH',
-        description: 'Portal de capacitación en línea para empleados',
-        priority: 'media',
-        status: 'pendiente',
-        date: '2026-02-21'
+        status: 'in_progress',
+        deadline: '2026-03-12',
+        estimatedHours: 6,
+        hoursSpent: 3,
+        type: 'requerimientos',
+        assignedTo: 'developer'
     },
     {
         id: 'REQ-2026-008',
-        type: 'modificacion',
-        solicitante: 'Roberto Flores',
-        area: 'Jurídico',
-        description: 'Agregar firma electrónica en documentos',
+        title: 'Firma electrónica en docs',
+        description: 'Agregar firma electrónica en documentos jurídicos',
         priority: 'alta',
-        status: 'en_desarrollo',
-        date: '2026-02-20'
-    },
-    {
-        id: 'REQ-2026-009',
+        status: 'blocked',
+        deadline: '2026-03-13',
+        estimatedHours: 12,
+        hoursSpent: 6,
+        blockReason: 'Esperando aprobación de seguridad',
         type: 'modificacion',
-        solicitante: 'Sandra Jiménez',
-        area: 'Finanzas',
-        description: 'Reporte de conciliaciones bancarias automático',
-        priority: 'media',
-        status: 'completada',
-        date: '2026-02-15'
+        assignedTo: 'developer'
     },
     {
         id: 'REQ-2026-010',
-        type: 'modificacion',
-        solicitante: 'Miguel Ángel Ramos',
-        area: 'Cobranza',
+        title: 'Integración pasarela de pagos',
         description: 'Integración con pasarela de pagos en línea',
         priority: 'alta',
-        status: 'en_desarrollo',
-        date: '2026-02-18'
+        status: 'testing',
+        deadline: '2026-03-11',
+        estimatedHours: 16,
+        hoursSpent: 15,
+        type: 'modificacion',
+        assignedTo: 'developer'
     }
 ];
 
-function getStoredRequests() {
-    const saved = localStorage.getItem(REQUESTS_STORAGE_KEY);
-    if (!saved) {
-        localStorage.setItem(REQUESTS_STORAGE_KEY, JSON.stringify(mockRequests));
-        return [...mockRequests];
+const mockActivities = [
+    {
+        id: 1,
+        type: 'comment',
+        user: 'PM García',
+        message: 'Comentó en REQ-2026-002',
+        content: '¿Cuándo estará lista la validación del CURP?',
+        time: 'Hace 15 min',
+        icon: 'message'
+    },
+    {
+        id: 2,
+        type: 'update',
+        user: 'Sistema',
+        message: 'REQ-2026-010 movida a Testing',
+        time: 'Hace 1 hora',
+        icon: 'activity'
+    },
+    {
+        id: 3,
+        type: 'assignment',
+        user: 'PM García',
+        message: 'Te asignó REQ-2026-001',
+        time: 'Hace 2 horas',
+        icon: 'user'
+    },
+    {
+        id: 4,
+        type: 'deadline',
+        user: 'Sistema',
+        message: 'REQ-2026-010 vence mañana',
+        time: 'Hace 3 horas',
+        icon: 'clock'
+    },
+    {
+        id: 5,
+        type: 'approval',
+        user: 'QA Team',
+        message: 'Aprobó las pruebas de REQ-2025-098',
+        time: 'Hace 5 horas',
+        icon: 'check'
     }
+];
 
-    try {
-        const parsed = JSON.parse(saved);
-        return Array.isArray(parsed) ? parsed : [...mockRequests];
-    } catch (error) {
-        localStorage.setItem(REQUESTS_STORAGE_KEY, JSON.stringify(mockRequests));
-        return [...mockRequests];
-    }
+// ========== KANBAN BOARD ==========
+function loadMyTasks() {
+    const todoTasks = mockTasks.filter(t => t.status === 'todo');
+    const inProgressTasks = mockTasks.filter(t => t.status === 'in_progress');
+    const blockedTasks = mockTasks.filter(t => t.status === 'blocked');
+    const testingTasks = mockTasks.filter(t => t.status === 'testing');
+
+    renderKanbanColumn('todoTasks', todoTasks, 'todoCount');
+    renderKanbanColumn('inProgressTasks', inProgressTasks, 'inProgressCount');
+    renderKanbanColumn('blockedTasks', blockedTasks, 'blockedCount');
+    renderKanbanColumn('testingTasks', testingTasks, 'testingCount');
 }
 
-function saveRequests(requests) {
-    localStorage.setItem(REQUESTS_STORAGE_KEY, JSON.stringify(requests));
-}
-
-let allRequests = getStoredRequests();
-let currentRequests = [...allRequests];
-
-function loadRequests() {
-    renderRequests(currentRequests);
-    updateStats();
-}
-
-function renderRequests(requests) {
-    const tbody = document.getElementById('requestsTableBody');
-    const emptyState = document.getElementById('emptyState');
-    const tableContainer = document.querySelector('.requests-table-container');
-
-    if (!tbody || !emptyState || !tableContainer) {
+function renderKanbanColumn(columnId, tasks, countId) {
+    const column = document.getElementById(columnId);
+    const count = document.getElementById(countId);
+    
+    if (!column || !count) return;
+    
+    count.textContent = tasks.length;
+    
+    if (tasks.length === 0) {
+        column.innerHTML = '<div class="kanban-empty">No hay tareas</div>';
         return;
     }
     
-    if (requests.length === 0) {
-        tableContainer.style.display = 'none';
-        emptyState.style.display = 'block';
-        return;
-    }
-    
-    tableContainer.style.display = 'block';
-    emptyState.style.display = 'none';
-    
-    const previewRequests = requests.slice(0, 5);
-
-    tbody.innerHTML = previewRequests.map(req => `
-        <tr>
-            <td><span class="request-id">${req.id}</span></td>
-            <td><span class="request-type ${req.type}">${getTypeLabel(req.type)}</span></td>
-            <td>${req.solicitante}</td>
-            <td>${req.area}</td>
-            <td><span class="request-description" title="${req.description}">${req.description}</span></td>
-            <td>
-                <span class="request-priority">
-                    <span class="priority-dot ${req.priority}"></span>
-                    ${getPriorityLabel(req.priority)}
-                </span>
-            </td>
-            <td><span class="request-status ${req.status}">${getStatusLabel(req.status)}</span></td>
-            <td>${formatDate(req.date)}</td>
-            <td>
-                <div class="action-buttons">
-                    <button class="btn-action btn-view icon" onclick="viewRequest('${req.id}')" title="Ver solicitud">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        <span>Ver</span>
-                    </button>
-                    <button class="btn-action btn-edit icon" onclick="editRequest('${req.id}')" title="Editar solicitud">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 20h9"></path>
-                            <path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
-                        </svg>
-                        <span>Editar</span>
-                    </button>
+    column.innerHTML = tasks.map(task => {
+        const daysLeft = getDaysUntilDeadline(task.deadline);
+        const isOverdue = daysLeft < 0;
+        const isUrgent = daysLeft <= 1 && daysLeft >= 0;
+        
+        return `
+            <div class="kanban-task ${task.priority}" onclick="viewTask('${task.id}')">
+                <div class="task-header">
+                    <span class="task-id">${task.id}</span>
+                    <span class="task-priority priority-${task.priority}"></span>
                 </div>
-            </td>
-        </tr>
-    `).join('');
+                <h4 class="task-title">${task.title}</h4>
+                <p class="task-description">${task.description}</p>
+                
+                ${task.blockReason ? `
+                    <div class="task-blocked">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                        </svg>
+                        ${task.blockReason}
+                    </div>
+                ` : ''}
+                
+                <div class="task-footer">
+                    <div class="task-deadline ${isOverdue ? 'overdue' : isUrgent ? 'urgent' : ''}">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>${isOverdue ? 'Vencida' : daysLeft === 0 ? 'Hoy' : daysLeft === 1 ? 'Mañana' : `${daysLeft} días`}</span>
+                    </div>
+                    
+                    ${task.hoursSpent ? `
+                        <div class="task-hours">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            </svg>
+                            <span>${task.hoursSpent}/${task.estimatedHours}h</span>
+                        </div>
+                    ` : `
+                        <div class="task-estimate">
+                            ~${task.estimatedHours}h
+                        </div>
+                    `}
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
-function getTypeLabel(type) {
-    const labels = {
-        'nuevo_sistema': 'Nuevo Sistema',
-        'modificacion': 'Modificación',
-        'requerimientos': 'Requerimientos',
-        'falla_urgente': 'Falla Urgente'
+function getDaysUntilDeadline(deadline) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const deadlineDate = new Date(deadline);
+    deadlineDate.setHours(0, 0, 0, 0);
+    const diffTime = deadlineDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+}
+
+// ========== ACTIVITY FEED ==========
+function loadRecentActivity() {
+    const activityList = document.getElementById('activityList');
+    if (!activityList) return;
+    
+    activityList.innerHTML = mockActivities.map(activity => {
+        const iconSvg = getActivityIcon(activity.icon);
+        return `
+            <div class="activity-item">
+                <div class="activity-icon ${activity.type}">
+                    ${iconSvg}
+                </div>
+                <div class="activity-content">
+                    <p class="activity-user">${activity.user}</p>
+                    <p class="activity-message">${activity.message}</p>
+                    ${activity.content ? `<p class="activity-detail">"${activity.content}"</p>` : ''}
+                    <p class="activity-time">${activity.time}</p>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getActivityIcon(iconType) {
+    const icons = {
+        'message': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
+        'activity': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+        'user': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+        'clock': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+        'check': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'
     };
-    return labels[type] || type;
+    return icons[iconType] || icons.activity;
 }
 
-function getStatusLabel(status) {
-    const labels = {
-        'pendiente': 'Pendiente',
-        'en_desarrollo': 'En Desarrollo',
-        'completada': 'Completada',
-        'urgente': 'Urgente'
-    };
-    return labels[status] || status;
+// ========== PERSONAL STATS ==========
+function updatePersonalStats() {
+    const completed = 12;
+    const inProgress = mockTasks.filter(t => t.status === 'in_progress').length;
+    const avgTime = 5.2;
+    const successRate = 94;
+    
+    const personalCompleted = document.getElementById('personalCompleted');
+    const personalInProgress = document.getElementById('personalInProgress');
+    const personalAvgTime = document.getElementById('personalAvgTime');
+    const personalSuccessRate = document.getElementById('personalSuccessRate');
+    
+    if (personalCompleted) personalCompleted.textContent = completed;
+    if (personalInProgress) personalInProgress.textContent = inProgress;
+    if (personalAvgTime) personalAvgTime.textContent = avgTime.toFixed(1);
+    if (personalSuccessRate) personalSuccessRate.textContent = `${successRate}%`;
 }
 
-function getPriorityLabel(priority) {
-    const labels = {
-        'alta': 'Alta',
-        'media': 'Media',
-        'baja': 'Baja'
-    };
-    return labels[priority] || priority;
-}
-
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('es-MX', options);
-}
-
-function updateStats() {
+// ========== GLOBAL STATS ==========
+function updateGlobalStats() {
+    // Simular estadísticas globales del área
     const stats = {
-        pendientes: allRequests.filter(r => r.status === 'pendiente').length,
-        enDesarrollo: allRequests.filter(r => r.status === 'en_desarrollo').length,
-        completadas: allRequests.filter(r => r.status === 'completada').length,
-        urgentes: allRequests.filter(r => r.status === 'urgente').length
+        pendientes: 8,
+        enDesarrollo: 5,
+        completadas: 12,
+        urgentes: 2
     };
 
     const statPendientes = document.getElementById('statPendientes');
@@ -494,61 +517,30 @@ function updateStats() {
     if (statUrgentes) statUrgentes.textContent = stats.urgentes;
 }
 
-function setupFilters() {
-    const filterStatus = document.getElementById('filterStatus');
-    const filterType = document.getElementById('filterType');
-
-    if (!filterStatus || !filterType) {
-        return;
-    }
-
-    filterStatus.addEventListener('change', applyFilters);
-    filterType.addEventListener('change', applyFilters);
-}
-
-function applyFilters() {
-    const filterStatusElement = document.getElementById('filterStatus');
-    const filterTypeElement = document.getElementById('filterType');
-
-    if (!filterStatusElement || !filterTypeElement) {
-        return;
-    }
-
-    const filterStatus = filterStatusElement.value;
-    const filterType = filterTypeElement.value;
-
-    let filtered = [...allRequests];
-    
-    if (filterStatus !== 'all') {
-        filtered = filtered.filter(r => r.status === filterStatus);
-    }
-    
-    if (filterType !== 'all') {
-        filtered = filtered.filter(r => r.type === filterType);
-    }
-    
-    currentRequests = filtered;
-    renderRequests(currentRequests);
-}
-
-// Funciones de filtrado rápido
-window.filterRequests = function(status) {
-    const filterStatus = document.getElementById('filterStatus');
-    if (filterStatus) {
-        filterStatus.value = status;
-        applyFilters();
-    }
+// ========== ACTIONS ==========
+window.viewTask = function(taskId) {
+    window.location.href = `mis_tareas.html?id=${encodeURIComponent(taskId)}&mode=view`;
 };
 
-window.showAllRequests = function() {
-    window.location.href = 'mis_tareas.html';
+window.reportIssue = function() {
+    alert('Funcionalidad de reporte de problemas - Por implementar');
+    // Aquí podrías abrir un modal o redirigir a un formulario
 };
 
-// Funciones de acción sobre solicitudes
-window.viewRequest = function(id) {
-    window.location.href = `mis_tareas.html?id=${encodeURIComponent(id)}&mode=view`;
-};
-
-window.editRequest = function(id) {
-    window.location.href = `mis_tareas.html?id=${encodeURIComponent(id)}&mode=edit`;
+window.openExternalTool = function(tool) {
+    const tools = {
+        'git': 'https://github.com/ISSEG/proyecto',
+        'api': 'https://api-testing.isseg.gob.mx',
+        'db': 'https://db-admin.isseg.gob.mx',
+        'logs': 'https://logs.isseg.gob.mx',
+        'ci': 'https://ci.isseg.gob.mx'
+    };
+    
+    if (tools[tool]) {
+        if (confirm(`¿Deseas abrir ${tool.toUpperCase()} en una nueva ventana?\n\nEsta es una URL de ejemplo: ${tools[tool]}`)) {
+            window.open(tools[tool], '_blank');
+        }
+    } else {
+        alert('Herramienta no configurada');
+    }
 };
