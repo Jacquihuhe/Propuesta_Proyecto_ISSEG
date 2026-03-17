@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -1947,7 +1947,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentUser = sessionStorage.getItem('currentUser');
     
     if (!currentUser) {
-        window.location.href = 'login.html';
+        window.location.href = '../index.html';
         return;
     }
 
@@ -1957,7 +1957,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (error) {
         console.error('Sesion invalida en currentUser:', error);
         sessionStorage.removeItem('currentUser');
-        window.location.href = 'login.html';
+        window.location.href = '../index.html';
         return;
     }
     
@@ -1968,7 +1968,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (userData.role === 'developer') {
             window.location.href = 'home_developer.html';
         } else {
-            window.location.href = 'login.html';
+            window.location.href = '../index.html';
         }
         return;
     }
@@ -2239,7 +2239,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btnLogout.addEventListener('click', function() {
             if (confirm('¿Estás seguro que deseas cerrar sesión?')) {
                 sessionStorage.removeItem('currentUser');
-                window.location.href = 'login.html';
+                window.location.href = '../index.html';
             }
         });
     }
@@ -3154,3 +3154,4 @@ window.dashboardCharts = {
 </script>
 </body>
 </html>
+
