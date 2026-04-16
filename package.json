@@ -1,0 +1,28 @@
+{
+  "name": "propuesta-proyecto-isseg",
+  "version": "1.0.0",
+  "description": "Sistema de Gestión de Solicitudes para la Coordinación de Sistemas Institucionales - ISSEG",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve .",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laikansilver/Propuesta_Proyecto_ISSEG.git"
+  },
+  "keywords": [
+    "isseg",
+    "sistema-gestion",
+    "speed-insights"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laikansilver/Propuesta_Proyecto_ISSEG/issues"
+  },
+  "homepage": "https://github.com/laikansilver/Propuesta_Proyecto_ISSEG#readme",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
