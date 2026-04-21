@@ -1,0 +1,215 @@
+%%{init: {"theme": "dark", "themeVariables": {"background": "#0a0f1f", "primaryColor": "#111a2e", "primaryBorderColor": "#f8fafc", "primaryTextColor": "#f8fafc", "lineColor": "#60a5fa", "tertiaryColor": "#0b1325", "fontFamily": "JetBrains Mono, Fira Code, monospace"}}}%%
+erDiagram
+    direction TB
+
+    %% Solo claves para lectura rapida
+    ROL ||--o{ USUARIO_ROL : N_M
+    USUARIO ||--o{ USUARIO_ROL : N_M
+    USUARIO ||--o| USUARIO_CREDENCIAL : UNO_UNO
+    ROL ||--o{ ROL_MENU_OPCION : N_M
+    MENU_OPCION ||--o{ ROL_MENU_OPCION : N_M
+    MENU_OPCION ||--o{ MENU_OPCION : JERARQUIA
+
+    AREA ||--o{ AREA : JERARQUIA
+    USUARIO ||--o{ USUARIO_AREA : N_M
+    AREA ||--o{ USUARIO_AREA : N_M
+
+    AREA ||--o{ AREA_SISTEMA : N_M
+    SISTEMA ||--o{ AREA_SISTEMA : N_M
+    SISTEMA ||--o{ SISTEMA_DESARROLLADOR : N_M
+    USUARIO ||--o{ SISTEMA_DESARROLLADOR : N_M
+
+    TIPO_SOLICITUD ||--o{ SOLICITUD : UNO_N
+    PRIORIDAD_SOLICITUD ||--o{ SOLICITUD : UNO_N
+    ESTADO_SOLICITUD ||--o{ SOLICITUD : UNO_N
+    AREA ||--o{ SOLICITUD : UNO_N
+    SISTEMA ||--o{ SOLICITUD : UNO_N
+    USUARIO ||--o{ SOLICITUD : UNO_N
+
+    SOLICITUD ||--o{ SOLICITUD_DESARROLLADOR : UNO_N
+    USUARIO ||--o{ SOLICITUD_DESARROLLADOR : UNO_N
+    SOLICITUD ||--o{ SOLICITUD_HISTORIAL_ESTADO : UNO_N
+    ESTADO_SOLICITUD ||--o{ SOLICITUD_HISTORIAL_ESTADO : UNO_N
+    USUARIO ||--o{ SOLICITUD_HISTORIAL_ESTADO : UNO_N
+    SOLICITUD ||--o{ SOLICITUD_APROBACION : UNO_N
+    USUARIO ||--o{ SOLICITUD_APROBACION : UNO_N
+    SOLICITUD ||--o{ SOLICITUD_COMENTARIO : UNO_N
+    USUARIO ||--o{ SOLICITUD_COMENTARIO : UNO_N
+    SOLICITUD ||--o{ SOLICITUD_ADJUNTO : UNO_N
+    USUARIO ||--o{ SOLICITUD_ADJUNTO : UNO_N
+    USUARIO ||--o{ NOTIFICACION : UNO_N
+    SOLICITUD ||--o{ NOTIFICACION : UNO_N
+
+    SOLICITUD ||--o| SOLICITUD_MODIFICACION : UNO_UNO
+    TIPO_MODIFICACION ||--o{ SOLICITUD_MODIFICACION : UNO_N
+    SOLICITUD ||--o| SOLICITUD_REQUERIMIENTO_TECNICO : UNO_UNO
+    USUARIO ||--o{ SOLICITUD_REQUERIMIENTO_TECNICO : UNO_N
+
+    SOLICITUD ||--o{ TAREA_DESARROLLO : UNO_N
+    TAREA_DESARROLLO ||--o{ TAREA_DESARROLLO_ASIGNACION : UNO_N
+    USUARIO ||--o{ TAREA_DESARROLLO_ASIGNACION : UNO_N
+    SOLICITUD ||--o{ ACTIVIDAD_RECIENTE : UNO_N
+
+    PROYECTO ||--o{ PROYECTO_SOLICITUD : N_M
+    SOLICITUD ||--o{ PROYECTO_SOLICITUD : N_M
+    PROYECTO ||--o{ PROYECTO_MIEMBRO : N_M
+    USUARIO ||--o{ PROYECTO_MIEMBRO : N_M
+    PROYECTO ||--o{ DOCUMENTO_PROYECTO : UNO_N
+    PROYECTO ||--o{ EVENTO_CALENDARIO : UNO_N
+    EVENTO_CALENDARIO ||--o{ EVENTO_PARTICIPANTE : N_M
+    USUARIO ||--o{ EVENTO_PARTICIPANTE : N_M
+
+    ROL {
+        int rol_id PK
+    }
+    USUARIO {
+        int usuario_id PK
+    }
+    USUARIO_ROL {
+        int usuario_rol_id PK
+        int usuario_id FK
+        int rol_id FK
+    }
+    USUARIO_CREDENCIAL {
+        int usuario_id PK
+    }
+    MENU_OPCION {
+        int menu_opcion_id PK
+        int menu_padre_id FK
+    }
+    ROL_MENU_OPCION {
+        int rol_menu_opcion_id PK
+        int rol_id FK
+        int menu_opcion_id FK
+    }
+    AREA {
+        int area_id PK
+        int area_padre_id FK
+    }
+    USUARIO_AREA {
+        int usuario_area_id PK
+        int usuario_id FK
+        int area_id FK
+    }
+    SISTEMA {
+        int sistema_id PK
+    }
+    AREA_SISTEMA {
+        int area_sistema_id PK
+        int area_id FK
+        int sistema_id FK
+    }
+    SISTEMA_DESARROLLADOR {
+        int sistema_desarrollador_id PK
+        int sistema_id FK
+        int usuario_id FK
+    }
+    TIPO_SOLICITUD {
+        int tipo_solicitud_id PK
+    }
+    PRIORIDAD_SOLICITUD {
+        int prioridad_solicitud_id PK
+    }
+    ESTADO_SOLICITUD {
+        int estado_solicitud_id PK
+    }
+    SOLICITUD {
+        int solicitud_id PK
+        int area_solicitante_id FK
+        int sistema_id FK
+        int tipo_solicitud_id FK
+        int prioridad_solicitud_id FK
+        int estado_solicitud_id FK
+        int creado_por_usuario_id FK
+    }
+    SOLICITUD_DESARROLLADOR {
+        int solicitud_desarrollador_id PK
+        int solicitud_id FK
+        int usuario_id FK
+    }
+    SOLICITUD_HISTORIAL_ESTADO {
+        int solicitud_historial_estado_id PK
+        int solicitud_id FK
+        int estado_anterior_id FK
+        int estado_nuevo_id FK
+        int cambiado_por_usuario_id FK
+    }
+    SOLICITUD_APROBACION {
+        int solicitud_aprobacion_id PK
+        int solicitud_id FK
+        int aprobado_por_usuario_id FK
+    }
+    SOLICITUD_COMENTARIO {
+        int solicitud_comentario_id PK
+        int solicitud_id FK
+        int autor_usuario_id FK
+    }
+    SOLICITUD_ADJUNTO {
+        int solicitud_adjunto_id PK
+        int solicitud_id FK
+        int subido_por_usuario_id FK
+    }
+    NOTIFICACION {
+        int notificacion_id PK
+        int usuario_id FK
+        int solicitud_id FK
+    }
+    TIPO_MODIFICACION {
+        int tipo_modificacion_id PK
+    }
+    SOLICITUD_MODIFICACION {
+        int solicitud_modificacion_id PK
+        int solicitud_id FK
+        int tipo_modificacion_id FK
+    }
+    SOLICITUD_REQUERIMIENTO_TECNICO {
+        int solicitud_requerimiento_tecnico_id PK
+        int solicitud_id FK
+        int elaborado_por_usuario_id FK
+    }
+    TAREA_DESARROLLO {
+        int tarea_desarrollo_id PK
+        int solicitud_id FK
+    }
+    TAREA_DESARROLLO_ASIGNACION {
+        int tarea_desarrollo_asignacion_id PK
+        int tarea_desarrollo_id FK
+        int usuario_id FK
+    }
+    ACTIVIDAD_RECIENTE {
+        int actividad_reciente_id PK
+        int solicitud_id FK
+        int tarea_desarrollo_id FK
+        int usuario_id FK
+    }
+    PROYECTO {
+        int proyecto_id PK
+        int pm_usuario_id FK
+    }
+    PROYECTO_SOLICITUD {
+        int proyecto_solicitud_id PK
+        int proyecto_id FK
+        int solicitud_id FK
+    }
+    PROYECTO_MIEMBRO {
+        int proyecto_miembro_id PK
+        int proyecto_id FK
+        int usuario_id FK
+    }
+    DOCUMENTO_PROYECTO {
+        int documento_proyecto_id PK
+        int proyecto_id FK
+        int solicitud_id FK
+        int subido_por_usuario_id FK
+    }
+    EVENTO_CALENDARIO {
+        int evento_calendario_id PK
+        int proyecto_id FK
+        int solicitud_id FK
+        int creado_por_usuario_id FK
+    }
+    EVENTO_PARTICIPANTE {
+        int evento_participante_id PK
+        int evento_calendario_id FK
+        int usuario_id FK
+    }
