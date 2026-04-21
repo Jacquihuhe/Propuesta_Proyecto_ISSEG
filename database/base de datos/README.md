@@ -17,6 +17,8 @@ El esquema corresponde a la version definida en [base de datos/01_esquema_bd.sql
 2. [base de datos/02_diagrama_entidad_relacion.mmd](base%20de%20datos/02_diagrama_entidad_relacion.mmd): diagrama entidad-relacion en Mermaid.
 3. [base de datos/03_plantilla_carga_inicial.sql](base%20de%20datos/03_plantilla_carga_inicial.sql): carga inicial y consultas base de visibilidad.
 4. [base de datos/04_diccionario_tecnico_tablas.md](base%20de%20datos/04_diccionario_tecnico_tablas.md): diccionario detallado por tabla y columna (tipo, null, default, llaves, relacion y descripcion).
+5. [base de datos/10_extension_modelo_pantallas.sql](base%20de%20datos/10_extension_modelo_pantallas.sql): extension incremental para cubrir pantallas de Usuario, Desarrollador y PM.
+6. [base de datos/11_matriz_pantallas_tablas.md](base%20de%20datos/11_matriz_pantallas_tablas.md): mapeo pantalla-tabla, derivaciones y validacion de faltantes.
 
 ## Listado completo de tablas
 

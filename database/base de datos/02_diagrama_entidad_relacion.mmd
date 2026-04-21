@@ -1,17 +1,9 @@
 erDiagram
-    ROL ||--o{ USUARIO_ROL : asigna
-    USUARIO ||--o{ USUARIO_ROL : tiene
+    direction TB
 
-    AREA ||--o{ AREA : depende_de
-    USUARIO ||--o{ USUARIO_AREA : adscrito
-    AREA ||--o{ USUARIO_AREA : agrupa
-
-    AREA ||--o{ AREA_SISTEMA : usa
-    SISTEMA ||--o{ AREA_SISTEMA : disponible_en
-
-    SISTEMA ||--o{ SISTEMA_DESARROLLADOR : asigna
-    USUARIO ||--o{ SISTEMA_DESARROLLADOR : participa
-
+    %% =========================
+    %% NUCLEO DE SOLICITUD
+    %% =========================
     TIPO_SOLICITUD ||--o{ SOLICITUD : clasifica
     PRIORIDAD_SOLICITUD ||--o{ SOLICITUD : prioriza
     ESTADO_SOLICITUD ||--o{ SOLICITUD : estado_actual
@@ -19,6 +11,9 @@ erDiagram
     USUARIO ||--o{ SOLICITUD : crea
     SISTEMA ||--o{ SOLICITUD : impacta
 
+    %% =========================
+    %% OPERACION DE SOLICITUDES
+    %% =========================
     SOLICITUD ||--o{ SOLICITUD_DESARROLLADOR : tiene
     USUARIO ||--o{ SOLICITUD_DESARROLLADOR : trabaja_en
 
@@ -38,6 +33,28 @@ erDiagram
 
     USUARIO ||--o{ NOTIFICACION : recibe
     SOLICITUD ||--o{ NOTIFICACION : notifica
+
+    %% =========================
+    %% VISIBILIDAD POR SISTEMA
+    %% =========================
+    AREA ||--o{ AREA_SISTEMA : usa
+    SISTEMA ||--o{ AREA_SISTEMA : disponible_en
+
+    SISTEMA ||--o{ SISTEMA_DESARROLLADOR : asigna
+    USUARIO ||--o{ SISTEMA_DESARROLLADOR : participa
+
+    %% =========================
+    %% ESTRUCTURA ORGANIZACIONAL
+    %% =========================
+    AREA ||--o{ AREA : depende_de
+    USUARIO ||--o{ USUARIO_AREA : adscrito
+    AREA ||--o{ USUARIO_AREA : agrupa
+
+    %% =========================
+    %% SEGURIDAD Y ACCESO
+    %% =========================
+    ROL ||--o{ USUARIO_ROL : asigna
+    USUARIO ||--o{ USUARIO_ROL : tiene
 
     ROL {
         int rol_id PK
