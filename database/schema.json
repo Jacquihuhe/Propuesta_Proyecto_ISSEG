@@ -1,0 +1,2200 @@
+{
+  "rol": {
+    "nombre": "rol",
+    "descripcion": "Catálogo de roles de seguridad del sistema. Almacena los perfiles de acceso disponibles en la aplicación.",
+    "columnas": [
+      {
+        "nombre": "rol_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "clave",
+        "tipo": "VARCHAR(30)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clave corta y única del rol. Es un código corto de negocio que facilita filtros, validaciones e integraciones.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "nombre",
+        "tipo": "VARCHAR(100)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre legible del rol mostrado en interfaces y reportes de permisos. Se utiliza como etiqueta visible en pantallas, reportes y búsquedas del sistema.",
+        "relacion": null
+      },
+      {
+        "nombre": "descripcion",
+        "tipo": "VARCHAR(255)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Descripción funcional del perfil. Es un campo de texto explicativo que agrega contexto funcional y técnico para la toma de decisiones.",
+        "relacion": null
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Estado del rol en el catálogo: 1 significa habilitado para asignarse, 0 significa deshabilitado para nuevos usos. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "fecha_creacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que el rol fue creado y guardado por primera vez. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      }
+    ]
+  },
+  "usuario": {
+    "nombre": "usuario",
+    "descripcion": "Usuarios del sistema con datos personales atómicos. Almacena información de identidad separada en campos discretos para normalización",
+    "columnas": [
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "nombre_pila",
+        "tipo": "VARCHAR(100)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre propio principal de la persona usuaria. Se utiliza como etiqueta visible en pantallas, reportes y búsquedas del sistema.",
+        "relacion": null
+      },
+      {
+        "nombre": "apellido_paterno",
+        "tipo": "VARCHAR(100)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Primer apellido del usuario para identificación completa.",
+        "relacion": null
+      },
+      {
+        "nombre": "apellido_materno",
+        "tipo": "VARCHAR(100)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Segundo apellido del usuario cuando aplica.",
+        "relacion": null
+      },
+      {
+        "nombre": "correo_institucional",
+        "tipo": "VARCHAR(180)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Correo institucional único.",
+        "relacion": null
+      },
+      {
+        "nombre": "puesto",
+        "tipo": "VARCHAR(120)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Cargo organizacional del usuario para contexto administrativo y de autorización.",
+        "relacion": null
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Estado del usuario: 1 permite acceso al sistema, 0 bloquea su uso operativo. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_creacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que el usuario fue dado de alta por primera vez. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      }
+    ]
+  },
+  "usuario_rol": {
+    "nombre": "usuario_rol",
+    "descripcion": "Relación N:M entre usuarios y roles. Asigna perfiles de acceso a usuarios con control de vigencia.",
+    "columnas": [
+      {
+        "nombre": "usuario_rol_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Llave foránea al usuario correspondiente dentro del catálogo de usuarios. Se usa para relacionar este registro con otra tabla y mantener la integridad referencial de los datos.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "rol_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Llave foránea al rol de seguridad que define permisos y alcances. Se usa para relacionar este registro con otra tabla y mantener la integridad referencial de los datos.",
+        "relacion": "rol.rol_id"
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Vigencia de la asignación de rol: 1 vigente, 0 finalizada o revocada. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_asignacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que termina la asignación de rol; puede quedar vacía si sigue vigente. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      }
+    ]
+  },
+  "area": {
+    "nombre": "area",
+    "descripcion": "Estructura organizacional jerárquica. Almacena direcciones, coordinaciones y departamentos con relación padre-hijo.",
+    "columnas": [
+      {
+        "nombre": "area_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "area_padre_id",
+        "tipo": "INT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Área superior (jerarquía). Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": "area.area_id"
+      },
+      {
+        "nombre": "clave",
+        "tipo": "VARCHAR(50)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Clave operativa del área. Es un código corto de negocio que facilita filtros, validaciones e integraciones.",
+        "relacion": null
+      },
+      {
+        "nombre": "nombre",
+        "tipo": "VARCHAR(220)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre oficial del área. Se utiliza como etiqueta visible en pantallas, reportes y búsquedas del sistema.",
+        "relacion": null
+      },
+      {
+        "nombre": "tipo_area",
+        "tipo": "VARCHAR(30)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clasificación organizacional del área para ubicar su nivel de gestión.",
+        "relacion": null
+      },
+      {
+        "nombre": "nivel",
+        "tipo": "TINYINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nivel jerárquico numérico.",
+        "relacion": null
+      },
+      {
+        "nombre": "activa",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Estado del área: 1 operativa en la estructura organizacional, 0 inactiva. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_creacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que el área se registró por primera vez en el catálogo. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      }
+    ]
+  },
+  "usuario_area": {
+    "nombre": "usuario_area",
+    "descripcion": "Relación N:M entre usuarios y áreas. Vincula usuarios a áreas organizacionales con control de titularidad.",
+    "columnas": [
+      {
+        "nombre": "usuario_area_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Llave foránea al usuario correspondiente dentro del catálogo de usuarios. Se usa para relacionar este registro con otra tabla y mantener la integridad referencial de los datos.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "area_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Llave foránea que apunta al área organizacional relacionada con este registro. Se usa para relacionar este registro con otra tabla y mantener la integridad referencial de los datos.",
+        "relacion": "area.area_id"
+      },
+      {
+        "nombre": "es_titular",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Titularidad del usuario en el área: 1 es responsable principal, 0 es integrante sin titularidad.",
+        "relacion": null
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Vigencia de la adscripción usuario-area: 1 activa, 0 concluida o inhabilitada. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_inicio",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que inicia la vinculación del usuario con el área. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_fin",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora en que concluye la vinculación del usuario con el área; vacía si sigue activa. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      }
+    ]
+  },
+  "sistema": {
+    "nombre": "sistema",
+    "descripcion": "Catálogo de sistemas institucionales. Almacena aplicaciones y sistemas disponibles en la institución.",
+    "columnas": [
+      {
+        "nombre": "sistema_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "clave",
+        "tipo": "VARCHAR(50)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clave única del sistema. Es un código corto de negocio que facilita filtros, validaciones e integraciones.",
+        "relacion": null
+      },
+      {
+        "nombre": "nombre",
+        "tipo": "VARCHAR(150)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre con el que usuarios y equipos identifican el sistema en la operación diaria. Se utiliza como etiqueta visible en pantallas, reportes y búsquedas del sistema.",
+        "relacion": null
+      },
+      {
+        "nombre": "descripcion",
+        "tipo": "VARCHAR(1000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Descripción de funcionalidades. Es un campo de texto explicativo que agrega contexto funcional y técnico para la toma de decisiones.",
+        "relacion": null
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Estado del sistema en catálogo: 1 disponible para operar, 0 fuera de servicio o retirado. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_creacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que el sistema se dio de alta en el catálogo institucional. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      }
+    ]
+  },
+  "area_sistema": {
+    "nombre": "area_sistema",
+    "descripcion": "Relación N:M entre áreas y sistemas. Define qué sistemas son visibles y accesibles por cada área.",
+    "columnas": [
+      {
+        "nombre": "area_sistema_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "area_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Llave foránea que apunta al área organizacional relacionada con este registro. Se usa para relacionar este registro con otra tabla y mantener la integridad referencial de los datos.",
+        "relacion": "area.area_id"
+      },
+      {
+        "nombre": "sistema_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Llave foránea al sistema o aplicación sobre la que aplica el registro. Se usa para relacionar este registro con otra tabla y mantener la integridad referencial de los datos.",
+        "relacion": "sistema.sistema_id"
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Vigencia de la relación area-sistema: valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_alta",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora exacta en que se realizo la asignación en el sistema. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      }
+    ]
+  },
+  "tipo_solicitud": {
+    "nombre": "tipo_solicitud",
+    "descripcion": "Catálogo de tipos de solicitud. Define las categorías principales de solicitudes en el sistema.",
+    "columnas": [
+      {
+        "nombre": "tipo_solicitud_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "clave",
+        "tipo": "VARCHAR(40)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clave única del tipo. Es un código corto de negocio que facilita filtros, validaciones e integraciones.",
+        "relacion": null
+      },
+      {
+        "nombre": "nombre",
+        "tipo": "VARCHAR(120)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre del tipo de solicitud. Se utiliza como etiqueta visible en pantallas, reportes y búsquedas del sistema.",
+        "relacion": null
+      },
+      {
+        "nombre": "activa",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Indicador de vigencia lógica del tipo de solicitud. Valor 1 = activo/vigente (disponible para nuevas capturas); valor 0 = inactivo/no vigente (no debe usarse en nuevas solicitudes, pero conserva historial).",
+        "relacion": null
+      }
+    ]
+  },
+  "prioridad_solicitud": {
+    "nombre": "prioridad_solicitud",
+    "descripcion": "Catálogo de prioridades. Define los niveles de urgencia para solicitudes.",
+    "columnas": [
+      {
+        "nombre": "prioridad_solicitud_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "clave",
+        "tipo": "VARCHAR(30)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "BAJA, MEDIA, ALTA, CRITICA. Es un código corto de negocio que facilita filtros, validaciones e integraciones.",
+        "relacion": null
+      },
+      {
+        "nombre": "nombre",
+        "tipo": "VARCHAR(80)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre de la prioridad. Se utiliza como etiqueta visible en pantallas, reportes y búsquedas del sistema.",
+        "relacion": null
+      },
+      {
+        "nombre": "orden",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Valor numérico para ordenamiento.",
+        "relacion": null
+      },
+      {
+        "nombre": "activa",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Estado de la prioridad: 1 disponible para clasificar solicitudes, 0 fuera de uso. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      }
+    ]
+  },
+  "estado_solicitud": {
+    "nombre": "estado_solicitud",
+    "descripcion": "Estados del ciclo de vida de solicitudes. Define los estados por los que puede transitar una solicitud.",
+    "columnas": [
+      {
+        "nombre": "estado_solicitud_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "clave",
+        "tipo": "VARCHAR(30)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clave única del estado. Es un código corto de negocio que facilita filtros, validaciones e integraciones.",
+        "relacion": null
+      },
+      {
+        "nombre": "nombre",
+        "tipo": "VARCHAR(100)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre del estado. Se utiliza como etiqueta visible en pantallas, reportes y búsquedas del sistema.",
+        "relacion": null
+      },
+      {
+        "nombre": "es_terminal",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Marca de cierre del flujo: 1 indica estado terminal, 0 indica estado intermedio.",
+        "relacion": null
+      },
+      {
+        "nombre": "activa",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Estado del catálogo de estados: 1 utilizable en flujo, 0 deshabilitado. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      }
+    ]
+  },
+  "solicitud": {
+    "nombre": "solicitud",
+    "descripcion": "Entidad principal de negocio. Almacena todas las solicitudes (tickets) del sistema con trazabilidad completa.",
+    "columnas": [
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "folio",
+        "tipo": "VARCHAR(40)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Folio único de negocio.",
+        "relacion": null
+      },
+      {
+        "nombre": "titulo",
+        "tipo": "VARCHAR(200)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Título breve de la solicitud. Se utiliza como etiqueta visible en pantallas, reportes y búsquedas del sistema.",
+        "relacion": null
+      },
+      {
+        "nombre": "descripcion",
+        "tipo": "VARCHAR(MAX)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Explicación amplia del contexto, alcance y contenido del registro para evitar ambigüedades. Es un campo de texto explicativo que agrega contexto funcional y técnico para la toma de decisiones.",
+        "relacion": null
+      },
+      {
+        "nombre": "area_solicitante_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Área que solicita. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": "area.area_id"
+      },
+      {
+        "nombre": "sistema_id",
+        "tipo": "INT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Sistema impactado. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": "sistema.sistema_id"
+      },
+      {
+        "nombre": "tipo_solicitud_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Tipo de solicitud. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": "tipo_solicitud.tipo_solicitud_id"
+      },
+      {
+        "nombre": "prioridad_solicitud_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Prioridad. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": "prioridad_solicitud.prioridad_solicitud_id"
+      },
+      {
+        "nombre": "estado_solicitud_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Estado actual. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": "estado_solicitud.estado_solicitud_id"
+      },
+      {
+        "nombre": "creado_por_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario que registro originalmente este elemento en el sistema y que funge como autor inicial. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "fecha_solicitud",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que el registro se dio de alta por primera vez. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_compromiso",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha SLA comprometida. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_resolucion",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora en que se concluye oficialmente la tarea o proceso. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      },
+      {
+        "nombre": "esfuerzo_horas",
+        "tipo": "DECIMAL(10,2)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Horas invertidas.",
+        "relacion": null
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Bandera de vigencia: 1 significa que el elemento esta habilitado para uso, 0 significa que no debe utilizarse. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      }
+    ]
+  },
+  "solicitud_desarrollador": {
+    "nombre": "solicitud_desarrollador",
+    "descripcion": "Relación N:M entre solicitudes y desarrolladores. Asigna técnicos responsables de cada solicitud.",
+    "columnas": [
+      {
+        "nombre": "solicitud_desarrollador_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Clave numérica autogenerada que identifica este registro de forma única, no se captura manualmente y no puede repetirse. Este valor lo genera automáticamente el sistema y funciona como identificador principal del registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Llave foránea que apunta a la solicitud relacionada; conecta este dato con el ticket principal. Se usa para relacionar este registro con otra tabla y mantener la integridad referencial de los datos.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Llave foránea al usuario técnico que participa en el desarrollo o mantenimiento del sistema. Se usa para relacionar este registro con otra tabla y mantener la integridad referencial de los datos.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "tipo_participacion",
+        "tipo": "VARCHAR(20)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Vigencia de la asignación tecnica: 1 activa, 0 inactiva o cerrada. Valor 1 = activo o vigente; valor 0 = inactivo o no vigente.",
+        "relacion": null
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Indica si la asignación está vigente.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_asignacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora exacta en que se realizo la asignación en el sistema. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_fin",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora en que finaliza formalmente la asignación o relación; puede quedar vacía si sigue vigente. Permite trazabilidad temporal, auditoría y seguimiento del ciclo de vida del proceso.",
+        "relacion": null
+      }
+    ]
+  },
+  "solicitud_historial_estado": {
+    "nombre": "solicitud_historial_estado",
+    "descripcion": "Registra la bitácora de transiciones de estado de cada solicitud. Su objetivo es mantener trazabilidad completa del ciclo de vida: qué estado tenía antes, a cuál cambió, quién realizó el cambio, cuándo ocurrió y con qué comentario. Esta tabla es clave para auditoría, seguimiento operativo, cumplimiento y análisis de tiempos de atención.",
+    "columnas": [
+      {
+        "nombre": "solicitud_historial_estado_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador único, técnico y autogenerado de cada evento de cambio de estado. Distingue de forma inequívoca cada registro en la bitácora, aunque pertenezca a la misma solicitud.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Referencia a la solicitud afectada. Permite agrupar todos los cambios de estado de un mismo ticket y reconstruir su historial cronológico completo de principio a fin.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "estado_anterior_id",
+        "tipo": "INT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Estado previo desde el cual se hizo la transición. Puede ser nulo en casos de alta inicial o cuando no aplica registrar un estado de origen explícito.",
+        "relacion": "estado_solicitud.estado_solicitud_id"
+      },
+      {
+        "nombre": "estado_nuevo_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Estado resultante después del cambio. Es el dato central del movimiento porque define la nueva situación operativa de la solicitud dentro del flujo de trabajo.",
+        "relacion": "estado_solicitud.estado_solicitud_id"
+      },
+      {
+        "nombre": "comentario",
+        "tipo": "VARCHAR(800)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Observación contextual del cambio: motivo, justificación, evidencia o nota operativa. Ayuda a interpretar por qué ocurrió la transición y mejora la trazabilidad funcional y de negocio.",
+        "relacion": null
+      },
+      {
+        "nombre": "cambiado_por_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario que ejecutó el cambio de estado. Permite trazabilidad de responsabilidad, auditoría de acciones y control de quién intervino en cada etapa del proceso.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "fecha_cambio",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora exacta en que se registró el cambio. Es clave para medir tiempos entre estados, cumplimiento de SLA, análisis de cuellos de botella y generación de reportes cronológicos.",
+        "relacion": null
+      }
+    ]
+  },
+  "solicitud_aprobacion": {
+    "nombre": "solicitud_aprobacion",
+    "descripcion": "Aprobaciones y evaluaciónes. Registra las decisiones de aprobación, rechazo o solicitud de información.",
+    "columnas": [
+      {
+        "nombre": "solicitud_aprobacion_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del registro de aprobación.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Solicitud evaluada en este evento de aprobación.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "aprobado_por_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario con facultad de aprobación que emite la resolución.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "estatus_aprobacion",
+        "tipo": "VARCHAR(20)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Resultado de la decisión: APROBADA, RECHAZADA o REQUIERE_INFO.",
+        "relacion": null
+      },
+      {
+        "nombre": "motivo",
+        "tipo": "VARCHAR(1000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Justificación, observaciones o comentarios de soporte de la decisión tomada.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_aprobacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora exacta en que se registró la decisión.",
+        "relacion": null
+      }
+    ]
+  },
+  "solicitud_comentario": {
+    "nombre": "solicitud_comentario",
+    "descripcion": "La tabla solicitud_comentario almacena las notas, aclaraciones y conversaciones asociadas a cada solicitud durante su ciclo de vida.",
+    "columnas": [
+      {
+        "nombre": "solicitud_comentario_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del comentario.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Solicitud a la que pertenece el comentario. Permite agrupar todo el historial conversacional del ticket.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "autor_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario que redacta y registra el comentario.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "comentario",
+        "tipo": "VARCHAR(2000)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Texto del comentario con detalle funcional o técnico; sirve para seguimiento, aclaraciones y evidencia de comunicación.",
+        "relacion": null
+      },
+      {
+        "nombre": "es_interno",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Bandera de visibilidad: 1 comentario interno (equipo autorizado), 0 comentario visible en flujo general.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_comentario",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora exacta de registro del comentario para trazabilidad cronológica.",
+        "relacion": null
+      }
+    ]
+  },
+  "solicitud_adjunto": {
+    "nombre": "solicitud_adjunto",
+    "descripcion": "La tabla solicitud_adjunto almacena los archivos de evidencia o soporte asociados a una solicitud. Cada registro representa un documento cargado al sistema, incluyendo su nombre, ubicación, tipo de archivo, tamaño y el usuario que realizó la carga.",
+    "columnas": [
+      {
+        "nombre": "solicitud_adjunto_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del adjunto. Distingue cada archivo de manera inequívoca dentro del sistema, incluso cuando varios archivos pertenecen a la misma solicitud.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Referencia a la solicitud a la que pertenece el archivo. Permite agrupar todos los adjuntos relacionados con un mismo ticket y reconstruir su evidencia documental.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "nombre_archivo",
+        "tipo": "VARCHAR(255)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre del archivo cargado (normalmente nombre visible para usuario). Se utiliza para identificar rápidamente el documento en listados, descargas e historial de la solicitud.",
+        "relacion": null
+      },
+      {
+        "nombre": "ruta_archivo",
+        "tipo": "VARCHAR(500)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Ruta lógica o física donde se almacena el archivo en infraestructura. Es clave para localización, recuperación, respaldo y gestión de almacenamiento.",
+        "relacion": null
+      },
+      {
+        "nombre": "tipo_mime",
+        "tipo": "VARCHAR(120)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Tipo MIME del archivo (por ejemplo application/pdf o image/png). Permite validar formatos, controlar seguridad de carga y definir comportamiento de visualización/descarga.",
+        "relacion": null
+      },
+      {
+        "nombre": "tamanio_bytes",
+        "tipo": "BIGINT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Tamaño exacto del archivo en bytes. Ayuda en controles de límite de carga, monitoreo de consumo de almacenamiento y análisis de capacidad.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "subido_por_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario que realizó la carga del adjunto. Aporta trazabilidad de autoría y responsabilidad operativa sobre los documentos anexados.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_subida",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora exacta de registro del adjunto. Permite ordenar cronológicamente evidencias, auditar actividades y correlacionar documentos con cambios de estado.",
+        "relacion": null
+      }
+    ]
+  },
+  "notificacion": {
+    "nombre": "notificacion",
+    "descripcion": "Notificaciones de usuarios. Almacena avisos y alertas enviadas a usuarios del sistema.",
+    "columnas": [
+      {
+        "nombre": "notificacion_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único de la notificación. Permite diferenciar cada aviso de forma inequívoca y soporta trazabilidad histórica de mensajería.",
+        "relacion": null
+      },
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario destinatario de la notificación. Define quién recibe el mensaje y habilita consultas por bandeja personal de avisos.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Solicitud relacionada con la notificación, cuando aplica. Puede ser nulo si el aviso es general y no depende de un ticket específico.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "titulo",
+        "tipo": "VARCHAR(220)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Encabezado breve del aviso. Se usa como resumen visible para identificar rápidamente el tipo de evento o acción requerida.",
+        "relacion": null
+      },
+      {
+        "nombre": "mensaje",
+        "tipo": "VARCHAR(1500)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Contenido detallado de la notificación. Debe comunicar claramente qué ocurrió, por qué se notifica y, en su caso, qué acción se espera del usuario.",
+        "relacion": null
+      },
+      {
+        "nombre": "leida",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Indicador de lectura: 0 pendiente de leer, 1 ya leída. Permite medir atención de mensajes y gestionar estados de bandeja.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_creacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora de generación del aviso. Es clave para orden cronológico, auditoría y análisis de tiempos de respuesta.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_lectura",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora en que el usuario marcó o registró la lectura. Permite evaluar oportunidad de atención y tiempos entre emisión y lectura.",
+        "relacion": null
+      }
+    ]
+  },
+  "usuario_credencial": {
+    "nombre": "usuario_credencial",
+    "descripcion": "La tabla usuario_credencial concentra los datos de autenticación y seguridad de acceso de cada usuario. Su objetivo es separar la identidad funcional del usuario (tabla usuario) de la información sensible de login (hash, salt, política de contraseña, bloqueo e intentos fallidos).",
+    "columnas": [
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador único del usuario al que pertenecen estas credenciales. Es clave primaria y foránea a la vez, lo que implementa una relación 1:1 con usuario (una cuenta de credenciales por usuario).",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "login_usuario",
+        "tipo": "VARCHAR(80)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre de acceso único para autenticación. Debe ser irrepetible en todo el sistema para evitar colisiones de identidad en el proceso de inicio de sesión.",
+        "relacion": null
+      },
+      {
+        "nombre": "password_hash",
+        "tipo": "VARBINARY(512)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Resultado cifrado/hash de la contraseña. Nunca debe almacenarse la contraseña en texto plano; este campo guarda únicamente el valor derivado para validación segura.",
+        "relacion": null
+      },
+      {
+        "nombre": "password_salt",
+        "tipo": "VARBINARY(128)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Valor aleatorio (salt) usado al generar el hash de contraseña. Evita ataques por tablas precalculadas y fortalece la seguridad criptográfica del almacenamiento.",
+        "relacion": null
+      },
+      {
+        "nombre": "algoritmo_hash",
+        "tipo": "VARCHAR(30)",
+        "nullable": false,
+        "default": "PBKDF2",
+        "descripcion": "Nombre del algoritmo empleado para derivar el hash (por ejemplo PBKDF2). Permite trazabilidad técnica y migraciones futuras de algoritmo de forma controlada.",
+        "relacion": null
+      },
+      {
+        "nombre": "iteraciones",
+        "tipo": "INT",
+        "nullable": false,
+        "default": "100000",
+        "descripcion": "Número de rondas de derivación aplicadas al hash. Incrementa el costo computacional de ataques de fuerza bruta y define la fortaleza del proceso criptográfico.",
+        "relacion": null
+      },
+      {
+        "nombre": "ultimo_acceso",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora del último acceso exitoso del usuario. Se utiliza para auditoría, monitoreo de uso y detección de cuentas inactivas o accesos anómalos.",
+        "relacion": null
+      },
+      {
+        "nombre": "intentos_fallidos",
+        "tipo": "SMALLINT",
+        "nullable": false,
+        "default": "0",
+        "descripcion": "Contador acumulado de intentos fallidos de autenticación. Sirve para políticas de bloqueo automático y prevención de ataques por intento repetitivo.",
+        "relacion": null
+      },
+      {
+        "nombre": "bloqueado_hasta",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Marca temporal hasta la cual el acceso permanece bloqueado. Permite aplicar bloqueos temporales por seguridad cuando se supera el umbral de intentos fallidos.",
+        "relacion": null
+      },
+      {
+        "nombre": "requiere_cambio_password",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "0",
+        "descripcion": "Indicador de cambio obligatorio de contraseña: 1 requiere actualizar contraseña en el siguiente acceso, 0 no requiere cambio inmediato.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_actualizacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora de la última actualización de credenciales. Aporta trazabilidad de modificaciones de seguridad (cambio de contraseña, desbloqueo, ajustes de política).",
+        "relacion": null
+      }
+    ]
+  },
+  "menu_opcion": {
+    "nombre": "menu_opcion",
+    "descripcion": "La tabla menu_opcion funciona como catálogo central de navegación del sistema. Define qué opciones existen en la interfaz, cómo se llaman, en qué ruta se muestran, en qué orden aparecen y si están vigentes.",
+    "columnas": [
+      {
+        "nombre": "menu_opcion_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único de cada opción de menú. Se genera automáticamente y se usa para relacionar esta opción con permisos, jerarquías y otras operaciones de control de navegación.",
+        "relacion": null
+      },
+      {
+        "nombre": "clave",
+        "tipo": "VARCHAR(60)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clave funcional única de la opción de menú. Se utiliza como identificador estable para validaciones, configuración, trazabilidad y posibles integraciones sin depender del texto visible al usuario.",
+        "relacion": null
+      },
+      {
+        "nombre": "nombre",
+        "tipo": "VARCHAR(120)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre descriptivo que se muestra en la interfaz. Es la etiqueta visible para el usuario final y debe ser clara para facilitar la navegación y la comprensión de la funcionalidad disponible.",
+        "relacion": null
+      },
+      {
+        "nombre": "ruta",
+        "tipo": "VARCHAR(220)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Dirección o ruta de navegación asociada a la opción. Permite al sistema redirigir al módulo o pantalla correspondiente cuando el usuario selecciona el menú.",
+        "relacion": null
+      },
+      {
+        "nombre": "icono",
+        "tipo": "VARCHAR(80)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Referencia al recurso visual del ícono de la opción. Mejora usabilidad y reconocimiento rápido en la interfaz, pero puede quedar vacío si la opción no requiere representación gráfica.",
+        "relacion": null
+      },
+      {
+        "nombre": "orden",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Posición de despliegue en el menú. Define la secuencia en que se presentan las opciones para mantener una estructura consistente y una experiencia de usuario ordenada.",
+        "relacion": null
+      },
+      {
+        "nombre": "activa",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Estado de vigencia de la opción de menú. Valor 1 significa activa y disponible para mostrarse/operar; valor 0 significa inactiva, por lo que se deshabilita su uso sin necesidad de eliminar el registro.",
+        "relacion": null
+      },
+      {
+        "nombre": "menu_padre_id",
+        "tipo": "INT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Referencia opcional a otra opción de la misma tabla para construir jerarquía. Si tiene valor, la opción se comporta como submenú; si es nulo, se considera opción de nivel principal.",
+        "relacion": "menu_opcion.menu_opcion_id"
+      }
+    ]
+  },
+  "rol_menu_opcion": {
+    "nombre": "rol_menu_opcion",
+    "descripcion": "La tabla rol_menu_opcion administra los permisos de acceso a opciones de menú por cada rol del sistema. Su función principal es implementar control de autorización a nivel de interfaz y operación, definiendo qué puede ver, editar o aprobar un rol sobre una opción específica del menú.",
+    "columnas": [
+      {
+        "nombre": "rol_menu_opcion_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del registro de permiso. Se genera automáticamente y permite gestionar cada combinación de rol-opción de menú como una entidad independiente para control, mantenimiento y trazabilidad.",
+        "relacion": null
+      },
+      {
+        "nombre": "rol_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador del rol al que se asignan permisos. Vincula este registro con la definición funcional del rol (por ejemplo, administrador, analista, desarrollador), asegurando que los permisos se otorguen por perfil y no por usuario individual.",
+        "relacion": "rol.rol_id"
+      },
+      {
+        "nombre": "menu_opcion_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador de la opción de menú sobre la que se definen permisos. Relaciona el rol con un punto concreto de navegación o funcionalidad del sistema para aplicar control de acceso específico.",
+        "relacion": "menu_opcion.menu_opcion_id"
+      },
+      {
+        "nombre": "puede_ver",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Define si el rol puede visualizar la opción de menú. Valor 1 = sí puede ver; valor 0 = no puede ver. Es la base del control de visibilidad de pantallas y módulos.",
+        "relacion": null
+      },
+      {
+        "nombre": "puede_editar",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Define si el rol puede realizar acciones de edición sobre la opción o funcionalidad vinculada. Valor 1 = sí puede editar; valor 0 = no puede editar. Normalmente requiere que puede_ver sea 1 para operar de forma coherente en UI.",
+        "relacion": null
+      },
+      {
+        "nombre": "puede_aprobar",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Define si el rol puede ejecutar acciones de aprobación en procesos que lo requieran. Valor 1 = sí puede aprobar; valor 0 = no puede aprobar. Se usa en flujos con validación jerárquica o autorizaciones formales.",
+        "relacion": null
+      }
+    ]
+  },
+  "tipo_modificacion": {
+    "nombre": "tipo_modificacion",
+    "descripcion": "La tabla tipo_modificacion es un catálogo maestro que clasifica la naturaleza de una solicitud de cambio en el sistema. Su propósito es normalizar los tipos de modificación (por ejemplo, adaptativa, evolutiva o correctiva), evitar capturas libres inconsistentes y facilitar filtros, reportes, reglas de negocio y trazabilidad operativa.",
+    "columnas": [
+      {
+        "nombre": "tipo_modificacion_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "INDENTITY",
+        "descripcion": "Identificador técnico único del tipo de modificación. Se genera automáticamente y funciona como referencia estable para relacionar este catálogo con tablas transaccionales, especialmente solicitudes especializadas de cambio.",
+        "relacion": null
+      },
+      {
+        "nombre": "clave",
+        "tipo": "VARCHAR(30)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clave única de negocio del tipo de modificación. Está pensada para códigos controlados (por ejemplo, ADAPTATIVA, EVOLUTIVA, CORRECTIVA), permitiendo validaciones consistentes, búsquedas rápidas e integración con reglas de proceso sin depender del texto descriptivo.",
+        "relacion": null
+      },
+      {
+        "nombre": "nombre",
+        "tipo": "VARCHAR(80)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre legible del tipo de modificación que se muestra en formularios, listados y reportes. Su objetivo es presentar una etiqueta clara al usuario para seleccionar y entender la clasificación aplicada a la solicitud.",
+        "relacion": null
+      },
+      {
+        "nombre": "activa",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Indicador de vigencia del registro del catálogo. Valor 1 = tipo activo y disponible para uso; valor 0 = tipo inactivo (no se ofrece en nuevas capturas), manteniendo historial sin eliminar datos existentes.",
+        "relacion": null
+      }
+    ]
+  },
+  "solicitud_modificacion": {
+    "nombre": "solicitud_modificacion",
+    "descripcion": "La tabla solicitud_modificacion almacena el detalle especializado de las solicitudes cuyo tipo corresponde a modificación de sistemas existentes. Extiende a la tabla solicitud con datos técnicos y funcionales necesarios para analizar impacto, justificar el cambio, identificar módulos afectados y mantener trazabilidad del registro.",
+    "columnas": [
+      {
+        "nombre": "solicitud_modificacion_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del registro de modificación. Se genera automáticamente y permite administrar internamente cada detalle especializado sin depender de otras columnas de negocio.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Referencia obligatoria a la solicitud base. Al ser única, asegura relación 1:1: una solicitud general sólo puede tener un detalle de modificación, evitando duplicidades y manteniendo integridad del modelo.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "tipo_modificacion_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clasifica el subtipo de modificación (por ejemplo, adaptativa, evolutiva o correctiva). Este dato estandariza la captura y facilita filtros, reportes, priorización y definición de flujos de atención.",
+        "relacion": "tipo_modificacion.tipo_modificacion_id"
+      },
+      {
+        "nombre": "sistema_version_actual",
+        "tipo": "VARCHAR(80)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Versión actual del sistema sobre la que se solicita el cambio. Es útil para diagnóstico técnico, compatibilidad, planeación de despliegues y control de riesgos por diferencias de versión.",
+        "relacion": null
+      },
+      {
+        "nombre": "modulo_afectado",
+        "tipo": "VARCHAR(200)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Nombre o referencia del módulo impactado por la modificación. Permite delimitar el alcance del cambio, identificar responsables y estimar esfuerzo por componente funcional/técnico.",
+        "relacion": null
+      },
+      {
+        "nombre": "impacto_tecnico",
+        "tipo": "VARCHAR(1500)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Descripción del impacto técnico esperado: arquitectura, componentes, dependencias, rendimiento, seguridad, datos o integraciones. Este campo apoya análisis de viabilidad y estimación de complejidad.",
+        "relacion": null
+      },
+      {
+        "nombre": "justificacion",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Argumentación funcional y/o técnica que sustenta la necesidad del cambio. Documenta el valor esperado para el negocio, cumplimiento normativo, corrección operativa o mejora del servicio.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_registro",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora de alta del detalle de modificación. Se registra automáticamente para auditoría, trazabilidad cronológica, métricas de atención y seguimiento de tiempos de ciclo.",
+        "relacion": null
+      }
+    ]
+  },
+  "solicitud_requerimiento_tecnico": {
+    "nombre": "solicitud_requerimiento",
+    "descripcion": "La tabla solicitud_requerimiento_tecnico almacena la especificación técnica detallada de una solicitud, normalmente después de su validación o aprobación funcional. Su objetivo es documentar cómo se va a implementar el cambio desde una perspectiva de ingeniería: arquitectura, alcance, dependencias, riesgos, pruebas y observaciones.",
+    "columnas": [
+      {
+        "nombre": "solicitud_requerimiento_tecnico_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del requerimiento técnico. Se genera automáticamente y permite administrar, versionar lógicamente y auditar cada documento técnico asociado a una solicitud.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Referencia obligatoria a la solicitud base. Su unicidad impone relación 1:1, garantizando que cada solicitud tenga como máximo una especificación técnica consolidada en esta tabla.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "arquitectura_propuesta",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Define el enfoque arquitectónico propuesto para resolver la solicitud: componentes, capas, patrones y decisiones de diseño. Sirve para alinear implementación, mantenibilidad y escalabilidad.",
+        "relacion": null
+      },
+      {
+        "nombre": "alcance_tecnico",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Delimita qué se incluye y qué no en términos técnicos (módulos, servicios, interfaces, cambios de datos, integraciones). Ayuda a controlar expectativas y evitar desviaciones de ejecución.",
+        "relacion": null
+      },
+      {
+        "nombre": "dependencias",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Registra dependencias técnicas necesarias para ejecutar el cambio: sistemas externos, librerías, servicios, ambientes, equipos o prerrequisitos de infraestructura. Es clave para planeación y gestión de bloqueos.",
+        "relacion": null
+      },
+      {
+        "nombre": "criterios_aceptacion",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Establece condiciones verificables para considerar el requerimiento como cumplido. Funciona como base objetiva para validación funcional/técnica y cierre de entregables.",
+        "relacion": null
+      },
+      {
+        "nombre": "riesgos",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Documenta riesgos identificados (impacto en operación, seguridad, rendimiento, compatibilidad, tiempos, datos). Permite anticipar mitigaciones y priorizar controles durante la ejecución.",
+        "relacion": null
+      },
+      {
+        "nombre": "plan_pruebas",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Describe la estrategia de pruebas prevista: tipos de prueba, cobertura, escenarios críticos y validaciones requeridas. Vincula el diseño técnico con la calidad esperada del resultado.",
+        "relacion": null
+      },
+      {
+        "nombre": "observaciones",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Campo abierto para notas adicionales relevantes: decisiones, restricciones no funcionales, acuerdos técnicos o consideraciones de implementación que no encajen en otros campos.",
+        "relacion": null
+      },
+      {
+        "nombre": "elaborado_por_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario responsable de elaborar el requerimiento técnico. Proporciona trazabilidad de autoría, responsabilidad técnica y punto de contacto para revisiones o aclaraciones.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "fecha_elaboracion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora de elaboración del requerimiento técnico. Se usa para auditoría, control de tiempos del proceso y seguimiento cronológico de la documentación técnica.",
+        "relacion": null
+      }
+    ]
+  },
+  "tarea_desarrollo": {
+    "nombre": "tarea_desarrollo",
+    "descripcion": "La tabla tarea_desarrollo representa las tareas operativas concretas derivadas de una solicitud aprobada. Su función es descomponer el trabajo de implementación en unidades manageriables, permitiendo asignación a usuarios, seguimiento de estado, control de fechas y trazabilidad de avance. Es el nivel de granularidad en el que se realiza el trabajo real y se gestiona capacidad de equipo.",
+    "columnas": [
+      {
+        "nombre": "tarea_desarrollo_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único de cada tarea de desarrollo. Se genera automáticamente y sirve como referencia para asignaciones, seguimiento temporal, comentarios y auditoría del trabajo operativo.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Referencia obligatoria a la solicitud padre. Vincula la tarea con su contexto de negocio, permitiendo trazabilidad bidireccional desde solicitud hacia tareas y auditoría del cumplimiento.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "titulo",
+        "tipo": "VARCHAR(220)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre o resumen breve de la tarea. Se muestra en listas, reportes y paneles; debe ser descriptivo, comprensible y suficientemente específico para identificar el trabajo sin necesidad de contexto adicional.",
+        "relacion": null
+      },
+      {
+        "nombre": "descripcion",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Documentación detallada de la tarea: qué se debe hacer, pasos a seguir, consideraciones técnicas, restricciones o detalles. Sirve como guía para el ejecutor y base para validación de completud.",
+        "relacion": null
+      },
+      {
+        "nombre": "prioridad_solicitud_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Referencia a la escala de prioridad del sistema. Influye en orden de ejecución, asignación de recursos y escalamiento de bloqueos. Normaliza la captura y facilita filtros operacionales.",
+        "relacion": "prioridad_solicitud.prioridad_solicitud_id"
+      },
+      {
+        "nombre": "estado_tarea",
+        "tipo": "VARCHAR(30)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Estado actual de la tarea: PENDIENTE, EN_DESARROLLO, COMPLETADA, BLOQUEADA. Controla workflow operativo, visibilidad y escalonamiento de alertas.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_inicio",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora en que se inicia efectivamente el trabajo. Se usa para seguimiento temporal, cálculo de horas trabajadas, análisis de eficiencia y auditoría de ciclo.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_compromiso",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha comprometida de cierre. Define expectativa de entrega, sirve para alertas de retraso y análisis de cumplimiento de promesas al negocio.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_cierre",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora real de completación. Documenta tiempo real de ejecución, permite calcular varianza vs. compromiso y apoya métricas de rendimiento del equipo.",
+        "relacion": null
+      },
+      {
+        "nombre": "creado_por_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario que crea/origina la tarea. Proporciona trazabilidad de responsabilidad inicial y punto de contacto para aclaraciones sobre alcance e intención.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Indicador de vigencia de la tarea. Valor 1 = tarea activa en ejecución; valor 0 = tarea cancelada, pausada o archivada. Permite baja lógica sin eliminar historial.",
+        "relacion": null
+      }
+    ]
+  },
+  "tarea_desarrollo_asignacion": {
+    "nombre": "tarea_desarrollo_asignacion",
+    "descripcion": "La tabla tarea_desarrollo representa las tareas operativas concretas derivadas de una solicitud aprobada. Su función es descomponer el trabajo de implementación en unidades manageriables, permitiendo asignación a usuarios, seguimiento de estado, control de fechas y trazabilidad de avance. Es el nivel de granularidad en el que se realiza el trabajo real y se gestiona capacidad de equipo.",
+    "columnas": [
+      {
+        "nombre": "tarea_desarrollo_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único de cada tarea de desarrollo. Se genera automáticamente y sirve como referencia para asignaciones, seguimiento temporal, comentarios y auditoría del trabajo operativo.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Referencia obligatoria a la solicitud padre. Vincula la tarea con su contexto de negocio, permitiendo trazabilidad bidireccional desde solicitud hacia tareas y auditoría del cumplimiento.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "titulo",
+        "tipo": "VARCHAR(220)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre o resumen breve de la tarea. Se muestra en listas, reportes y paneles; debe ser descriptivo, comprensible y suficientemente específico para identificar el trabajo sin necesidad de contexto adicional.",
+        "relacion": null
+      },
+      {
+        "nombre": "descripcion",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Documentación detallada de la tarea: qué se debe hacer, pasos a seguir, consideraciones técnicas, restricciones o detalles. Sirve como guía para el ejecutor y base para validación de completud.",
+        "relacion": null
+      },
+      {
+        "nombre": "prioridad_solicitud_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Referencia a la escala de prioridad del sistema. Influye en orden de ejecución, asignación de recursos y escalamiento de bloqueos. Normaliza la captura y facilita filtros operacionales.",
+        "relacion": "prioridad_solicitud.prioridad_solicitud_id"
+      },
+      {
+        "nombre": "estado_tarea",
+        "tipo": "VARCHAR(30)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Estado actual de la tarea: PENDIENTE, EN_DESARROLLO, COMPLETADA, BLOQUEADA. Controla workflow operativo, visibilidad y escalonamiento de alertas.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_inicio",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora en que se inicia efectivamente el trabajo. Se usa para seguimiento temporal, cálculo de horas trabajadas, análisis de eficiencia y auditoría de ciclo.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_compromiso",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha comprometida de cierre. Define expectativa de entrega, sirve para alertas de retraso y análisis de cumplimiento de promesas al negocio.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_cierre",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora real de completación. Documenta tiempo real de ejecución, permite calcular varianza vs. compromiso y apoya métricas de rendimiento del equipo.",
+        "relacion": null
+      },
+      {
+        "nombre": "creado_por_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario que crea/origina la tarea. Proporciona trazabilidad de responsabilidad inicial y punto de contacto para aclaraciones sobre alcance e intención.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Indicador de vigencia de la tarea. Valor 1 = tarea activa en ejecución; valor 0 = tarea cancelada, pausada o archivada. Permite baja lógica sin eliminar historial.",
+        "relacion": null
+      }
+    ]
+  },
+  "actividad_reciente": {
+    "nombre": "actividad_reciente",
+    "descripcion": "La tabla actividad_reciente es un registro o bitácora de eventos recientes en el sistema, diseñado para alimentar paneles de trabajo, dashboards y notificaciones. Captura acciones significativas relacionadas con solicitudes y tareas, permitiendo a usuarios ver un resumen de lo que ha ocurrido recientemente, quién lo hizo y cuándo. Facilita visibilidad operacional, comunicación de cambios y seguimiento de actividad en tiempo (casi) real.",
+    "columnas": [
+      {
+        "nombre": "actividad_reciente_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único de cada evento de actividad registrado. Se genera automáticamente y funciona como referencia para auditoría, trazabilidad y posibles consultas históricas de eventos operacionales.",
+        "relacion": null
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Referencia opcional a la solicitud relacionada con la actividad. Permite vincular el evento con su contexto de negocio; es nulo cuando la actividad está asociada únicamente a una tarea o a un evento sin solicitud directa.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "tarea_desarrollo_id",
+        "tipo": "BIGINT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Referencia opcional a la tarea de desarrollo relacionada. Permite vincular la actividad con el trabajo operativo; es nulo cuando el evento está asociado únicamente a una solicitud o es de carácter general sin tarea específica.",
+        "relacion": "tarea_desarrollo.tarea_desarrollo_id"
+      },
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario responsable de la actividad. Identifica quién realizó la acción, facilitando trazabilidad de responsabilidad y filtros por persona en paneles.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "tipo_actividad",
+        "tipo": "VARCHAR(40)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clasificación del tipo de evento: creación, actualización, cambio de estado, comentario, aprobación, rechazo, asignación, cierre, etc. Normaliza la captura y facilita filtros temáticos en reportes y dashboards.",
+        "relacion": null
+      },
+      {
+        "nombre": "titulo",
+        "tipo": "VARCHAR(220)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Resumen breve y descriptivo de la actividad. Se muestra en listas y paneles de actividad reciente como identificador rápido del evento sin necesidad de expandir detalles.",
+        "relacion": null
+      },
+      {
+        "nombre": "detalle",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Descripción extendida de la actividad: cambios específicos, razones, observaciones o contexto adicional. Proporciona información enriquecida para quien revisa el historial de actividades.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_actividad",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que ocurrió la actividad. Se registra automáticamente y es fundamental para ordenamiento cronológico, análisis temporal y reconstrucción de secuencias de eventos.",
+        "relacion": null
+      },
+      {
+        "nombre": "visible_para_pm",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Control de visibilidad para Project Managers: 1 = visible para PM, 0 = no visible para PM. Permite ocultar actividades técnicas o administrativas que no son relevantes para la gestión de proyectos.",
+        "relacion": null
+      },
+      {
+        "nombre": "visible_para_desarrollador",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Control de visibilidad para desarrolladores: 1 = visible para desarrollador, 0 = no visible para desarrollador. Permite ocultar actividades administrativas o decisiones de negocio irrelevantes para la ejecución técnica.",
+        "relacion": null
+      }
+    ]
+  },
+  "proyecto": {
+    "nombre": "proyecto",
+    "descripcion": "La tabla proyecto es la entidad central para gestionar iniciativas de trabajo que agrupan múltiples solicitudes, equipo responsable, planificación y seguimiento ejecutivo. Permite controlar el ciclo de vida del proyecto, desde su planeación hasta su cierre, incluyendo fechas objetivo, responsable PM y vigencia lógica del registro.",
+    "columnas": [
+      {
+        "nombre": "proyecto_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del proyecto. Se genera automáticamente y se utiliza como referencia principal para relaciones con solicitudes, miembros, documentos y eventos de calendario.",
+        "relacion": null
+      },
+      {
+        "nombre": "clave",
+        "tipo": "VARCHAR(40)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Código único de negocio del proyecto. Permite búsquedas rápidas, integración con reportes, trazabilidad administrativa y evita duplicidad de identificadores funcionales.",
+        "relacion": null
+      },
+      {
+        "nombre": "nombre",
+        "tipo": "VARCHAR(200)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre descriptivo del proyecto visible para usuarios. Debe comunicar el objetivo o alcance principal para facilitar identificación en paneles, listados y reportes.",
+        "relacion": null
+      },
+      {
+        "nombre": "descripcion",
+        "tipo": "VARCHAR(1500)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Campo narrativo para detallar propósito, contexto, alcance, restricciones y metas del proyecto. Mejora la comprensión funcional y técnica durante su ciclo de vida.",
+        "relacion": null
+      },
+      {
+        "nombre": "estado_proyecto",
+        "tipo": "VARCHAR(30)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Estado operativo del proyecto. Valores esperados: PLANEADO, EN_EJECUCION, PAUSADO, CERRADO. Permite controlar el flujo de gestión y generar indicadores de avance y cartera.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_inicio",
+        "tipo": "DATE",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha planificada o real de arranque. Sirve para seguimiento cronológico, cálculo de duración y control de cumplimiento del plan de trabajo.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_fin_planeada",
+        "tipo": "DATE",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha objetivo de terminación comprometida. Se usa para programación, medición de desviaciones y alertas de riesgo por retraso.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_fin_real",
+        "tipo": "DATE",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha efectiva de cierre del proyecto. Permite comparar contra la fecha fin planeada y medir desempeño del cumplimiento temporal.",
+        "relacion": null
+      },
+      {
+        "nombre": "pm_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario responsable de la dirección del proyecto (Project Manager). Centraliza responsabilidad operativa, seguimiento de decisiones y coordinación transversal del equipo.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Bandera de vigencia lógica del proyecto. Valor 1 = activo/vigente; valor 0 = inactivo/no vigente. Se usa para baja lógica sin eliminar historial ni relaciones.",
+        "relacion": null
+      }
+    ]
+  },
+  "proyecto_solicitud": {
+    "nombre": "proyecto_solicitud",
+    "descripcion": "La tabla proyecto_solicitud es una tabla de relación (puente) que vincula proyectos con solicitudes. Su objetivo es modelar una relación N:M: un proyecto puede incluir varias solicitudes y una solicitud puede participar en distintos proyectos (según reglas de negocio). Esta tabla también conserva la fecha en que se realizó la vinculación, lo que aporta trazabilidad operativa.",
+    "columnas": [
+      {
+        "nombre": "proyecto_solicitud_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único de la relación. Se genera automáticamente y permite gestionar cada vínculo proyecto-solicitud como un registro independiente para auditoría, mantenimiento y consultas históricas.",
+        "relacion": null
+      },
+      {
+        "nombre": "proyecto_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador del proyecto al que se asocia la solicitud. Garantiza integridad referencial con la tabla de proyectos y permite agrupar solicitudes dentro de iniciativas de gestión.",
+        "relacion": "proyecto.proyecto_id"
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador de la solicitud vinculada al proyecto. Asegura que sólo se relacionen solicitudes válidas existentes en el sistema y habilita la trazabilidad del trabajo funcional y técnico dentro del contexto del proyecto.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "fecha_vinculacion",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que se creó la relación entre proyecto y solicitud. Se registra automáticamente para fines de auditoría, seguimiento cronológico y análisis de evolución del alcance del proyecto.",
+        "relacion": null
+      }
+    ]
+  },
+  "proyecto_miembro": {
+    "nombre": "proyecto_miembro",
+    "descripcion": "La tabla proyecto_miembro administra la participación de usuarios dentro de cada proyecto. Define quién forma parte del equipo, qué rol operativo desempeña, qué porcentaje de carga estimada tiene asignado y durante qué periodo participa. Es clave para la planeación de capacidad, seguimiento de responsabilidades y control de vigencia de integrantes.",
+    "columnas": [
+      {
+        "nombre": "proyecto_miembro_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del registro de membresía. Se genera automáticamente y permite referenciar cada asignación de usuario a proyecto de forma individual para auditoría, historial y mantenimiento.",
+        "relacion": null
+      },
+      {
+        "nombre": "proyecto_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador del proyecto al que pertenece el miembro. Garantiza integridad referencial y permite agrupar, consultar y reportar la composición del equipo por iniciativa.",
+        "relacion": "proyecto.proyecto_id"
+      },
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador del usuario que participa en el proyecto. Vincula la membresía con una persona válida del sistema para control de responsabilidades y trazabilidad operativa.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "rol_en_proyecto",
+        "tipo": "VARCHAR(40)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Rol funcional/técnico del usuario dentro del proyecto. Valores esperados: PM, DESARROLLADOR, ANALISTA, TESTER, LIDER_TECNICO. Estandariza funciones para asignación de tareas, comunicación y métricas por perfil.",
+        "relacion": null
+      },
+      {
+        "nombre": "carga_estimada_pct",
+        "tipo": "DECIMAL(5,2)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Porcentaje estimado de dedicación del usuario al proyecto. Sirve para planeación de capacidad, balance de carga y detección temprana de sobreasignación o subutilización.",
+        "relacion": null
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Indicador de vigencia de la membresía. Valor 1 = miembro activo/vigente en el proyecto; valor 0 = miembro inactivo/no vigente. Permite baja lógica sin perder historial de participación.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_inicio",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora de inicio de participación del miembro en el proyecto. Se registra automáticamente y aporta trazabilidad temporal del alta en el equipo.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_fin",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora de término de participación del miembro. Se usa para cerrar periodos de colaboración y conservar historial cronológico de permanencia.",
+        "relacion": null
+      }
+    ]
+  },
+  "sistema_desarrollador": {
+    "nombre": "sistema_desarrollador",
+    "descripcion": "Registra la asignación de personal técnico a cada sistema institucional, indicando su rol de participación, vigencia y periodo de colaboración. Esta tabla resuelve la relación N:M entre sistema y usuario, permitiendo que un sistema tenga varios desarrolladores y que un desarrollador participe en varios sistemas. También soporta trazabilidad operativa para saber quién fue responsable, desde cuándo, y si la asignación sigue activa o ya concluyó.",
+    "columnas": [
+      {
+        "nombre": "sistema_desarrollador_id",
+        "tipo": "INT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único de la asignación. Sirve como clave primaria para referenciar, auditar y actualizar el registro sin ambigüedad. No tiene significado de negocio, su función es integridad y trazabilidad.",
+        "relacion": null
+      },
+      {
+        "nombre": "sistema_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador del sistema al que se asigna el desarrollador. Define el contexto funcional de trabajo y garantiza que la asignación solo apunte a sistemas válidos registrados en el catálogo institucional.",
+        "relacion": "sistema.sistema_id"
+      },
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador del usuario técnico asignado al sistema. Permite vincular responsables y participantes reales, además de cruzar información con roles, áreas y actividad operativa del usuario.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "tipo_participacion",
+        "tipo": "VARCHAR(20)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Rol funcional del usuario dentro del sistema. Valores sugeridos: RESPONSABLE y PARTICIPANTE. RESPONSABLE implica liderazgo o accountability técnica; PARTICIPANTE implica apoyo en desarrollo, mantenimiento o atención de incidencias.",
+        "relacion": null
+      },
+      {
+        "nombre": "activo",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Bandera de vigencia lógica de la asignación. Valor 1 indica asignación vigente y operativa; valor 0 indica asignación cerrada o inactiva, conservando historial sin eliminar datos.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_inicio",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que inicia formalmente la participación del usuario en el sistema. Se usa para trazabilidad histórica, reportes de carga técnica y validación de periodos de responsabilidad.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_fin",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Fecha y hora de término de la participación. Nulo indica participación vigente. Cuando tiene valor, marca cierre administrativo/técnico y permite análisis históricos de rotación y continuidad del equipo.",
+        "relacion": null
+      }
+    ]
+  },
+  "documento_proyecto": {
+    "nombre": "documento_proyecto",
+    "descripcion": "La tabla documento_proyecto almacena los archivos y documentos asociados a un proyecto, y opcionalmente a una solicitud específica. Su función es centralizar la evidencia técnica, documental y operativa del trabajo del proyecto, manteniendo control sobre versión, tipo de documento, autor de la carga, fecha de incorporación y nivel de visibilidad para los participantes. Es útil para conservar entregables, minutas, especificaciones, diseños, manuales y cualquier otro archivo de soporte del proyecto.",
+    "columnas": [
+      {
+        "nombre": "documento_proyecto_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del documento. Se genera automáticamente y permite rastrear cada archivo o registro documental de forma individual para auditoría, mantenimiento y consultas históricas.",
+        "relacion": null
+      },
+      {
+        "nombre": "proyecto_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador del proyecto al que pertenece el documento. Garantiza integridad referencial y asegura que cada archivo quede asociado a una iniciativa válida dentro del sistema.",
+        "relacion": "proyecto.proyecto_id"
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Identificador opcional de la solicitud relacionada con el documento. Permite vincular el archivo a un requerimiento específico cuando el documento nace como parte de una solicitud; si no aplica, el valor puede ser nulo.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "nombre_documento",
+        "tipo": "VARCHAR(255)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre visible del archivo o documento. Es el texto que identifica el contenido para usuarios finales en listados, búsquedas y pantallas de consulta.",
+        "relacion": null
+      },
+      {
+        "nombre": "tipo_documento",
+        "tipo": "VARCHAR(50)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clasificación funcional del documento. Valores esperados como ERS, DISENO, MANUAL, MINUTA u OTRO, lo que permite ordenar, filtrar y aplicar reglas de gestión documental por categoría.",
+        "relacion": null
+      },
+      {
+        "nombre": "version_documento",
+        "tipo": "VARCHAR(40)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Versión lógica del documento. Se usa para controlar cambios, identificar revisiones y distinguir iteraciones sucesivas de un mismo entregable.",
+        "relacion": null
+      },
+      {
+        "nombre": "ruta_archivo",
+        "tipo": "VARCHAR(600)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Ubicación física o lógica donde se encuentra almacenado el archivo. Puede ser una ruta de sistema, un enlace interno o una referencia a almacenamiento documental; es esencial para recuperar el contenido.",
+        "relacion": null
+      },
+      {
+        "nombre": "tamanio_bytes",
+        "tipo": "BIGINT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Tamaño del archivo expresado en bytes. Ayuda a controlar almacenamiento, validar cargas y estimar consumo de espacio o transferencia.",
+        "relacion": null
+      },
+      {
+        "nombre": "subido_por_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario que realizó la carga del documento. Permite trazar autoría, responsabilidad y control de cambios en el repositorio documental del proyecto.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "fecha_subida",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": "SYSDATETIME()",
+        "descripcion": "Fecha y hora en que el documento fue registrado en el sistema. Se llena automáticamente y sirve para auditoría, ordenamiento cronológico y seguimiento del historial documental.",
+        "relacion": null
+      },
+      {
+        "nombre": "visible_para_participantes",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": "1",
+        "descripcion": "Indicador de visibilidad para los participantes del proyecto. Valor 1 = visible; valor 0 = oculto. Permite controlar qué documentos pueden consultar los integrantes y cuáles quedan restringidos.",
+        "relacion": null
+      }
+    ]
+  },
+  "evento_calendario": {
+    "nombre": "evento_calendario",
+    "descripcion": "La tabla evento_calendario almacena eventos, reuniones, entregas, revisiones, despliegues y actividades programadas dentro del contexto de un proyecto o de una solicitud. Su propósito es organizar la agenda operativa del sistema, centralizar la coordinación de fechas y dejar evidencia de quién creó cada evento, cuándo ocurre y si se trata de un evento de día completo. Es una tabla clave para seguimiento, planeación y comunicación del trabajo.",
+    "columnas": [
+      {
+        "nombre": "evento_calendario_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": "IDENTITY",
+        "descripcion": "Identificador técnico único del evento. Se genera automáticamente y sirve para referenciar de forma inequívoca cada registro del calendario dentro del sistema.",
+        "relacion": null
+      },
+      {
+        "nombre": "proyecto_id",
+        "tipo": "BIGINT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Identificador opcional del proyecto asociado al evento. Permite vincular reuniones, entregas o actividades con una iniciativa concreta; si el evento no pertenece a un proyecto específico, puede quedar nulo.",
+        "relacion": "proyecto.proyecto_id"
+      },
+      {
+        "nombre": "solicitud_id",
+        "tipo": "BIGINT",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Identificador opcional de la solicitud asociada al evento. Se utiliza cuando la reunión, revisión o entrega está relacionada con un requerimiento puntual; si no aplica, puede quedar nulo.",
+        "relacion": "solicitud.solicitud_id"
+      },
+      {
+        "nombre": "titulo",
+        "tipo": "VARCHAR(220)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Nombre corto y visible del evento. Debe resumir claramente la actividad para que sea fácil identificarla en calendarios, listados y notificaciones.",
+        "relacion": null
+      },
+      {
+        "nombre": "descripcion",
+        "tipo": "VARCHAR(2000)",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Texto ampliado que explica el objetivo, contexto, acuerdos o alcance del evento. Es útil para reuniones, revisiones y entregas donde se necesita dejar constancia de información complementaria.",
+        "relacion": null
+      },
+      {
+        "nombre": "tipo_evento",
+        "tipo": "VARCHAR(40)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Clasificación funcional del evento. Valores esperados como REUNION, ENTREGA, REVISION, DESPLIEGUE o ACTIVIDAD. Ayuda a filtrar, agrupar y reportar la agenda del proyecto.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_inicio",
+        "tipo": "DATETIME2",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Fecha y hora de inicio del evento. Permite ubicar temporalmente la actividad y usarla para programación, recordatorios y ordenamiento cronológico.",
+        "relacion": null
+      },
+      {
+        "nombre": "fecha_fin",
+        "tipo": "DATETIME2",
+        "nullable": true,
+        "default": null,
+        "descripcion": "Fecha y hora de término del evento. Sirve para calcular duración, reservar ventanas de tiempo y controlar superposiciones o conflictos de agenda.",
+        "relacion": null
+      },
+      {
+        "nombre": "creado_por_usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Usuario que creó el evento. Proporciona trazabilidad de autoría y permite identificar quién registró la actividad en el calendario.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "es_todo_dia",
+        "tipo": "BIT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Indicador de evento de día completo. Valor 1 = sí, es todo el día; valor 0 = no, tiene horario específico. Facilita la visualización correcta en calendarios y agendas.",
+        "relacion": null
+      }
+    ]
+  },
+  "evento_participante": {
+    "nombre": "evento_participante",
+    "descripcion": "La tabla evento_participante registra a los usuarios invitados o asistentes a cada evento de calendario. Su propósito es controlar quién fue convocado a un evento, qué usuario participa efectivamente y cuál es su estado de asistencia. Es una tabla clave para la coordinación de reuniones, revisiones, entregas y demás actividades programadas, ya que permite dar seguimiento a la participación y respuesta de cada asistente.",
+    "columnas": [
+      {
+        "nombre": "evento_participante_id",
+        "tipo": "BIGINT IDENTITY(1,1)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador técnico único del registro de participación. Se genera automáticamente y permite distinguir cada vínculo entre un evento y un usuario de forma individual.",
+        "relacion": null
+      },
+      {
+        "nombre": "evento_calendario_id",
+        "tipo": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador del evento al que pertenece el participante. Garantiza que la asistencia quede asociada a un evento válido del calendario y permite agrupar a todos los asistentes de una misma cita.",
+        "relacion": "evento_calendario.evento_calendario_id"
+      },
+      {
+        "nombre": "usuario_id",
+        "tipo": "INT",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Identificador del usuario participante. Vincula la invitación o asistencia con una persona existente en el sistema, asegurando trazabilidad y control de convocados.",
+        "relacion": "usuario.usuario_id"
+      },
+      {
+        "nombre": "asistencia",
+        "tipo": "VARCHAR(20)",
+        "nullable": false,
+        "default": null,
+        "descripcion": "Estado de asistencia del participante. Valores esperados: PENDIENTE, CONFIRMADA o RECHAZADA. Permite conocer si el usuario aún no responde, confirmó su asistencia o la rechazó.",
+        "relacion": null
+      }
+    ]
+  }
+}
