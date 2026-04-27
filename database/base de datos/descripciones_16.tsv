@@ -1,0 +1,33 @@
+rol	Identificador tecnico unico del rol; permite relacionar permisos, asignaciones y auditoria del acceso.
+usuario	Identificador unico del usuario; se usa como llave principal para relacionar solicitudes, roles y actividad.
+usuario_rol	Identificador tecnico de la asignacion de rol; permite registrar cada relacion usuario-rol de forma unica.
+area	Identificador unico del area organizacional; sirve para relacionar usuarios, sistemas y solicitudes.
+usuario_area	Identificador tecnico de la adscripcion; permite registrar cada relacion usuario-area.
+sistema	Identificador unico del sistema institucional; es la referencia principal para solicitudes y seguimiento.
+area_sistema	Identificador tecnico de la relacion area-sistema; permite controlar visibilidad y asignaciones.
+sistema_desarrollador	Identificador tecnico de la participacion; sirve para registrar asignaciones de personas por sistema.
+tipo_solicitud	Identificador del catalogo de tipo de solicitud; distingue la clase principal del ticket.
+estado_solicitud	Identificador del estado de la solicitud; se usa para controlar el ciclo de vida.
+prioridad_solicitud	Identificador del catalogo de prioridad; ayuda a clasificar urgencia y orden de atencion.
+solicitud	Identificador principal de la solicitud; concentra el seguimiento, aprobacion y trazabilidad del caso.
+solicitud_desarrollador	Identificador tecnico de la asignacion de desarrollador a una solicitud.
+solicitud_historial_estado	Identificador tecnico del cambio de estado; permite registrar la bitacora completa de la solicitud.
+solicitud_aprobacion	Identificador tecnico de la aprobacion o rechazo; conserva la resolucion formal del flujo.
+solicitud_comentario	Identificador tecnico del comentario asociado a la solicitud.
+solicitud_adjunto	Identificador tecnico del archivo adjunto; permite registrar cada evidencia de forma unica.
+notificacion	Identificador tecnico de la notificacion; permite seguir cada aviso enviado al usuario.
+usuario_credencial	Identificador del usuario en la capa de seguridad; enlaza identidad y credenciales.
+menu_opcion	Identificador unico de la opcion de menu; permite estructurar la navegacion de la aplicacion.
+rol_menu_opcion	Identificador tecnico de la relacion rol-menu; controla permisos por rol y opcion.
+tipo_modificacion	Identificador del subtipo de modificacion; clasifica la naturaleza del cambio solicitado.
+solicitud_modificacion	Identificador tecnico del detalle de modificacion; almacena la informacion especifica del cambio.
+solicitud_requerimiento_tecnico	Identificador tecnico del requerimiento tecnico; guarda la definicion detallada del desarrollo.
+tarea_desarrollo	Identificador de la tarea operativa; permite descomponer una solicitud en trabajo ejecutable.
+tarea_desarrollo_asignacion	Identificador tecnico de la asignacion de tarea; permite controlar responsables y participantes.
+actividad_reciente	Identificador tecnico de la actividad; registra eventos recientes del flujo de trabajo.
+proyecto	Identificador unico del proyecto; agrupa solicitudes, miembros y documentos relacionados.
+proyecto_solicitud	Identificador tecnico de la relacion proyecto-solicitud; vincula requerimientos con iniciativas.
+proyecto_miembro	Identificador tecnico del miembro del proyecto; registra la participacion individual.
+documento_proyecto	Identificador tecnico del documento; permite controlar archivos asociados al proyecto.
+evento_calendario	Identificador tecnico del evento; registra reuniones, entregas o actividades de calendario.
+evento_participante	Identificador tecnico del participante; registra la asistencia de cada usuario al evento.
