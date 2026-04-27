@@ -1,3 +1,5 @@
+const API_BASE_URL = localStorage.getItem('apiBaseUrl') || 'http://localhost:5214';
+
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar si hay sesión activa
     const currentUser = sessionStorage.getItem('currentUser');
@@ -67,46 +69,46 @@ document.addEventListener('DOMContentLoaded', function() {
     const notificationsList = document.getElementById('notificationsList');
     const notificationBadge = document.getElementById('notificationBadge');
     const markAllReadBtn = document.getElementById('markAllRead');
-    
-    // Notificaciones de ejemplo
-    const mockNotifications = [
-        {
-            id: 1,
-            type: 'success',
-            title: 'Solicitud Aprobada',
-            message: 'Tu solicitud REQ-2026-003 ha sido aprobada por el Product Manager',
-            time: 'Hace 5 minutos',
-            read: false
-        },
-        {
-            id: 2,
-            type: 'info',
-            title: 'En Desarrollo',
-            message: 'Tu solicitud de modificación está siendo desarrollada',
-            time: 'Hace 1 hora',
-            read: false
-        },
-        {
-            id: 3,
-            type: 'warning',
-            title: 'Información Adicional',
-            message: 'El desarrollador solicita más detalles sobre tu requerimiento',
-            time: 'Hace 2 horas',
-            read: false
-        },
-        {
-            id: 4,
-            type: 'success',
-            title: 'Solicitud Completada',
-            message: 'Tu solicitud REQ-2026-001 ha sido completada exitosamente',
-            time: 'Ayer',
-            read: true
+    let notifications = [];
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function formatRelativeTime(dateValue) {
+        const date = new Date(dateValue);
+        if (Number.isNaN(date.getTime())) {
+            return 'N/D';
         }
-    ];
+
+        const diffMinutes = Math.max(1, Math.floor((Date.now() - date.getTime()) / 60000));
+        if (diffMinutes < 60) return `Hace ${diffMinutes} minuto(s)`;
+        const diffHours = Math.floor(diffMinutes / 60);
+        if (diffHours < 24) return `Hace ${diffHours} hora(s)`;
+        const diffDays = Math.floor(diffHours / 24);
+        return diffDays === 1 ? 'Hace 1 dia' : `Hace ${diffDays} dias`;
+    }
+
+    function mapNotificationType(tipoClave) {
+        const key = String(tipoClave || '').toUpperCase();
+        if (key === 'APROBADA') return { icon: 'success', title: 'Solicitud aprobada' };
+        if (key === 'RECHAZADA') return { icon: 'danger', title: 'Solicitud rechazada' };
+        if (key === 'REQUIERE_INFO') return { icon: 'warning', title: 'Informacion adicional requerida' };
+        return { icon: 'info', title: 'Actualizacion' };
+    }
     
     // Renderizar notificaciones
     function renderNotifications() {
-        const unreadCount = mockNotifications.filter(n => !n.read).length;
+        if (!notificationsList || !notificationBadge) {
+            return;
+        }
+
+        const unreadCount = notifications.filter(n => !n.leida).length;
         
         // Actualizar badge
         if (unreadCount > 0) {
@@ -117,18 +119,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Renderizar lista
-        notificationsList.innerHTML = mockNotifications.map(n => `
-            <div class="notification-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
-                <div class="notification-icon ${n.type}">
-                    ${getNotificationIcon(n.type)}
+        notificationsList.innerHTML = notifications.map(n => {
+            const type = mapNotificationType(n.tipoClave);
+            return `
+            <div class="notification-item ${n.leida ? '' : 'unread'}" data-id="${n.notificacionId}">
+                <div class="notification-icon ${type.icon}">
+                    ${getNotificationIcon(type.icon)}
                 </div>
                 <div class="notification-content">
-                    <div class="notification-title">${n.title}</div>
-                    <div class="notification-message">${n.message}</div>
-                    <div class="notification-time">${n.time}</div>
+                    <div class="notification-title">${escapeHtml(n.titulo || type.title)}</div>
+                    <div class="notification-message">${escapeHtml(n.mensaje || '')}</div>
+                    <div class="notification-time">${escapeHtml(formatRelativeTime(n.fechaCreacion))}</div>
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
         
         // Agregar eventos de click a notificaciones
         document.querySelectorAll('.notification-item').forEach(item => {
@@ -137,6 +142,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 markAsRead(notifId);
             });
         });
+    }
+
+    async function loadNotifications() {
+        if (!notificationsList) {
+            return;
+        }
+
+        notificationsList.innerHTML = '<div class="notification-item unread"><div class="notification-content"><div class="notification-message">Cargando notificaciones...</div></div></div>';
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/notificaciones/usuario/${userData.userId}`);
+            if (!response.ok) {
+                throw new Error('No se pudieron cargar las notificaciones.');
+            }
+
+            notifications = await response.json();
+            renderNotifications();
+        } catch (error) {
+            notifications = [];
+            notificationsList.innerHTML = `<div class="notification-item unread"><div class="notification-content"><div class="notification-message">${escapeHtml(error.message || 'Error al cargar notificaciones.')}</div></div></div>`;
+            notificationBadge.style.display = 'none';
+        }
     }
     
     function getNotificationIcon(type) {
@@ -149,35 +176,48 @@ document.addEventListener('DOMContentLoaded', function() {
         return icons[type] || icons.info;
     }
     
-    function markAsRead(notifId) {
-        const notification = mockNotifications.find(n => n.id === notifId);
-        if (notification) {
-            notification.read = true;
-            renderNotifications();
+    async function markAsRead(notifId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/notificaciones/${notifId}/leer`, { method: 'POST' });
+            if (!response.ok) {
+                throw new Error('No se pudo marcar la notificacion como leida.');
+            }
+
+            await loadNotifications();
+        } catch (error) {
+            console.error(error);
         }
     }
     
     // Toggle panel de notificaciones
-    notificationsBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        notificationsPanel.classList.toggle('active');
-    });
+    if (notificationsBtn && notificationsPanel) {
+        notificationsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationsPanel.classList.toggle('active');
+        });
+    }
     
     // Marcar todas como leídas
-    markAllReadBtn.addEventListener('click', function() {
-        mockNotifications.forEach(n => n.read = true);
-        renderNotifications();
-    });
+    if (markAllReadBtn) {
+        markAllReadBtn.addEventListener('click', async function() {
+            try {
+                await fetch(`${API_BASE_URL}/api/notificaciones/usuario/${userData.userId}/leer-todas`, { method: 'POST' });
+                await loadNotifications();
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    }
     
     // Cerrar panel al hacer click fuera
     document.addEventListener('click', function(e) {
-        if (!notificationsPanel.contains(e.target) && !notificationsBtn.contains(e.target)) {
+        if (notificationsPanel && notificationsBtn && !notificationsPanel.contains(e.target) && !notificationsBtn.contains(e.target)) {
             notificationsPanel.classList.remove('active');
         }
     });
     
     // Renderizar notificaciones iniciales
-    renderNotifications();
+    loadNotifications();
 
     // Manejar dropdown de perfil de usuario
     const userProfileBtn = document.getElementById('userProfileBtn');
@@ -227,8 +267,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Cargar estadísticas del usuario (simuladas para demo)
-    loadUserStats();
+    // Cargar estadisticas del usuario usando API real
+    loadUserStats(userData.userId);
 
     // Configurar el toggle del asistente de decisión
     setupDecisionAssistant();
@@ -304,27 +344,37 @@ function setupDecisionAssistant() {
     }
 }
 
-function loadUserStats() {
-    // En una aplicación real, esto haría una llamada al backend
-    // Por ahora, usamos datos simulados almacenados en localStorage
-    
-    const stats = {
-        total: parseInt(localStorage.getItem('user_total_solicitudes') || '0'),
-        aprobadas: parseInt(localStorage.getItem('user_solicitudes_aprobadas') || '0'),
-        enProceso: parseInt(localStorage.getItem('user_solicitudes_proceso') || '0'),
-        urgentes: parseInt(localStorage.getItem('user_solicitudes_urgentes') || '0')
-    };
-
-    // Actualizar los valores en las tarjetas de estadísticas
+async function loadUserStats(userId) {
     const statCards = document.querySelectorAll('.stat-value');
-    if (statCards.length >= 4) {
+    if (statCards.length < 4 || !userId) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/solicitudes/por-usuario/${userId}`);
+        if (!response.ok) {
+            throw new Error('No se pudieron cargar las solicitudes del usuario.');
+        }
+
+        const solicitudes = await response.json();
+        const stats = {
+            total: solicitudes.length,
+            aprobadas: solicitudes.filter(s => s.estadoSolicitudId === 5 || s.estadoSolicitudId === 3).length,
+            enProceso: solicitudes.filter(s => [1, 2, 6].includes(s.estadoSolicitudId)).length,
+            urgentes: solicitudes.filter(s => s.tipoSolicitudId === 4 || s.prioridadSolicitudId === 4).length
+        };
+
         statCards[0].textContent = stats.total;
         statCards[1].textContent = stats.aprobadas;
         statCards[2].textContent = stats.enProceso;
         statCards[3].textContent = stats.urgentes;
+    } catch (error) {
+        statCards[0].textContent = '0';
+        statCards[1].textContent = '0';
+        statCards[2].textContent = '0';
+        statCards[3].textContent = '0';
     }
 
-    // Animar los números
     animateStats();
 }
 
@@ -350,31 +400,19 @@ function animateStats() {
     });
 }
 
-// Función para actualizar estadísticas cuando se envía un formulario
-function incrementStat(statType) {
-    let currentValue = parseInt(localStorage.getItem(statType) || '0');
-    currentValue++;
-    localStorage.setItem(statType, currentValue.toString());
-    
-    // También incrementar el total
-    if (statType !== 'user_total_solicitudes') {
-        let totalValue = parseInt(localStorage.getItem('user_total_solicitudes') || '0');
-        totalValue++;
-        localStorage.setItem('user_total_solicitudes', totalValue.toString());
+// Exportar función para refrescar estadísticas cuando se envía un formulario
+window.incrementUserStat = function() {
+    const currentUserRaw = sessionStorage.getItem('currentUser');
+    if (!currentUserRaw) {
+        return;
     }
-}
 
-// Exportar función para uso en otros scripts
-window.incrementUserStat = function(type) {
-    const statMap = {
-        'nueva': 'user_solicitudes_proceso',
-        'modificacion': 'user_solicitudes_proceso',
-        'requerimientos': 'user_solicitudes_proceso',
-        'urgente': 'user_solicitudes_urgentes'
-    };
-    
-    if (statMap[type]) {
-        incrementStat(statMap[type]);
-        incrementStat('user_total_solicitudes');
+    try {
+        const currentUser = JSON.parse(currentUserRaw);
+        if (currentUser?.userId) {
+            loadUserStats(currentUser.userId);
+        }
+    } catch (error) {
+        console.error(error);
     }
 };

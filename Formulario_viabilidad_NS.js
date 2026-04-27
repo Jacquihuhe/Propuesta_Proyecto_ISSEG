@@ -1,3 +1,5 @@
+const API_BASE_URL = localStorage.getItem('apiBaseUrl') || 'http://localhost:5214';
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('formViabilidad');
     const checkVarias = document.getElementById('check-varias');
@@ -12,6 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const userData = JSON.parse(currentUser);
+
+    if (!userData.userId) {
+        alert('⚠️ La sesión actual no tiene identificador de usuario. Inicie sesión nuevamente.');
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+        return;
+    }
     
     // Obtener datos del perfil desde localStorage (si existen) o usar valores por defecto
     const profileData = {
@@ -110,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Validación y envío
     if (form) {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Validar que al menos un beneficio esté seleccionado
@@ -150,8 +159,54 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (confirm('¿Está seguro de enviar esta propuesta?')) {
-                alert('Propuesta enviada exitosamente.\n\nRecibirá una notificación por correo.');
-                // Aquí podrías usar form.submit() si ya tienes un backend listo
+                const nombreProyecto = document.getElementById('nombre-proyecto')?.value?.trim() || '';
+                const objetivo = document.getElementById('objetivo')?.value?.trim() || '';
+                const procesoActual = document.getElementById('proceso-actual')?.value?.trim() || '';
+                const observaciones = document.getElementById('observaciones')?.value?.trim() || '';
+
+                if (!nombreProyecto) {
+                    alert('Por favor capture el nombre sugerido del proyecto.');
+                    return;
+                }
+
+                const descripcion = [
+                    `Objetivo: ${objetivo}`,
+                    `Proceso actual: ${procesoActual}`,
+                    observaciones ? `Observaciones: ${observaciones}` : ''
+                ].filter(Boolean).join('\n\n');
+
+                // Hasta integrar catálogo de áreas en UI, usamos un área solicitante por defecto.
+                const areaSolicitanteId = 1;
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/solicitudes`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            titulo: nombreProyecto,
+                            descripcion: descripcion,
+                            areaSolicitanteId: areaSolicitanteId,
+                            sistemaId: null,
+                            tipoSolicitudId: 1,
+                            prioridadSolicitudId: 2,
+                            creadoPorUsuarioId: userData.userId,
+                            fechaCompromiso: null
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(errorText || 'No se pudo registrar la solicitud en el sistema.');
+                    }
+
+                    const data = await response.json();
+                    alert(`Propuesta enviada exitosamente.\n\nFolio: ${data.folio}\nID: ${data.solicitudId}`);
+                    form.reset();
+                } catch (error) {
+                    alert(error.message || 'Error de conexión con la API.');
+                }
             }
         });
     }

@@ -1,0 +1,417 @@
+<mxfile host="65bd71144e">
+    <diagram id="sgspcsi-er-final" name="ERD SGSPCSI Final">
+        <mxGraphModel dx="8140" dy="4877" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4000" pageHeight="3000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="rel1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t2_fields" target="t1_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="400" y="155"/>
+                            <mxPoint x="400" y="140"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t2_fields" target="t3_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="570" y="155"/>
+                            <mxPoint x="570" y="335"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t4_fields" target="t3_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="400" y="335"/>
+                            <mxPoint x="400" y="335"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t5_fields" target="t8_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1050" y="140"/>
+                            <mxPoint x="1400" y="140"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t6_fields" target="t8_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1050" y="310"/>
+                            <mxPoint x="1400" y="200"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t7_fields" target="t8_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1420" y="140"/>
+                            <mxPoint x="1420" y="160"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t2_fields" target="t8_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1300" y="150"/>
+                            <mxPoint x="1300" y="180"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t8_fields" target="t9_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1950" y="200"/>
+                            <mxPoint x="1950" y="145"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t2_fields" target="t9_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1800" y="160"/>
+                            <mxPoint x="1800" y="145"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t8_fields" target="t10_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="2100" y="200"/>
+                            <mxPoint x="2100" y="145"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t10_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="2200" y="370"/>
+                            <mxPoint x="2200" y="145"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t8_fields" target="t11_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1300" y="400"/>
+                            <mxPoint x="100" y="400"/>
+                            <mxPoint x="100" y="605"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t11_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="200" y="450"/>
+                            <mxPoint x="200" y="605"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t12_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="570" y="450"/>
+                            <mxPoint x="570" y="610"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t8_fields" target="t12_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1400" y="410"/>
+                            <mxPoint x="300" y="410"/>
+                            <mxPoint x="300" y="610"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t14_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="940" y="450"/>
+                            <mxPoint x="940" y="605"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t8_fields" target="t13_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1400" y="420"/>
+                            <mxPoint x="1300" y="420"/>
+                            <mxPoint x="1300" y="615"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t13_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1250" y="460"/>
+                            <mxPoint x="1250" y="615"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t8_fields" target="t15_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1800" y="420"/>
+                            <mxPoint x="1750" y="420"/>
+                            <mxPoint x="1750" y="615"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t7_fields" target="t15_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1560" y="200"/>
+                            <mxPoint x="1560" y="615"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t15_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1650" y="460"/>
+                            <mxPoint x="1650" y="615"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t11_fields" target="t16_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="150" y="700"/>
+                            <mxPoint x="1900" y="700"/>
+                            <mxPoint x="1900" y="595"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t16_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="1800" y="460"/>
+                            <mxPoint x="1800" y="595"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t2_fields" target="t17_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="2500" y="200"/>
+                            <mxPoint x="2500" y="610"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t18_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="200" y="700"/>
+                            <mxPoint x="200" y="915"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t19_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="570" y="500"/>
+                            <mxPoint x="570" y="915"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="rel27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF0000;strokeWidth=2;endArrow=ERoneToMany;" parent="1" source="t3_fields" target="t20_fields" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxArray as="points">
+                            <mxPoint x="940" y="500"/>
+                            <mxPoint x="940" y="915"/>
+                        </mxArray>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="4" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="230" y="-935" width="300" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="t1_header" value="ROLES" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="4" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t1_fields" value="rol_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;nombre_rol | NVARCHAR(50) | NN | -&#xa;descripcion | NVARCHAR(255) | N | -&#xa;permisos | NVARCHAR(MAX) | N | -&#xa;estado | BIT | NN | 1" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="4" vertex="1">
+                    <mxGeometry y="30" width="300" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="670" y="-950" width="300" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="t2_header" value="USUARIOS" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="5" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t2_fields" value="usuario_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;correo_electronico | NVARCHAR(100) | UK NN | -&#xa;contrasena_hash | NVARCHAR(255) | NN | -&#xa;rol_id | INT | FK NN | -&#xa;estado | BIT | NN | 1&#xa;intentos_fallidos | INT | N | 0" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="5" vertex="1">
+                    <mxGeometry y="30" width="300" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="950" y="-720" width="300" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="t5_header" value="TIPOS_SOLICITUD" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="6" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t5_fields" value="tipo_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;nombre_tipo | NVARCHAR(50) | NN | -&#xa;prefijo_folio | NVARCHAR(5) | NN | -&#xa;requiere_aprobacion | BIT | NN | 0&#xa;estado | BIT | NN | 1" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="6" vertex="1">
+                    <mxGeometry y="30" width="300" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="1580" y="-590" width="300" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="t7_header" value="ESTADOS_SOLICITUD" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="7" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t7_fields" value="estado_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;nombre_estado | NVARCHAR(50) | NN | -&#xa;orden | INT | NN | -&#xa;es_terminal | BIT | NN | 0&#xa;estado | BIT | NN | 1" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="7" vertex="1">
+                    <mxGeometry y="30" width="300" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="1270" y="-1020" width="350" height="320" as="geometry"/>
+                </mxCell>
+                <mxCell id="t8_header" value="SOLICITUDES" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="8" vertex="1">
+                    <mxGeometry width="350" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t8_fields" value="solicitud_id | BIGINT IDENTITY(1,1) | PK NN | IDENTITY&#xa;folio | VARCHAR(20) | UK NN | -&#xa;tipo_id | INT | FK NN | -&#xa;subtipo_id | INT | FK N | -&#xa;estado_id | INT | FK NN | -&#xa;usuario_solicitante_id | INT | FK NN | -&#xa;solicitud_padre_id | INT | FK N | -&#xa;impacto | NVARCHAR(20) | N | -&#xa;riesgo_tecnico | NVARCHAR(20) | N | -&#xa;complejidad_estimada | NVARCHAR(20) | N | -&#xa;titulo | NVARCHAR(255) | NN | -&#xa;descripcion | NVARCHAR(MAX) | NN | -&#xa;prioridad | NVARCHAR(20) | N | -&#xa;motivo_pausa | NVARCHAR(MAX) | N | -&#xa;motivo_rechazo | NVARCHAR(MAX) | N | -&#xa;estado_registro | BIT | NN | 1" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="8" vertex="1">
+                    <mxGeometry y="30" width="350" height="290" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="1870" y="-940" width="300" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="t9_header" value="APROBACIONES" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="9" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t9_fields" value="aprobacion_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;solicitud_id | INT | FK NN | -&#xa;usuario_aprobador_id | INT | FK NN | -&#xa;estado_aprobacion | NVARCHAR(20) | NN | -&#xa;comentarios | NVARCHAR(MAX) | N | -&#xa;fecha_aprobacion | DATETIME2 | NN | SYSDATETIME()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="9" vertex="1">
+                    <mxGeometry y="30" width="300" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="2800" y="-20" width="300" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="t10_header" value="ASIGNACIONES" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="10" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t10_fields" value="asignacion_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;solicitud_id | INT | FK NN | -&#xa;desarrollador_id | INT | FK NN | -&#xa;asignado_por_id | INT | FK NN | -&#xa;porcentaje_asignacion | INT | NN | -&#xa;es_activa | BIT | NN | 1" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="10" vertex="1">
+                    <mxGeometry y="30" width="300" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="670" y="-1310" width="300" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="t17_header" value="PREFERENCIAS_USUARIO" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=11;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="11" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t17_fields" value="preferencia_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;usuario_id | INT | FK UK NN | -&#xa;tema | NVARCHAR(20) | N | -&#xa;idioma | NVARCHAR(10) | N | -&#xa;notificaciones_email | BIT | NN | 1&#xa;notificaciones_sistema | BIT | NN | 1&#xa;formato_fecha | NVARCHAR(20) | N | -&#xa;zona_horaria | NVARCHAR(100) | N | -" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="11" vertex="1">
+                    <mxGeometry y="30" width="300" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="2600" y="850" width="300" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="t16_header" value="AUDITORIA_DOCUMENTOS" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=11;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="12" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t16_fields" value="documento_auditoria_id | BIGINT IDENTITY(1,1) | PK NN | IDENTITY&#xa;archivo_id | INT | FK NN | -&#xa;usuario_id | INT | FK NN | -&#xa;tipo_evento | NVARCHAR(20) | NN | -&#xa;exitoso | BIT | NN | -&#xa;fecha_evento | DATETIME2 | NN | SYSDATETIME()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="12" vertex="1">
+                    <mxGeometry y="30" width="300" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="1570" y="270" width="320" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="t15_header" value="HISTORIAL_ESTADOS_SOLICITUD" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=10;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="13" vertex="1">
+                    <mxGeometry width="320" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t15_fields" value="historial_id | BIGINT IDENTITY(1,1) | PK NN | IDENTITY&#xa;solicitud_id | INT | FK NN | -&#xa;estado_origen_id | INT | FK N | -&#xa;estado_destino_id | INT | FK NN | -&#xa;usuario_id | INT | FK N | -&#xa;fecha_inicio | DATETIME2 | NN | SYSDATETIME()&#xa;fecha_fin | DATETIME2 | N | -&#xa;duracion_minutos | INT | N | -&#xa;activo | BIT | NN | 1" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="13" vertex="1">
+                    <mxGeometry y="30" width="320" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="1080" y="-230" width="320" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="t13_header" value="AUDITORIA_SOLICITUDES" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=11;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="14" vertex="1">
+                    <mxGeometry width="320" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t13_fields" value="auditoria_id | BIGINT IDENTITY(1,1) | PK NN | IDENTITY&#xa;solicitud_id | INT | FK NN | -&#xa;usuario_id | INT | FK NN | -&#xa;accion | NVARCHAR(40) | NN | -&#xa;campo_modificado | NVARCHAR(120) | N | -&#xa;valor_anterior | NVARCHAR(MAX) | N | -&#xa;valor_nuevo | NVARCHAR(MAX) | N | -&#xa;fecha_evento | DATETIME2 | NN | SYSDATETIME()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="14" vertex="1">
+                    <mxGeometry y="30" width="320" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="900" y="1170" width="320" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="t20_header" value="DISPONIBILIDAD_DESARROLLADOR" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=10;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="15" vertex="1">
+                    <mxGeometry width="320" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t20_fields" value="disponibilidad_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;usuario_id | INT | FK NN | -&#xa;fecha | DATE | NN | -&#xa;horas_disponibles | INT | NN | -&#xa;motivo_ausencia | NVARCHAR(255) | N | -&#xa;fecha_registro | DATETIME2 | NN | SYSDATETIME()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="15" vertex="1">
+                    <mxGeometry y="30" width="320" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="390" y="1180" width="320" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="t19_header" value="DESARROLLADOR_ESPECIALIDADES" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=10;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="16" vertex="1">
+                    <mxGeometry width="320" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t19_fields" value="especialidad_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;usuario_id | INT | FK NN | -&#xa;especialidad | NVARCHAR(100) | NN | -&#xa;nivel_experiencia | INT | NN | -&#xa;fecha_obtencion | DATETIME2 | NN | SYSDATETIME()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="16" vertex="1">
+                    <mxGeometry y="30" width="320" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="-360" y="1000" width="320" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="t18_header" value="CERTIFICADOS_USUARIOS" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=11;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="17" vertex="1">
+                    <mxGeometry width="320" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t18_fields" value="certificado_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;usuario_id | INT | FK NN | -&#xa;nombre_certificado | NVARCHAR(200) | NN | -&#xa;institucion_emisora | NVARCHAR(200) | NN | -&#xa;fecha_emision | DATETIME2 | NN | -&#xa;fecha_vencimiento | DATETIME2 | N | -&#xa;estado | NVARCHAR(20) | NN | -" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="17" vertex="1">
+                    <mxGeometry y="30" width="320" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="-160" y="-30" width="300" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="t11_header" value="ARCHIVOS_ADJUNTOS" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="18" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t11_fields" value="archivo_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;solicitud_id | INT | FK NN | -&#xa;usuario_cargador_id | INT | FK NN | -&#xa;nombre_archivo | NVARCHAR(255) | NN | -&#xa;extension | NVARCHAR(10) | NN | -&#xa;tamano_bytes | BIGINT | NN | -&#xa;ruta_almacenamiento | NVARCHAR(MAX) | NN | -" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="18" vertex="1">
+                    <mxGeometry y="30" width="300" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="220" y="190" width="300" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="t4_header" value="DEPARTAMENTOS" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="19" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t4_fields" value="departamento_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;nombre_departamento | NVARCHAR(200) | NN | -&#xa;descripcion | NVARCHAR(255) | N | -&#xa;jefe_departamento_id | INT | FK N | -&#xa;estado | BIT | NN | 1" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="19" vertex="1">
+                    <mxGeometry y="30" width="300" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="670" y="-30" width="300" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="t3_header" value="PERSONAS" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="20" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t3_fields" value="persona_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;usuario_id | INT | FK UK NN | -&#xa;nombre | NVARCHAR(100) | NN | -&#xa;apellido_paterno | NVARCHAR(100) | NN | -&#xa;apellido_materno | NVARCHAR(100) | N | -&#xa;departamento_id | INT | FK NN | -" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="20" vertex="1">
+                    <mxGeometry y="30" width="300" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="250" y="-460" width="300" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="t12_header" value="NOTIFICACIONES" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="21" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t12_fields" value="notificacion_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;usuario_destino_id | INT | FK NN | -&#xa;solicitud_id | INT | FK N | -&#xa;titulo | NVARCHAR(120) | NN | -&#xa;mensaje | NVARCHAR(MAX) | NN | -&#xa;tipo | NVARCHAR(20) | N | -&#xa;canal | NVARCHAR(20) | N | -&#xa;leida | BIT | NN | 0" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="21" vertex="1">
+                    <mxGeometry y="30" width="300" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="880" y="380" width="300" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="t14_header" value="AUDITORIA_ACCESO" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="22" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t14_fields" value="acceso_id | BIGINT IDENTITY(1,1) | PK NN | IDENTITY&#xa;usuario_id | INT | FK NN | -&#xa;tipo_evento | NVARCHAR(30) | NN | -&#xa;exitoso | BIT | NN | -&#xa;ip_origen | NVARCHAR(50) | N | -&#xa;agente_usuario | NVARCHAR(500) | N | -&#xa;fecha_evento | DATETIME2 | NN | SYSDATETIME()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=9;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="22" vertex="1">
+                    <mxGeometry y="30" width="300" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="1850" y="-280" width="300" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="t6_header" value="SUBTIPOS_MODIFICACION" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;fontSize=11;fillColor=#4472C4;strokeColor=#000000;fontColor=#FFFFFF;" parent="27" vertex="1">
+                    <mxGeometry width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="" style="group" vertex="1" connectable="0" parent="27">
+                    <mxGeometry y="30" width="300" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="t6_line" style="line;html=1;strokeColor=#000000;strokeWidth=2;" parent="26" vertex="1">
+                    <mxGeometry width="300" height="2" as="geometry"/>
+                </mxCell>
+                <mxCell id="t6_fields" value="subtipo_id | INT IDENTITY(1,1) | PK NN | IDENTITY&#xa;nombre_subtipo | NVARCHAR(50) | NN | -&#xa;descripcion | NVARCHAR(255) | N | -&#xa;estado | BIT | NN | 1" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=5;fontSize=10;fontFamily=Courier New;fillColor=#F2F2F2;strokeColor=#000000;" parent="26" vertex="1">
+                    <mxGeometry width="300" height="100" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -1,3 +1,5 @@
+const API_BASE_URL = localStorage.getItem('apiBaseUrl') || 'http://localhost:5214';
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('formRequerimientos');
     const isPreviewMode = new URLSearchParams(window.location.search).get('preview') === '1';
@@ -15,6 +17,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const userData = JSON.parse(currentUser);
+
+    if (!userData.userId) {
+        alert('⚠️ La sesión actual no tiene identificador de usuario. Inicie sesión nuevamente.');
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+        return;
+    }
     
     // Obtener datos del perfil desde localStorage (si existen) o usar valores por defecto
     const profileData = {
@@ -39,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========== VALIDACIÓN DEL FORMULARIO ==========
     // Validación del formulario
     if (form) {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Validar campos requeridos
@@ -57,8 +66,61 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (todosCompletos) {
                 if (confirm('¿Está seguro de enviar este formulario a desarrollo? Una vez enviado, el equipo técnico comenzará a trabajar con esta información.')) {
-                    alert('Formulario enviado exitosamente. Se ha generado el folio REQ-2024-00XXX y se ha notificado al Product Manager.');
-                    // Aquí iría el código para enviar el formulario (no se te olvide)
+                    const objetivoSistema = document.getElementById('objetivo-sistema')?.value?.trim() || '';
+                    const contexto = document.getElementById('contexto')?.value?.trim() || '';
+                    const problematica = document.getElementById('problematica')?.value?.trim() || '';
+                    const incluye = document.getElementById('incluye')?.value?.trim() || '';
+                    const excluye = document.getElementById('excluye')?.value?.trim() || '';
+                    const procesoActual = document.getElementById('proceso-actual')?.value?.trim() || '';
+                    const procesoPropuesto = document.getElementById('proceso-propuesto')?.value?.trim() || '';
+                    const datosEntrada = document.getElementById('datos-entrada')?.value?.trim() || '';
+                    const datosSalida = document.getElementById('datos-salida')?.value?.trim() || '';
+                    const criterios = document.getElementById('criterios')?.value?.trim() || '';
+                    const observaciones = document.getElementById('observaciones')?.value?.trim() || '';
+
+                    const titulo = objetivoSistema || 'Requerimiento tecnico';
+                    const descripcion = [
+                        contexto ? `Contexto: ${contexto}` : '',
+                        problematica ? `Problematica: ${problematica}` : '',
+                        incluye ? `Incluye: ${incluye}` : '',
+                        excluye ? `Excluye: ${excluye}` : '',
+                        procesoActual ? `Proceso actual: ${procesoActual}` : '',
+                        procesoPropuesto ? `Proceso propuesto: ${procesoPropuesto}` : '',
+                        datosEntrada ? `Datos de entrada: ${datosEntrada}` : '',
+                        datosSalida ? `Datos de salida: ${datosSalida}` : '',
+                        criterios ? `Criterios de aceptacion: ${criterios}` : '',
+                        observaciones ? `Observaciones: ${observaciones}` : ''
+                    ].filter(Boolean).join('\n\n');
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/api/solicitudes`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                titulo,
+                                descripcion,
+                                areaSolicitanteId: 1,
+                                sistemaId: null,
+                                tipoSolicitudId: 2,
+                                prioridadSolicitudId: 2,
+                                creadoPorUsuarioId: userData.userId,
+                                fechaCompromiso: null
+                            })
+                        });
+
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            throw new Error(errorText || 'No se pudo registrar la solicitud de requerimientos.');
+                        }
+
+                        const data = await response.json();
+                        alert(`Formulario enviado exitosamente.\n\nFolio: ${data.folio}\nID: ${data.solicitudId}`);
+                        form.reset();
+                    } catch (error) {
+                        alert(error.message || 'Error de conexión con la API.');
+                    }
                 }
             } else {
                 alert('Por favor complete todos los campos obligatorios marcados con *');

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SGSPCSI.V2.Api/SGSPCSI.V2.Api.csproj" />
+  <Project Path="SGSPCSI.V2.Application/SGSPCSI.V2.Application.csproj" />
+  <Project Path="SGSPCSI.V2.Domain/SGSPCSI.V2.Domain.csproj" />
+  <Project Path="SGSPCSI.V2.Infrastructure/SGSPCSI.V2.Infrastructure.csproj" />
+</Solution>

@@ -739,195 +739,10 @@
 
         <!-- Approvals List -->
         <div id="approvalsList">
-            <!-- Solicitud 1 -->
-            <div class="approval-card" data-id="REQ-2024-091">
-                <div class="approval-header">
-                    <div>
-                        <div class="approval-id">REQ-2024-091</div>
-                        <div class="approval-title">Sistema de Reportes Ejecutivos</div>
-                        <span class="approval-type type-nuevo">Nuevo Sistema</span>
-                    </div>
-                    <span class="priority-badge priority-alta">Alta</span>
-                </div>
-                <div class="approval-info">
-                    <div class="info-item">
-                        <div class="info-label">Solicitante</div>
-                        <div class="info-value">María González</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Área</div>
-                        <div class="info-value">Contabilidad</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Fecha</div>
-                        <div class="info-value">05/Mar/2026</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Tiempo Esperando</div>
-                        <div class="info-value">2 días</div>
-                    </div>
-                </div>
+            <div class="approval-card">
                 <div class="approval-description">
-                    <h4>Descripción</h4>
-                    <p>Se requiere un sistema de reportes ejecutivos que permita visualizar métricas financieras en tiempo real, con capacidad de generar gráficos interactivos y exportar datos a Excel/PDF.</p>
-                </div>
-                <div class="approval-actions">
-                    <button class="btn-action btn-approve" onclick="approveRequest('REQ-2024-091')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        Aprobar
-                    </button>
-                    <button class="btn-action btn-reject" onclick="rejectRequest('REQ-2024-091')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                        Rechazar
-                    </button>
-                    <button class="btn-action btn-request-info" onclick="requestMoreInfo('REQ-2024-091')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                        Solicitar Información
-                    </button>
-                    <button class="btn-action btn-view" onclick="viewDetails('REQ-2024-091')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        Ver Detalles
-                    </button>
-                </div>
-            </div>
-
-            <!-- Solicitud 2 -->
-            <div class="approval-card" data-id="MOD-2024-033">
-                <div class="approval-header">
-                    <div>
-                        <div class="approval-id">MOD-2024-033</div>
-                        <div class="approval-title">Actualización Módulo de Nómina</div>
-                        <span class="approval-type type-modificacion">Modificación</span>
-                    </div>
-                    <span class="priority-badge priority-media">Media</span>
-                </div>
-                <div class="approval-info">
-                    <div class="info-item">
-                        <div class="info-label">Solicitante</div>
-                        <div class="info-value">Carlos Ramírez</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Área</div>
-                        <div class="info-value">Recursos Humanos</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Fecha</div>
-                        <div class="info-value">06/Mar/2026</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Tiempo Esperando</div>
-                        <div class="info-value">1 día</div>
-                    </div>
-                </div>
-                <div class="approval-description">
-                    <h4>Descripción</h4>
-                    <p>Agregar funcionalidad para calcular automáticamente deducciones por impuestos y mostrar desglose detallado en recibos de nómina.</p>
-                </div>
-                <div class="approval-actions">
-                    <button class="btn-action btn-approve" onclick="approveRequest('MOD-2024-033')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        Aprobar
-                    </button>
-                    <button class="btn-action btn-reject" onclick="rejectRequest('MOD-2024-033')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                        Rechazar
-                    </button>
-                    <button class="btn-action btn-request-info" onclick="requestMoreInfo('MOD-2024-033')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                        Solicitar Información
-                    </button>
-                    <button class="btn-action btn-view" onclick="viewDetails('MOD-2024-033')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        Ver Detalles
-                    </button>
-                </div>
-            </div>
-
-            <!-- Solicitud 3 -->
-            <div class="approval-card" data-id="URG-2024-008">
-                <div class="approval-header">
-                    <div>
-                        <div class="approval-id">URG-2024-008</div>
-                        <div class="approval-title">Falla Crítica en Sistema de Acceso</div>
-                        <span class="approval-type type-falla">Falla Urgente</span>
-                    </div>
-                    <span class="priority-badge priority-alta">Alta</span>
-                </div>
-                <div class="approval-info">
-                    <div class="info-item">
-                        <div class="info-label">Solicitante</div>
-                        <div class="info-value">Ana López</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Área</div>
-                        <div class="info-value">TI</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Fecha</div>
-                        <div class="info-value">08/Mar/2026</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Tiempo Esperando</div>
-                        <div class="info-value">3 horas</div>
-                    </div>
-                </div>
-                <div class="approval-description">
-                    <h4>Descripción</h4>
-                    <p>El sistema de control de acceso no está registrando correctamente las entradas y salidas del personal. Requiere intervención inmediata.</p>
-                </div>
-                <div class="approval-actions">
-                    <button class="btn-action btn-approve" onclick="approveRequest('URG-2024-008')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        Aprobar
-                    </button>
-                    <button class="btn-action btn-reject" onclick="rejectRequest('URG-2024-008')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                        Rechazar
-                    </button>
-                    <button class="btn-action btn-request-info" onclick="requestMoreInfo('URG-2024-008')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                        Solicitar Información
-                    </button>
-                    <button class="btn-action btn-view" onclick="viewDetails('URG-2024-008')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        Ver Detalles
-                    </button>
+                    <h4>Cargando solicitudes</h4>
+                    <p>Obteniendo solicitudes pendientes desde la API...</p>
                 </div>
             </div>
         </div>
@@ -1026,6 +841,11 @@
                 </div>
 
                 <div class="details-section">
+                    <h4>Historial de Estados</h4>
+                    <div class="form-answers-list" id="detailsHistory"></div>
+                </div>
+
+                <div class="details-section">
                     <h4>Imagenes y Diagramas</h4>
                     <div class="media-grid" id="detailsMedia"></div>
                 </div>
@@ -1043,170 +863,271 @@
 
     <script src="home_pm.js"></script>
     <script>
+        const API_BASE_URL = localStorage.getItem('apiBaseUrl') || 'http://localhost:5214';
         let currentRequestId = null;
 
-        const requestDetailsData = {
-            'REQ-2024-091': {
-                title: 'Sistema de Reportes Ejecutivos',
-                formTemplate: 'Formulario_Requerimientos.html',
-                type: 'Nuevo Sistema',
-                priority: 'Alta',
-                requester: 'Maria Gonzalez',
-                area: 'Contabilidad',
-                date: '05/Mar/2026',
-                waitTime: '2 dias',
-                description: 'Se requiere un sistema de reportes ejecutivos que permita visualizar metricas financieras en tiempo real, con capacidad de generar graficos interactivos y exportar datos a Excel/PDF.',
-                formResponses: [
-                    { question: 'Contexto actual del area', answer: 'El area consolida informacion financiera desde 4 sistemas y hojas de calculo manuales.' },
-                    { question: 'Problematica especifica', answer: 'El cierre mensual tarda entre 3 y 4 dias por validaciones manuales y diferencias entre fuentes.' },
-                    { question: 'Objetivo principal del sistema', answer: 'Centralizar indicadores y generar reportes ejecutivos con filtros por periodo, area y centro de costo.' },
-                    { question: 'Alcance funcional', answer: 'Tablero KPI, exportacion a Excel/PDF, bitacora de cambios y alertas de variacion.' },
-                    { question: 'Usuarios y roles esperados', answer: 'Direcciones, jefaturas y analistas con roles de visualizacion, validacion y administracion.' },
-                    { question: 'Criterio de exito', answer: 'Reducir en 30% el tiempo de elaboracion de reportes y eliminar duplicidad de capturas.' }
-                ],
-                fields: [
-                    { label: 'Objetivo principal', value: 'Visualizar KPI financieros por area en tiempo real.' },
-                    { label: 'Usuarios estimados', value: '95 usuarios internos y 12 directivos.' },
-                    { label: 'Integraciones', value: 'Nomina, Contabilidad, Presupuesto y RH.' },
-                    { label: 'Entregable esperado', value: 'Dashboard web, exportacion Excel y PDF, y alertas semanales.' },
-                    { label: 'Fecha objetivo', value: '30/Abr/2026' },
-                    { label: 'Impacto', value: 'Reducir 30% el tiempo de consolidacion de reportes.' }
-                ],
-                media: [
-                    { src: 'logo_ISSEG.jpeg', caption: 'Boceto visual del tablero ejecutivo' },
-                    { src: 'logo_ISSEG.jpeg', caption: 'Diagrama de flujo del proceso de reporte' }
-                ],
-                documents: [
-                    { name: 'Diagrama de flujo.mmd', href: 'Diagrama de flujo.mmd' },
-                    { name: 'roles.mmd', href: 'roles.mmd' },
-                    { name: 'README del proyecto', href: 'README.md' }
-                ]
-            },
-            'MOD-2024-033': {
-                title: 'Actualizacion Modulo de Nomina',
-                formTemplate: 'Formulario_modificacion.html',
-                type: 'Modificacion',
-                priority: 'Media',
-                requester: 'Carlos Ramirez',
-                area: 'Recursos Humanos',
-                date: '06/Mar/2026',
-                waitTime: '1 dia',
-                description: 'Agregar funcionalidad para calcular automaticamente deducciones por impuestos y mostrar desglose detallado en recibos de nomina.',
-                formResponses: [
-                    { question: 'Tipo de solicitud', answer: 'Evolutiva' },
-                    { question: 'Modulo afectado', answer: 'Nomina - calculo de deducciones e impresion de recibo.' },
-                    { question: 'Detalle del cambio', answer: 'Incorporar reglas fiscales 2026 y desglose visual por concepto de deduccion.' },
-                    { question: 'Prioridad declarada', answer: 'Media' },
-                    { question: 'Riesgos identificados', answer: 'Ajustes en formulas historicas y pruebas de regresion en timbrado.' },
-                    { question: 'Validadores de negocio', answer: 'RH, Fiscalizacion y Product Manager.' }
-                ],
-                fields: [
-                    { label: 'Tipo de cambio', value: 'Mejora funcional en calculo y visualizacion.' },
-                    { label: 'Motivo', value: 'Cumplimiento de lineamientos fiscales 2026.' },
-                    { label: 'Modulo impactado', value: 'Nomina / Recibos / Reportes RH.' },
-                    { label: 'Riesgo tecnico', value: 'Medio: requiere pruebas de regresion en timbrado.' },
-                    { label: 'Ventana de despliegue', value: 'Fin de semana con congelamiento de cambios.' },
-                    { label: 'Aprobacion solicitada a', value: 'PM, TI y area de fiscalizacion.' }
-                ],
-                media: [
-                    { src: 'logo_ISSEG.jpeg', caption: 'Comparativo de pantalla actual vs propuesta' },
-                    { src: 'logo_ISSEG.jpeg', caption: 'Diagrama de dependencias del modulo de nomina' }
-                ],
-                documents: [
-                    { name: 'Formulario de Modificacion', href: 'Formulario_modificacion.html' },
-                    { name: 'Flujo actualizado de aprobaciones', href: 'Diagrama de flujo.mmd' },
-                    { name: 'Estandares de formularios', href: 'formularios_estandar.css' }
-                ]
-            },
-            'URG-2024-008': {
-                title: 'Falla Critica en Sistema de Acceso',
-                formTemplate: 'Formulario_Urgente.html',
-                type: 'Falla Urgente',
-                priority: 'Alta',
-                requester: 'Ana Lopez',
-                area: 'TI',
-                date: '08/Mar/2026',
-                waitTime: '3 horas',
-                description: 'El sistema de control de acceso no registra correctamente entradas y salidas del personal. Requiere intervencion inmediata para evitar incidencias operativas.',
-                formResponses: [
-                    { question: 'Incidente reportado', answer: 'Falla en registro de entradas/salidas en sistema de control de acceso.' },
-                    { question: 'Impacto operativo', answer: 'Alto: afecta control de asistencia y seguridad de instalaciones.' },
-                    { question: 'Fecha y hora de inicio', answer: '08/Mar/2026 07:40' },
-                    { question: 'Acciones de contencion', answer: 'Registro manual temporal y monitoreo presencial en accesos principales.' },
-                    { question: 'Servicio requerido', answer: 'Correccion inmediata y validacion de sincronizacion con servidor central.' },
-                    { question: 'Tiempo maximo aceptable', answer: '4 horas para restablecimiento completo.' }
-                ],
-                fields: [
-                    { label: 'Severidad reportada', value: 'Critica - impacto operativo inmediato.' },
-                    { label: 'Ambiente afectado', value: 'Produccion, modulo de control de acceso.' },
-                    { label: 'Sintoma principal', value: 'Lectores no sincronizan con servicio central.' },
-                    { label: 'Fecha/hora inicio', value: '08/Mar/2026 07:40' },
-                    { label: 'Contencion aplicada', value: 'Registro manual temporal y bitacora fisica.' },
-                    { label: 'Equipo involucrado', value: 'Soporte TI, Seguridad y Operaciones.' }
-                ],
-                media: [
-                    { src: 'logo_ISSEG.jpeg', caption: 'Evidencia de la falla en terminal de acceso' },
-                    { src: 'logo_ISSEG.jpeg', caption: 'Diagrama de arquitectura del punto de control' }
-                ],
-                documents: [
-                    { name: 'Formulario Urgente', href: 'Formulario_Urgente.html' },
-                    { name: 'Matriz de escalamiento', href: 'README.md' },
-                    { name: 'Diagrama de roles operativos', href: 'roles.mmd' }
-                ]
-            }
+        let currentUser = null;
+        let approvalsData = [];
+
+        const TYPE_IDS = {
+            nuevo_sistema: 1,
+            requerimientos: 2,
+            modificacion: 3,
+            falla_urgente: 4
         };
 
-        const formQuestionsCache = {};
+        const PRIORITY_IDS = {
+            baja: 1,
+            media: 2,
+            alta: 3
+        };
 
-        function normalizeText(value) {
-            return (value || '')
-                .toLowerCase()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '')
-                .replace(/\*/g, '')
-                .replace(/\s+/g, ' ')
-                .trim();
+        const AREA_IDS = {
+            contabilidad: 1,
+            nomina: 2,
+            recursos_humanos: 3,
+            ti: 4
+        };
+
+        const AREA_LABELS = {
+            1: 'Contabilidad',
+            2: 'Nomina',
+            3: 'Recursos Humanos',
+            4: 'TI'
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sessionRaw = sessionStorage.getItem('currentUser');
+            if (!sessionRaw) {
+                alert('Sesion no encontrada. Inicie sesion nuevamente.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            currentUser = JSON.parse(sessionRaw);
+
+            if (!currentUser.userId) {
+                alert('No se encontro identificador de usuario en la sesion.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const roles = Array.isArray(currentUser.roles)
+                ? currentUser.roles.map(x => String(x).toLowerCase())
+                : [];
+
+            if (!roles.includes('product_manager') && !roles.includes('admin')) {
+                alert('No tienes permisos para acceder a aprobaciones.');
+                window.location.href = 'home_cliente.html';
+                return;
+            }
+
+            document.getElementById('filterType')?.addEventListener('change', loadApprovals);
+            document.getElementById('filterPriority')?.addEventListener('change', loadApprovals);
+            document.getElementById('filterArea')?.addEventListener('change', loadApprovals);
+
+            loadApprovals();
+        });
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
         }
 
-        async function extractQuestionsFromForm(formTemplate) {
-            if (!formTemplate) {
-                return [];
+        function formatDate(value) {
+            if (!value) {
+                return 'N/D';
             }
 
-            if (formQuestionsCache[formTemplate]) {
-                return formQuestionsCache[formTemplate];
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) {
+                return 'N/D';
             }
+
+            return date.toLocaleDateString('es-MX', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function formatWaitTime(fechaSolicitud) {
+            const date = new Date(fechaSolicitud);
+            if (Number.isNaN(date.getTime())) {
+                return 'N/D';
+            }
+
+            const diffMs = Date.now() - date.getTime();
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const days = Math.floor(hours / 24);
+
+            if (days > 0) {
+                return `${days} dia(s)`;
+            }
+
+            return `${Math.max(hours, 1)} hora(s)`;
+        }
+
+        function getTypeClass(tipoNombre) {
+            const normalized = (tipoNombre || '').toLowerCase();
+            if (normalized.includes('nuevo')) return 'type-nuevo';
+            if (normalized.includes('modificacion')) return 'type-modificacion';
+            if (normalized.includes('requer')) return 'type-requerimientos';
+            return 'type-falla';
+        }
+
+        function getPriorityClass(prioridadClave) {
+            const normalized = (prioridadClave || '').toLowerCase();
+            if (normalized.includes('alta') || normalized.includes('critica')) return 'priority-alta';
+            if (normalized.includes('media')) return 'priority-media';
+            return 'priority-baja';
+        }
+
+        function buildFiltersQuery() {
+            const params = new URLSearchParams();
+            const typeValue = document.getElementById('filterType')?.value;
+            const priorityValue = document.getElementById('filterPriority')?.value;
+            const areaValue = document.getElementById('filterArea')?.value;
+
+            if (typeValue && typeValue !== 'all' && TYPE_IDS[typeValue]) {
+                params.append('tipoSolicitudId', TYPE_IDS[typeValue]);
+            }
+
+            if (priorityValue && priorityValue !== 'all' && PRIORITY_IDS[priorityValue]) {
+                params.append('prioridadSolicitudId', PRIORITY_IDS[priorityValue]);
+            }
+
+            if (areaValue && areaValue !== 'all' && AREA_IDS[areaValue]) {
+                params.append('areaSolicitanteId', AREA_IDS[areaValue]);
+            }
+
+            return params.toString();
+        }
+
+        async function loadApprovals() {
+            const listContainer = document.getElementById('approvalsList');
+            if (!listContainer) {
+                return;
+            }
+
+            listContainer.innerHTML = `
+                <div class="approval-card">
+                    <div class="approval-description">
+                        <h4>Cargando solicitudes</h4>
+                        <p>Consultando aprobaciones pendientes...</p>
+                    </div>
+                </div>
+            `;
+
+            const query = buildFiltersQuery();
+            const url = `${API_BASE_URL}/api/aprobaciones/pendientes${query ? `?${query}` : ''}`;
 
             try {
-                const response = await fetch(formTemplate, { cache: 'no-store' });
+                const response = await fetch(url);
                 if (!response.ok) {
-                    formQuestionsCache[formTemplate] = [];
-                    return [];
+                    throw new Error('No se pudo obtener la lista de aprobaciones.');
                 }
 
-                const html = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const labels = Array.from(doc.querySelectorAll('label[for]'));
-                const uniqueQuestions = [];
-                const seen = new Set();
-
-                labels.forEach(label => {
-                    const text = (label.textContent || '').replace(/\s+/g, ' ').trim();
-                    const normalized = normalizeText(text);
-                    if (!normalized || seen.has(normalized)) {
-                        return;
-                    }
-                    seen.add(normalized);
-                    uniqueQuestions.push(text.replace(/\*\s*$/, '').trim());
-                });
-
-                formQuestionsCache[formTemplate] = uniqueQuestions;
-                return uniqueQuestions;
+                approvalsData = await response.json();
+                renderApprovals(approvalsData);
             } catch (error) {
-                formQuestionsCache[formTemplate] = [];
-                return [];
+                listContainer.innerHTML = `
+                    <div class="approval-card">
+                        <div class="approval-description">
+                            <h4>Error de carga</h4>
+                            <p>${escapeHtml(error.message || 'No fue posible cargar solicitudes.')}</p>
+                        </div>
+                    </div>
+                `;
             }
+        }
+
+        function renderApprovals(items) {
+            const listContainer = document.getElementById('approvalsList');
+            if (!listContainer) {
+                return;
+            }
+
+            if (!Array.isArray(items) || items.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="approval-card">
+                        <div class="approval-description">
+                            <h4>Sin pendientes</h4>
+                            <p>No hay solicitudes pendientes con los filtros actuales.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            listContainer.innerHTML = items.map(item => `
+                <div class="approval-card" data-id="${item.solicitudId}">
+                    <div class="approval-header">
+                        <div>
+                            <div class="approval-id">${escapeHtml(item.folio)}</div>
+                            <div class="approval-title">${escapeHtml(item.titulo)}</div>
+                            <span class="approval-type ${getTypeClass(item.tipoSolicitudNombre)}">${escapeHtml(item.tipoSolicitudNombre)}</span>
+                        </div>
+                        <span class="priority-badge ${getPriorityClass(item.prioridadClave)}">${escapeHtml(item.prioridadNombre)}</span>
+                    </div>
+                    <div class="approval-info">
+                        <div class="info-item">
+                            <div class="info-label">Solicitante</div>
+                            <div class="info-value">${escapeHtml(item.solicitanteNombre || 'N/D')}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Area</div>
+                            <div class="info-value">${escapeHtml(AREA_LABELS[item.areaSolicitanteId] || `Area ${item.areaSolicitanteId}`)}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Fecha</div>
+                            <div class="info-value">${formatDate(item.fechaSolicitud)}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Tiempo Esperando</div>
+                            <div class="info-value">${formatWaitTime(item.fechaSolicitud)}</div>
+                        </div>
+                    </div>
+                    <div class="approval-description">
+                        <h4>Descripcion</h4>
+                        <p>${escapeHtml(item.descripcion || 'Sin descripcion')}</p>
+                    </div>
+                    <div class="approval-actions">
+                        <button class="btn-action btn-approve" onclick="approveRequest(${item.solicitudId})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Aprobar
+                        </button>
+                        <button class="btn-action btn-reject" onclick="rejectRequest(${item.solicitudId})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            Rechazar
+                        </button>
+                        <button class="btn-action btn-request-info" onclick="requestMoreInfo(${item.solicitudId})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            Solicitar Informacion
+                        </button>
+                        <button class="btn-action btn-view" onclick="viewDetails(${item.solicitudId})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            Ver Detalles
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function renderSummary(data, requestId) {
@@ -1215,12 +1136,12 @@
 
             const items = [
                 { label: 'Folio', value: requestId },
-                { label: 'Tipo', value: data.type },
-                { label: 'Prioridad', value: data.priority },
-                { label: 'Solicitante', value: data.requester },
-                { label: 'Area', value: data.area },
-                { label: 'Fecha', value: data.date },
-                { label: 'Tiempo esperando', value: data.waitTime }
+                { label: 'Tipo', value: data.tipoSolicitudNombre || 'N/D' },
+                { label: 'Prioridad', value: data.prioridadNombre || 'N/D' },
+                { label: 'Solicitante', value: data.solicitanteNombre || 'N/D' },
+                { label: 'Area', value: AREA_LABELS[data.areaSolicitanteId] || `Area ${data.areaSolicitanteId}` },
+                { label: 'Fecha', value: formatDate(data.fechaSolicitud) },
+                { label: 'Tiempo esperando', value: formatWaitTime(data.fechaSolicitud) }
             ];
 
             summary.innerHTML = items.map(item => `
@@ -1235,7 +1156,16 @@
             const fieldsContainer = document.getElementById('detailsFields');
             if (!fieldsContainer) return;
 
-            fieldsContainer.innerHTML = data.fields.map(field => `
+            const fields = [
+                { label: 'ID Solicitud', value: data.solicitudId },
+                { label: 'Estado', value: data.estadoNombre || 'N/D' },
+                { label: 'Clave Estado', value: data.estadoClave || 'N/D' },
+                { label: 'Tipo', value: data.tipoSolicitudNombre || 'N/D' },
+                { label: 'Prioridad', value: data.prioridadNombre || 'N/D' },
+                { label: 'Area solicitante', value: AREA_LABELS[data.areaSolicitanteId] || `Area ${data.areaSolicitanteId}` }
+            ];
+
+            fieldsContainer.innerHTML = fields.map(field => `
                 <div class="detail-field">
                     <span class="field-label">${field.label}</span>
                     <div class="field-value">${field.value}</div>
@@ -1243,65 +1173,106 @@
             `).join('');
         }
 
-        async function renderFormAnswers(data) {
+        async function renderFormAnswers(solicitudId) {
             const answersContainer = document.getElementById('detailsFormAnswers');
             if (!answersContainer) return;
 
-            const answers = Array.isArray(data.formResponses) ? data.formResponses : [];
-            const knownAnswersMap = {};
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/aprobaciones/${solicitudId}/comentarios`);
+                if (!response.ok) {
+                    throw new Error('No se pudieron cargar los comentarios.');
+                }
 
-            answers.forEach(item => {
-                knownAnswersMap[normalizeText(item.question)] = item.answer;
-            });
+                const comentarios = await response.json();
+                if (!Array.isArray(comentarios) || comentarios.length === 0) {
+                    answersContainer.innerHTML = `
+                        <div class="form-answer-item">
+                            <span class="question">Sin comentarios</span>
+                            <div class="answer">Aun no se han registrado comentarios para esta solicitud.</div>
+                        </div>
+                    `;
+                    return;
+                }
 
-            const allQuestions = await extractQuestionsFromForm(data.formTemplate);
-            const mergedAnswers = allQuestions.length > 0
-                ? allQuestions.map(question => ({
-                    question,
-                    answer: knownAnswersMap[normalizeText(question)] || 'Sin respuesta capturada.'
-                }))
-                : answers;
-
-            if (mergedAnswers.length === 0) {
+                answersContainer.innerHTML = comentarios.map(item => `
+                    <div class="form-answer-item">
+                        <span class="question">${escapeHtml(item.usuarioNombre || 'Usuario')} - ${formatDate(item.fechaCreacion)}</span>
+                        <div class="answer">${escapeHtml(item.comentario || '')}</div>
+                    </div>
+                `).join('');
+            } catch (error) {
                 answersContainer.innerHTML = `
                     <div class="form-answer-item">
-                        <span class="question">Sin respuestas capturadas</span>
-                        <div class="answer">No hay informacion del formulario para esta solicitud.</div>
+                        <span class="question">Comentarios no disponibles</span>
+                        <div class="answer">${escapeHtml(error.message || 'No fue posible cargar comentarios.')}</div>
                     </div>
                 `;
-                return;
             }
-
-            answersContainer.innerHTML = mergedAnswers.map(item => `
-                <div class="form-answer-item">
-                    <span class="question">${item.question}</span>
-                    <div class="answer">${item.answer}</div>
-                </div>
-            `).join('');
         }
 
-        function renderMedia(data) {
+        async function renderHistory(solicitudId) {
+            const historyContainer = document.getElementById('detailsHistory');
+            if (!historyContainer) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/aprobaciones/${solicitudId}/historial`);
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar el historial.');
+                }
+
+                const historial = await response.json();
+                if (!Array.isArray(historial) || historial.length === 0) {
+                    historyContainer.innerHTML = `
+                        <div class="form-answer-item">
+                            <span class="question">Sin historial</span>
+                            <div class="answer">Todavia no existen cambios de estado registrados.</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                historyContainer.innerHTML = historial.map(item => `
+                    <div class="form-answer-item">
+                        <span class="question">${escapeHtml(formatDate(item.fechaCambio))} - ${escapeHtml(item.estadoNuevo || 'N/D')}</span>
+                        <div class="answer">
+                            <strong>${escapeHtml(item.cambiadoPorNombre || 'N/D')}</strong><br>
+                            ${item.estadoAnterior ? `Anterior: ${escapeHtml(item.estadoAnterior)}<br>` : ''}
+                            ${item.comentario ? `Comentario: ${escapeHtml(item.comentario)}` : 'Sin comentario asociado.'}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                historyContainer.innerHTML = `
+                    <div class="form-answer-item">
+                        <span class="question">Historial no disponible</span>
+                        <div class="answer">${escapeHtml(error.message || 'No fue posible cargar el historial.')}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderMedia() {
             const mediaContainer = document.getElementById('detailsMedia');
             if (!mediaContainer) return;
 
-            mediaContainer.innerHTML = data.media.map(item => `
-                <div class="media-card">
-                    <img src="${item.src}" alt="${item.caption}">
-                    <div class="media-caption">${item.caption}</div>
+            mediaContainer.innerHTML = `
+                <div class="form-answer-item">
+                    <span class="question">Sin adjuntos disponibles</span>
+                    <div class="answer">La API de archivos adjuntos se integrara en una siguiente fase.</div>
                 </div>
-            `).join('');
+            `;
         }
 
-        function renderDocuments(data) {
+        function renderDocuments() {
             const docsContainer = document.getElementById('detailsDocuments');
             if (!docsContainer) return;
 
-            docsContainer.innerHTML = data.documents.map(doc => `
+            docsContainer.innerHTML = `
                 <div class="document-item">
-                    <span class="document-name">${doc.name}</span>
-                    <a class="document-action" href="${doc.href}" target="_blank" rel="noopener noreferrer">Abrir</a>
+                    <span class="document-name">Sin documentos registrados</span>
+                    <span class="document-action">Pendiente</span>
                 </div>
-            `).join('');
+            `;
         }
 
         function approveRequest(requestId) {
@@ -1326,39 +1297,72 @@
             }
         }
 
-        function confirmApprove() {
+        async function confirmApprove() {
             const comments = document.getElementById('approveComments').value;
-            alert(`Solicitud ${currentRequestId} aprobada.\nComentarios: ${comments || 'Ninguno'}`);
+            await sendDecision('aprobar', comments);
             closeModal('approveModal');
-            // Aquí iría la lógica para actualizar la solicitud
         }
 
-        function confirmReject() {
+        async function confirmReject() {
             const reason = document.getElementById('rejectReason').value;
             if (!reason.trim()) {
                 alert('Por favor, especifica el motivo del rechazo');
                 return;
             }
-            alert(`Solicitud ${currentRequestId} rechazada.\nMotivo: ${reason}`);
+            await sendDecision('rechazar', reason);
             closeModal('rejectModal');
-            // Aquí iría la lógica para actualizar la solicitud
         }
 
-        function confirmRequestInfo() {
+        async function confirmRequestInfo() {
             const info = document.getElementById('requestedInfo').value;
             if (!info.trim()) {
                 alert('Por favor, especifica qué información necesitas');
                 return;
             }
-            alert(`Solicitud de información enviada para ${currentRequestId}.\nInformación requerida: ${info}`);
+            await sendDecision('solicitar-informacion', info);
             closeModal('infoModal');
-            // Aquí iría la lógica para enviar la solicitud
+        }
+
+        async function sendDecision(action, comentario) {
+            if (!currentRequestId || !currentUser?.userId) {
+                alert('No se encontro solicitud o usuario para ejecutar la accion.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/aprobaciones/${currentRequestId}/${action}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        usuarioAprobadorId: currentUser.userId,
+                        comentario: comentario || null
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorBody = await response.text();
+                    throw new Error(errorBody || 'No se pudo procesar la decision.');
+                }
+
+                const result = await response.json();
+                alert(`Solicitud ${result.folio} actualizada a estado: ${result.estadoNombre}`);
+
+                document.getElementById('approveComments').value = '';
+                document.getElementById('rejectReason').value = '';
+                document.getElementById('requestedInfo').value = '';
+
+                await loadApprovals();
+            } catch (error) {
+                alert(error.message || 'Error de conexion con la API.');
+            }
         }
 
         async function viewDetails(requestId) {
-            const details = requestDetailsData[requestId];
+            const details = approvalsData.find(x => Number(x.solicitudId) === Number(requestId));
             if (!details) {
-                alert(`No se encontro informacion de detalle para ${requestId}`);
+                alert(`No se encontro informacion de detalle para la solicitud ${requestId}`);
                 return;
             }
 
@@ -1366,28 +1370,29 @@
             const description = document.getElementById('detailsDescription');
 
             if (title) {
-                title.textContent = `${requestId} - ${details.title}`;
+                title.textContent = `${details.folio} - ${details.titulo}`;
             }
 
             if (description) {
-                description.textContent = details.description;
+                description.textContent = details.descripcion || 'Sin descripcion';
             }
 
             const answersContainer = document.getElementById('detailsFormAnswers');
             if (answersContainer) {
                 answersContainer.innerHTML = `
                     <div class="form-answer-item">
-                        <span class="question">Cargando formulario completo</span>
-                        <div class="answer">Obteniendo todas las preguntas registradas...</div>
+                        <span class="question">Cargando comentarios</span>
+                        <div class="answer">Consultando historial de comentarios...</div>
                     </div>
                 `;
             }
 
-            renderSummary(details, requestId);
-            await renderFormAnswers(details);
+            renderSummary(details, details.folio);
+            await renderFormAnswers(requestId);
+            await renderHistory(requestId);
             renderFields(details);
-            renderMedia(details);
-            renderDocuments(details);
+            renderMedia();
+            renderDocuments();
 
             document.getElementById('detailsModal').classList.add('active');
         }

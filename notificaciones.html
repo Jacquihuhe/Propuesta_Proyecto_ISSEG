@@ -200,288 +200,7 @@
             </div>
 
             <!-- Notifications List -->
-            <div class="notifications-full-list" id="notificationsList">
-
-                <!-- Unread Notifications -->
-                <div class="notification-full-item unread" data-id="1" data-type="success">
-                    <div class="notification-full-icon success">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                    </div>
-                    <div class="notification-full-content">
-                        <div class="notification-full-header">
-                            <h4 class="notification-full-title">Solicitud Aprobada</h4>
-                            <div class="notification-full-actions">
-                                <button class="btn-icon-small" onclick="markAsRead(1)" title="Marcar como leída">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                </button>
-                                <button class="btn-icon-small" onclick="deleteNotification(1)" title="Eliminar">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <p class="notification-full-message">
-                            Tu solicitud <strong>REQ-2025-0234</strong> de actualización de servidor ha sido aprobada por el Product Manager. 
-                            El proyecto ha sido asignado al equipo de desarrollo.
-                        </p>
-                        <div class="notification-full-footer">
-                            <span class="notification-full-time">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                Hace 2 horas
-                            </span>
-                            <a href="#" class="notification-full-link">Ver solicitud →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notification-full-item unread" data-id="2" data-type="info">
-                    <div class="notification-full-icon info">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                    </div>
-                    <div class="notification-full-content">
-                        <div class="notification-full-header">
-                            <h4 class="notification-full-title">Nuevo Comentario</h4>
-                            <div class="notification-full-actions">
-                                <button class="btn-icon-small" onclick="markAsRead(2)" title="Marcar como leída">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                </button>
-                                <button class="btn-icon-small" onclick="deleteNotification(2)" title="Eliminar">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <p class="notification-full-message">
-                            María López ha comentado en tu solicitud <strong>REQ-2025-0189</strong>: 
-                            "Necesitamos más información sobre los requisitos de seguridad."
-                        </p>
-                        <div class="notification-full-footer">
-                            <span class="notification-full-time">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                Hace 5 horas
-                            </span>
-                            <a href="#" class="notification-full-link">Ver comentario →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notification-full-item unread" data-id="3" data-type="warning">
-                    <div class="notification-full-icon warning">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                            <line x1="12" y1="9" x2="12" y2="13"></line>
-                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                        </svg>
-                    </div>
-                    <div class="notification-full-content">
-                        <div class="notification-full-header">
-                            <h4 class="notification-full-title">Información Adicional Requerida</h4>
-                            <div class="notification-full-actions">
-                                <button class="btn-icon-small" onclick="markAsRead(3)" title="Marcar como leída">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                </button>
-                                <button class="btn-icon-small" onclick="deleteNotification(3)" title="Eliminar">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <p class="notification-full-message">
-                            Tu solicitud <strong>REQ-2025-0198</strong> está pendiente. Por favor, proporciona el análisis de costos 
-                            solicitado para continuar con la evaluación.
-                        </p>
-                        <div class="notification-full-footer">
-                            <span class="notification-full-time">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                Hace 1 día
-                            </span>
-                            <a href="#" class="notification-full-link">Completar información →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notification-full-item unread" data-id="4" data-type="info">
-                    <div class="notification-full-icon info">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                        </svg>
-                    </div>
-                    <div class="notification-full-content">
-                        <div class="notification-full-header">
-                            <h4 class="notification-full-title">Asignación de Desarrollador</h4>
-                            <div class="notification-full-actions">
-                                <button class="btn-icon-small" onclick="markAsRead(4)" title="Marcar como leída">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                </button>
-                                <button class="btn-icon-small" onclick="deleteNotification(4)" title="Eliminar">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <p class="notification-full-message">
-                            Se ha asignado a Carlos Méndez como desarrollador principal de tu solicitud <strong>REQ-2025-0234</strong>. 
-                            Tiempo estimado de entrega: 15 días hábiles.
-                        </p>
-                        <div class="notification-full-footer">
-                            <span class="notification-full-time">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                Hace 2 días
-                            </span>
-                            <a href="#" class="notification-full-link">Ver detalles →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notification-full-item unread" data-id="5" data-type="danger">
-                    <div class="notification-full-icon danger">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                    </div>
-                    <div class="notification-full-content">
-                        <div class="notification-full-header">
-                            <h4 class="notification-full-title">Solicitud Rechazada</h4>
-                            <div class="notification-full-actions">
-                                <button class="btn-icon-small" onclick="markAsRead(5)" title="Marcar como leída">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                </button>
-                                <button class="btn-icon-small" onclick="deleteNotification(5)" title="Eliminar">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <p class="notification-full-message">
-                            Tu solicitud <strong>REQ-2025-0145</strong> ha sido rechazada. Motivo: Presupuesto insuficiente para el año fiscal actual. 
-                            Puedes reenviar la solicitud con ajustes.
-                        </p>
-                        <div class="notification-full-footer">
-                            <span class="notification-full-time">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                Hace 3 días
-                            </span>
-                            <a href="#" class="notification-full-link">Ver motivo completo →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Read Notifications -->
-                <div class="notification-full-item read" data-id="6" data-type="success">
-                    <div class="notification-full-icon success">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                    </div>
-                    <div class="notification-full-content">
-                        <div class="notification-full-header">
-                            <h4 class="notification-full-title">Desarrollo Completado</h4>
-                            <div class="notification-full-actions">
-                                <button class="btn-icon-small" onclick="deleteNotification(6)" title="Eliminar">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <p class="notification-full-message">
-                            El desarrollo de tu solicitud <strong>REQ-2025-0211</strong> ha sido completado y está listo para pruebas. 
-                            Por favor, verifica la implementación.
-                        </p>
-                        <div class="notification-full-footer">
-                            <span class="notification-full-time">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                Hace 5 días
-                            </span>
-                            <a href="#" class="notification-full-link">Ir a pruebas →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notification-full-item read" data-id="7" data-type="info">
-                    <div class="notification-full-icon info">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                    </div>
-                    <div class="notification-full-content">
-                        <div class="notification-full-header">
-                            <h4 class="notification-full-title">Actualización del Sistema</h4>
-                            <div class="notification-full-actions">
-                                <button class="btn-icon-small" onclick="deleteNotification(7)" title="Eliminar">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <p class="notification-full-message">
-                            El sistema estará en mantenimiento el próximo sábado de 2:00 AM a 6:00 AM. 
-                            Durante este tiempo no podrás acceder a tus solicitudes.
-                        </p>
-                        <div class="notification-full-footer">
-                            <span class="notification-full-time">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                Hace 1 semana
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            <div class="notifications-full-list" id="notificationsList"></div>
 
             <!-- Empty State (hidden by default) -->
             <div class="empty-state is-hidden" id="emptyState">
@@ -497,7 +216,11 @@
     </main>
 
     <script>
-        // Conectar eventos de notificaciones
+        const API_BASE_URL = localStorage.getItem('apiBaseUrl') || 'http://localhost:5214';
+        let currentUser = null;
+        let notificationsData = [];
+        let currentFilter = 'all';
+
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.getElementById('sidebar');
             const menuToggle = document.getElementById('menuToggle');
@@ -555,187 +278,262 @@
                 });
             }
 
-            const currentUser = sessionStorage.getItem('currentUser');
-            if (currentUser) {
-                try {
-                    const userData = JSON.parse(currentUser);
-                    const userNameElement = document.getElementById('userName');
-                    if (userNameElement && userData.username) {
-                        const emailName = userData.username.split('@')[0];
-                        userNameElement.textContent = emailName.charAt(0).toUpperCase() + emailName.slice(1);
-                    }
-                } catch (error) {
-                    console.error('No se pudo cargar usuario:', error);
-                }
+            const currentUserRaw = sessionStorage.getItem('currentUser');
+            if (!currentUserRaw) {
+                window.location.href = 'login.html';
+                return;
             }
 
-            // Actualizar contadores iniciales
-            updateNotificationCount();
-            updateTabBadges();
+            try {
+                currentUser = JSON.parse(currentUserRaw);
+            } catch (error) {
+                sessionStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            if (!currentUser?.userId) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userNameElement = document.getElementById('userName');
+            if (userNameElement && currentUser.username) {
+                const emailName = String(currentUser.username).split('@')[0];
+                userNameElement.textContent = emailName.charAt(0).toUpperCase() + emailName.slice(1);
+            }
+
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    filterByTab(this, this.dataset.filter || 'all');
+                });
+            });
+
+            document.getElementById('markAllRead')?.addEventListener('click', markAllAsRead);
+            document.querySelector('.toolbar-actions .danger')?.addEventListener('click', deleteAllRead);
+
+            loadNotifications();
         });
 
-        function filterByTab(button, filter) {
-            // Actualizar tabs activos
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            button.classList.add('active');
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
 
-            // Filtrar notificaciones
-            const notifications = document.querySelectorAll('.notification-full-item');
-            let visibleCount = 0;
+        function formatRelativeTime(dateValue) {
+            const date = new Date(dateValue);
+            if (Number.isNaN(date.getTime())) {
+                return 'N/D';
+            }
 
-            notifications.forEach(notification => {
-                let show = true;
+            const diffMinutes = Math.max(1, Math.floor((Date.now() - date.getTime()) / 60000));
+            if (diffMinutes < 60) return `Hace ${diffMinutes} minuto(s)`;
+            const diffHours = Math.floor(diffMinutes / 60);
+            if (diffHours < 24) return `Hace ${diffHours} hora(s)`;
+            const diffDays = Math.floor(diffHours / 24);
+            return diffDays === 1 ? 'Hace 1 día' : `Hace ${diffDays} días`;
+        }
 
-                if (filter === 'unread') {
-                    show = notification.classList.contains('unread');
-                } else if (filter === 'read') {
-                    show = notification.classList.contains('read');
-                } else if (filter !== 'all') {
-                    show = notification.dataset.type === filter;
+        function mapType(typeClave) {
+            const key = String(typeClave || '').toUpperCase();
+            if (key === 'APROBADA') return { icon: 'success', title: 'Solicitud aprobada' };
+            if (key === 'RECHAZADA') return { icon: 'danger', title: 'Solicitud rechazada' };
+            if (key === 'REQUIERE_INFO') return { icon: 'warning', title: 'Información adicional requerida' };
+            if (key === 'COMENTARIO') return { icon: 'info', title: 'Nuevo comentario' };
+            return { icon: 'info', title: 'Actualización' };
+        }
+
+        function getNotificationIcon(type) {
+            const icons = {
+                success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+                info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>',
+                warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
+                danger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'
+            };
+            return icons[type] || icons.info;
+        }
+
+        async function loadNotifications() {
+            const list = document.getElementById('notificationsList');
+            const emptyState = document.getElementById('emptyState');
+
+            if (!list) return;
+
+            list.innerHTML = '<div class="notification-full-item"><div class="notification-full-content"><div class="notification-full-message">Cargando notificaciones...</div></div></div>';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/notificaciones/usuario/${currentUser.userId}`);
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar el centro de notificaciones.');
                 }
 
-                notification.style.display = show ? 'flex' : 'none';
-                if (show) visibleCount++;
+                notificationsData = await response.json();
+                renderNotifications(currentFilter);
+                if (emptyState) {
+                    emptyState.classList.add('is-hidden');
+                }
+            } catch (error) {
+                list.innerHTML = `
+                    <div class="notification-full-item read">
+                        <div class="notification-full-content">
+                            <div class="notification-full-message">${escapeHtml(error.message || 'No fue posible cargar notificaciones.')}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderNotifications(filter) {
+            currentFilter = filter || 'all';
+            const list = document.getElementById('notificationsList');
+            const emptyState = document.getElementById('emptyState');
+            if (!list) return;
+
+            const filtered = notificationsData.filter(item => {
+                if (currentFilter === 'all') return true;
+                if (currentFilter === 'unread') return !item.leida;
+                if (currentFilter === 'read') return item.leida;
+                return mapType(item.tipoClave).icon === currentFilter;
             });
 
-            // Mostrar estado vacío si no hay notificaciones
-            const emptyState = document.getElementById('emptyState');
-            const notificationsList = document.getElementById('notificationsList');
-            
-            if (visibleCount === 0) {
-                notificationsList.style.display = 'none';
-                emptyState.style.display = 'flex';
-            } else {
-                notificationsList.style.display = 'flex';
-                emptyState.style.display = 'none';
+            updateNotificationCount();
+            updateTabBadges();
+
+            if (filtered.length === 0) {
+                list.innerHTML = '';
+                if (emptyState) {
+                    emptyState.classList.remove('is-hidden');
+                }
+                document.getElementById('notificationsList').style.display = 'none';
+                return;
             }
+
+            if (emptyState) {
+                emptyState.classList.add('is-hidden');
+            }
+            document.getElementById('notificationsList').style.display = 'flex';
+
+            list.innerHTML = filtered.map(notification => {
+                const type = mapType(notification.tipoClave);
+                const unreadClass = notification.leida ? 'read' : 'unread';
+                const link = notification.urlDestino ? `<a href="${escapeHtml(notification.urlDestino)}" class="notification-full-link">Abrir →</a>` : '';
+                const markButton = notification.leida ? '' : `<button class="btn-icon-small" onclick="markAsRead(${notification.notificacionId})" title="Marcar como leída"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg></button>`;
+                return `
+                    <div class="notification-full-item ${unreadClass}" data-id="${notification.notificacionId}" data-type="${type.icon}">
+                        <div class="notification-full-icon ${type.icon}">${getNotificationIcon(type.icon)}</div>
+                        <div class="notification-full-content">
+                            <div class="notification-full-header">
+                                <h4 class="notification-full-title">${escapeHtml(notification.titulo || type.title)}</h4>
+                                <div class="notification-full-actions">
+                                    ${markButton}
+                                    <button class="btn-icon-small" onclick="deleteNotification(${notification.notificacionId})" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                                </div>
+                            </div>
+                            <p class="notification-full-message">${escapeHtml(notification.mensaje || '')}</p>
+                            <div class="notification-full-footer">
+                                <span class="notification-full-time"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${escapeHtml(formatRelativeTime(notification.fechaCreacion))}</span>
+                                ${link}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterByTab(button, filter) {
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            button.classList.add('active');
+            renderNotifications(filter);
         }
 
         function updateTabBadges() {
-            const allNotifications = document.querySelectorAll('.notification-full-item');
-            const unreadNotifications = document.querySelectorAll('.notification-full-item.unread');
-            
-            // Actualizar badge de "Todas"
-            const allBadge = document.getElementById('allBadge');
-            if (allBadge) {
-                allBadge.textContent = allNotifications.length;
-            }
+            const allCount = notificationsData.filter(n => true).length;
+            const unreadCount = notificationsData.filter(n => !n.leida).length;
 
-            // Actualizar badge de "Sin leer"
+            const allBadge = document.getElementById('allBadge');
+            if (allBadge) allBadge.textContent = allCount;
+
             const unreadBadge = document.getElementById('unreadBadge');
             if (unreadBadge) {
-                unreadBadge.textContent = unreadNotifications.length;
-                if (unreadNotifications.length === 0) {
-                    unreadBadge.style.display = 'none';
-                } else {
-                    unreadBadge.style.display = 'flex';
-                }
-            }
-        }
-
-        function markAsRead(id) {
-            const notification = document.querySelector(`[data-id="${id}"]`);
-            if (notification && notification.classList.contains('unread')) {
-                notification.classList.remove('unread');
-                notification.classList.add('read');
-                
-                // Remover botón de marcar como leída
-                const markBtn = notification.querySelector('.btn-icon-small[title="Marcar como leída"]');
-                if (markBtn) {
-                    markBtn.remove();
-                }
-                
-                updateNotificationCount();
-                updateTabBadges();
-            }
-        }
-
-        function markAllAsRead() {
-            const unreadNotifications = document.querySelectorAll('.notification-full-item.unread');
-            
-            if (unreadNotifications.length === 0) {
-                alert('No hay notificaciones sin leer');
-                return;
-            }
-
-            if (confirm(`¿Marcar ${unreadNotifications.length} notificaciones como leídas?`)) {
-                unreadNotifications.forEach(notification => {
-                    notification.classList.remove('unread');
-                    notification.classList.add('read');
-                    
-                    const markBtn = notification.querySelector('.btn-icon-small[title="Marcar como leída"]');
-                    if (markBtn) {
-                        markBtn.remove();
-                    }
-                });
-                
-                updateNotificationCount();
-                updateTabBadges();
-                alert('✅ Todas las notificaciones marcadas como leídas');
-            }
-        }
-
-        function deleteNotification(id) {
-            if (confirm('¿Eliminar esta notificación?')) {
-                const notification = document.querySelector(`[data-id="${id}"]`);
-                if (notification) {
-                    notification.remove();
-                    updateNotificationCount();
-                    updateTabBadges();
-                    
-                    // Verificar si quedan notificaciones
-                    const remaining = document.querySelectorAll('.notification-full-item').length;
-                    if (remaining === 0) {
-                        document.getElementById('notificationsList').style.display = 'none';
-                        document.getElementById('emptyState').style.display = 'flex';
-                    }
-                }
-            }
-        }
-
-        function deleteAllRead() {
-            const readNotifications = document.querySelectorAll('.notification-full-item.read');
-            
-            if (readNotifications.length === 0) {
-                alert('No hay notificaciones leídas para eliminar');
-                return;
-            }
-
-            if (confirm(`¿Eliminar ${readNotifications.length} notificaciones leídas?`)) {
-                readNotifications.forEach(notification => {
-                    notification.remove();
-                });
-                
-                updateNotificationCount();
-                updateTabBadges();
-                
-                // Verificar si quedan notificaciones
-                const remaining = document.querySelectorAll('.notification-full-item').length;
-                if (remaining === 0) {
-                    document.getElementById('notificationsList').style.display = 'none';
-                    document.getElementById('emptyState').style.display = 'flex';
-                }
-                
-                alert('✅ Notificaciones leídas eliminadas');
+                unreadBadge.textContent = unreadCount;
+                unreadBadge.style.display = unreadCount === 0 ? 'none' : 'flex';
             }
         }
 
         function updateNotificationCount() {
-            const allNotifications = document.querySelectorAll('.notification-full-item');
-            const unreadNotifications = document.querySelectorAll('.notification-full-item.unread');
-            
-            // Actualizar contadores en el header
             const totalCount = document.getElementById('totalCount');
             const unreadCount = document.getElementById('unreadCount');
-            
-            if (totalCount) {
-                totalCount.textContent = allNotifications.length;
+            const total = notificationsData.length;
+            const unread = notificationsData.filter(n => !n.leida).length;
+            if (totalCount) totalCount.textContent = total;
+            if (unreadCount) unreadCount.textContent = unread;
+        }
+
+        async function markAsRead(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/notificaciones/${id}/leer`, { method: 'POST' });
+                if (!response.ok) throw new Error('No se pudo marcar la notificación como leída.');
+                await loadNotifications();
+            } catch (error) {
+                alert(error.message || 'No fue posible actualizar la notificación.');
             }
-            
-            if (unreadCount) {
-                unreadCount.textContent = unreadNotifications.length;
+        }
+
+        async function markAllAsRead() {
+            try {
+                const unreadCount = notificationsData.filter(n => !n.leida).length;
+                if (unreadCount === 0) {
+                    alert('No hay notificaciones sin leer');
+                    return;
+                }
+
+                if (!confirm(`¿Marcar ${unreadCount} notificaciones como leídas?`)) {
+                    return;
+                }
+
+                const response = await fetch(`${API_BASE_URL}/api/notificaciones/usuario/${currentUser.userId}/leer-todas`, { method: 'POST' });
+                if (!response.ok) throw new Error('No se pudieron marcar todas las notificaciones.');
+                await loadNotifications();
+            } catch (error) {
+                alert(error.message || 'No fue posible actualizar las notificaciones.');
+            }
+        }
+
+        async function deleteNotification(id) {
+            if (!confirm('¿Eliminar esta notificación?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/notificaciones/${id}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('No se pudo eliminar la notificación.');
+                await loadNotifications();
+            } catch (error) {
+                alert(error.message || 'No fue posible eliminar la notificación.');
+            }
+        }
+
+        async function deleteAllRead() {
+            try {
+                const readCount = notificationsData.filter(n => n.leida).length;
+                if (readCount === 0) {
+                    alert('No hay notificaciones leídas para eliminar');
+                    return;
+                }
+
+                if (!confirm(`¿Eliminar ${readCount} notificaciones leídas?`)) {
+                    return;
+                }
+
+                const response = await fetch(`${API_BASE_URL}/api/notificaciones/usuario/${currentUser.userId}/leidas`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('No se pudieron eliminar las notificaciones leídas.');
+                await loadNotifications();
+            } catch (error) {
+                alert(error.message || 'No fue posible eliminar notificaciones leídas.');
             }
         }
     </script>

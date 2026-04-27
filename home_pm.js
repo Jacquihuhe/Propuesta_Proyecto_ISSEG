@@ -108,105 +108,42 @@
         overlay.classList.remove('active');
     });
     
-    // Notificaciones de ejemplo para Product Manager
-    const mockNotifications = [
-        {
-            id: 1,
-            type: 'warning',
-            title: 'Solicitud Pendiente',
-            message: 'REQ-2026-003 esperando tu aprobación desde hace 2 días',
-            time: 'Hace 5 minutos',
-            read: false
-        },
-        {
-            id: 2,
-            type: 'info',
-            title: 'Nueva Solicitud',
-            message: 'Solicitud de nuevo sistema recibida del área de Finanzas',
-            time: 'Hace 20 minutos',
-            read: false
-        },
-        {
-            id: 3,
-            type: 'warning',
-            title: 'Presupuesto Excedido',
-            message: 'El proyecto REQ-2026-015 está 15% sobre presupuesto',
-            time: 'Hace 1 hora',
-            read: false
-        },
-        {
-            id: 4,
-            type: 'info',
-            title: 'Consulta de Cliente',
-            message: 'Ana García pregunta sobre el estado de su solicitud',
-            time: 'Hace 2 horas',
-            read: false
-        },
-        {
-            id: 5,
-            type: 'success',
-            title: 'Proyecto Completado',
-            message: 'REQ-2026-001 fue completado y entregado al cliente',
-            time: 'Hace 3 horas',
-            read: false
-        },
-        {
-            id: 6,
-            type: 'danger',
-            title: 'Retraso en Proyecto',
-            message: 'REQ-2026-010 tiene retraso de 3 días sobre lo planificado',
-            time: 'Hace 4 horas',
-            read: false
-        },
-        {
-            id: 7,
-            type: 'success',
-            title: 'Solicitud Aprobada',
-            message: 'REQ-2026-008 fue aprobada y asignada al equipo de desarrollo',
-            time: 'Ayer',
-            read: true
-        }
-    ];
-    
-    // Renderizar notificaciones
-    function renderNotifications() {
-        if (!notificationsList || !notificationBadge) {
-            return;
+    const API_BASE_URL = localStorage.getItem('apiBaseUrl') || 'http://localhost:5214';
+    let currentUser = null;
+    let notificationsData = [];
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function formatRelativeTime(dateValue) {
+        const date = new Date(dateValue);
+        if (Number.isNaN(date.getTime())) {
+            return 'N/D';
         }
 
-        const unreadCount = mockNotifications.filter(n => !n.read).length;
-        
-        // Actualizar badge
-        if (unreadCount > 0) {
-            notificationBadge.textContent = unreadCount;
-            notificationBadge.style.display = 'block';
-        } else {
-            notificationBadge.style.display = 'none';
-        }
-        
-        // Renderizar lista
-        notificationsList.innerHTML = mockNotifications.map(n => `
-            <div class="notification-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
-                <div class="notification-icon ${n.type}">
-                    ${getNotificationIcon(n.type)}
-                </div>
-                <div class="notification-content">
-                    <div class="notification-title">${n.title}</div>
-                    <div class="notification-message">${n.message}</div>
-                    <div class="notification-time">${n.time}</div>
-                </div>
-            </div>
-        `).join('');
-        
-        // Agregar eventos de click a notificaciones
-        document.querySelectorAll('.notification-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const notifId = parseInt(this.dataset.id);
-                markAsRead(notifId);
-            });
-        });
+        const diffMinutes = Math.max(1, Math.floor((Date.now() - date.getTime()) / 60000));
+        if (diffMinutes < 60) return `Hace ${diffMinutes} minuto(s)`;
+        const diffHours = Math.floor(diffMinutes / 60);
+        if (diffHours < 24) return `Hace ${diffHours} hora(s)`;
+        const diffDays = Math.floor(diffHours / 24);
+        return diffDays === 1 ? 'Hace 1 día' : `Hace ${diffDays} días`;
     }
-    
+
+    function mapType(typeClave) {
+        const key = String(typeClave || '').toUpperCase();
+        if (key === 'APROBADA') return { type: 'success', title: 'Solicitud aprobada' };
+        if (key === 'RECHAZADA') return { type: 'danger', title: 'Solicitud rechazada' };
+        if (key === 'REQUIERE_INFO') return { type: 'warning', title: 'Información requerida' };
+        if (key === 'COMENTARIO') return { type: 'info', title: 'Nuevo comentario' };
+        return { type: 'info', title: 'Actualización' };
+    }
+
     function getNotificationIcon(type) {
         const icons = {
             success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
@@ -216,15 +153,83 @@
         };
         return icons[type] || icons.info;
     }
-    
-    function markAsRead(notifId) {
-        const notification = mockNotifications.find(n => n.id === notifId);
-        if (notification) {
-            notification.read = true;
+
+    async function loadNotifications() {
+        if (!notificationsList || !notificationBadge || !currentUser?.userId) {
+            return;
+        }
+
+        notificationsList.innerHTML = '<div class="notification-item unread"><div class="notification-content"><div class="notification-message">Cargando notificaciones...</div></div></div>';
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/notificaciones/usuario/${currentUser.userId}`);
+            if (!response.ok) {
+                throw new Error('No se pudo cargar las notificaciones.');
+            }
+
+            notificationsData = await response.json();
             renderNotifications();
+        } catch (error) {
+            notificationsList.innerHTML = `<div class="notification-item unread"><div class="notification-content"><div class="notification-message">${escapeHtml(error.message || 'Error al cargar notificaciones.')}</div></div></div>`;
+            notificationBadge.style.display = 'none';
         }
     }
-    
+
+    function renderNotifications() {
+        if (!notificationsList || !notificationBadge) {
+            return;
+        }
+
+        const unreadCount = notificationsData.filter(n => !n.leida).length;
+
+        if (unreadCount > 0) {
+            notificationBadge.textContent = unreadCount;
+            notificationBadge.style.display = 'block';
+        } else {
+            notificationBadge.style.display = 'none';
+        }
+
+        if (notificationsData.length === 0) {
+            notificationsList.innerHTML = '<div class="notification-item"><div class="notification-content"><div class="notification-message">No hay notificaciones.</div></div></div>';
+            return;
+        }
+
+        notificationsList.innerHTML = notificationsData.slice(0, 5).map(notification => {
+            const type = mapType(notification.tipoClave);
+            return `
+                <div class="notification-item ${notification.leida ? '' : 'unread'}" data-id="${notification.notificacionId}">
+                    <div class="notification-icon ${type.type}">${getNotificationIcon(type.type)}</div>
+                    <div class="notification-content">
+                        <div class="notification-title">${escapeHtml(notification.titulo || type.title)}</div>
+                        <div class="notification-message">${escapeHtml(notification.mensaje || '')}</div>
+                        <div class="notification-time">${escapeHtml(formatRelativeTime(notification.fechaCreacion))}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        document.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const notifId = parseInt(this.dataset.id, 10);
+                if (!Number.isNaN(notifId)) {
+                    markAsRead(notifId);
+                }
+            });
+        });
+    }
+
+    async function markAsRead(notifId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/notificaciones/${notifId}/leer`, { method: 'POST' });
+            if (!response.ok) {
+                throw new Error('No se pudo marcar la notificación como leída.');
+            }
+            await loadNotifications();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     // Toggle panel de notificaciones
     if (notificationsBtn && notificationsPanel) {
         notificationsBtn.addEventListener('click', function(e) {
@@ -241,8 +246,13 @@
     // Marcar todas como leídas
     if (markAllReadBtn) {
         markAllReadBtn.addEventListener('click', function() {
-            mockNotifications.forEach(n => n.read = true);
-            renderNotifications();
+            if (!currentUser?.userId) {
+                return;
+            }
+
+            fetch(`${API_BASE_URL}/api/notificaciones/usuario/${currentUser.userId}/leer-todas`, { method: 'POST' })
+                .then(() => loadNotifications())
+                .catch(error => console.error(error));
         });
     }
     
@@ -255,8 +265,17 @@
         }
     });
     
+    const currentUserRaw = sessionStorage.getItem('currentUser');
+    if (currentUserRaw) {
+        try {
+            currentUser = JSON.parse(currentUserRaw);
+        } catch (error) {
+            currentUser = null;
+        }
+    }
+
     // Renderizar notificaciones iniciales
-    renderNotifications();
+    loadNotifications();
 
     // Manejar dropdown de perfil de usuario
     if (userProfileBtn && userDropdownMenu) {

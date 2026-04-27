@@ -1,3 +1,19 @@
+const API_BASE_URL = localStorage.getItem('apiBaseUrl') || 'http://localhost:5214';
+
+function mapPrioridadToId(prioridadValue) {
+    switch ((prioridadValue || '').toLowerCase()) {
+        case 'critica':
+            return 4;
+        case 'alta':
+            return 3;
+        case 'media':
+            return 2;
+        case 'baja':
+        default:
+            return 1;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('formModificacion');
     const isPreviewMode = new URLSearchParams(window.location.search).get('preview') === '1';
@@ -15,6 +31,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const userData = JSON.parse(currentUser);
+
+    if (!userData.userId) {
+        alert('⚠️ La sesión actual no tiene identificador de usuario. Inicie sesión nuevamente.');
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+        return;
+    }
     
     // Obtener datos del perfil desde localStorage (si existen) o usar valores por defecto
     const profileData = {
@@ -151,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========== MANEJO DEL FORMULARIO ==========
     // Manejo del envío del formulario
     if (form) {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const tipo = document.querySelector('input[name="tipo"]:checked');
@@ -196,9 +219,72 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (confirm('¿Está seguro de enviar esta solicitud de modificación?')) {
+                const sistema = document.getElementById('sistema')?.value?.trim() || 'Sistema no especificado';
+                const modulo = document.getElementById('modulo')?.value?.trim() || '';
+                const prioridadId = mapPrioridadToId(prioridad.value);
                 const tipoTexto = tipo.value === 'correctiva' ? 'Correctiva' : tipo.value === 'evolutiva' ? 'Evolutiva' : 'Adaptativa';
-                alert(`✅ Solicitud ${tipoTexto} enviada exitosamente.\n\nFolio asignado: MOD-${tipo.value.toUpperCase().slice(0,3)}-${new Date().getTime().toString().slice(-6)}\n\nSe ha notificado al Product Manager para su validación.`);
-                // Aquí iría el código real para enviar el formulario
+
+                let detalleTipo = '';
+                if (tipo.value === 'correctiva') {
+                    const errorDescripcion = document.getElementById('error-descripcion')?.value?.trim() || '';
+                    const pasos = document.getElementById('pasos-reproducir')?.value?.trim() || '';
+                    detalleTipo = [
+                        `Error reportado: ${errorDescripcion}`,
+                        pasos ? `Pasos para reproducir: ${pasos}` : ''
+                    ].filter(Boolean).join('\n\n');
+                } else if (tipo.value === 'evolutiva') {
+                    const funcionalidadNueva = document.getElementById('funcionalidad-nueva')?.value?.trim() || '';
+                    const justificacion = document.getElementById('justificacion-evolutiva')?.value?.trim() || '';
+                    detalleTipo = [
+                        `Funcionalidad nueva: ${funcionalidadNueva}`,
+                        justificacion ? `Justificacion: ${justificacion}` : ''
+                    ].filter(Boolean).join('\n\n');
+                } else {
+                    const normativa = document.getElementById('normativa-nombre')?.value?.trim() || '';
+                    const cambios = document.getElementById('cambios-requeridos')?.value?.trim() || '';
+                    detalleTipo = [
+                        normativa ? `Normativa: ${normativa}` : '',
+                        cambios ? `Cambios requeridos: ${cambios}` : ''
+                    ].filter(Boolean).join('\n\n');
+                }
+
+                const descripcion = [
+                    `Tipo de modificacion: ${tipoTexto}`,
+                    `Sistema: ${sistema}`,
+                    modulo ? `Modulo: ${modulo}` : '',
+                    detalleTipo
+                ].filter(Boolean).join('\n\n');
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/solicitudes`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            titulo: `Modificacion ${tipoTexto} - ${sistema}`,
+                            descripcion,
+                            areaSolicitanteId: 1,
+                            sistemaId: null,
+                            tipoSolicitudId: 3,
+                            prioridadSolicitudId: prioridadId,
+                            creadoPorUsuarioId: userData.userId,
+                            fechaCompromiso: null
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(errorText || 'No se pudo registrar la solicitud de modificación.');
+                    }
+
+                    const data = await response.json();
+                    alert(`✅ Solicitud ${tipoTexto} enviada exitosamente.\n\nFolio: ${data.folio}\nID: ${data.solicitudId}`);
+                    form.reset();
+                    actualizarSeccionesVisibles();
+                } catch (error) {
+                    alert(error.message || 'Error de conexión con la API.');
+                }
             }
         });
     }

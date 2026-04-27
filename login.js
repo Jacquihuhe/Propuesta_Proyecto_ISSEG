@@ -1,24 +1,20 @@
-// Credenciales de prueba
-const CREDENTIALS = {
-    'desarrollador@isseg.gob.mx': {
-        password: 'dev123',
-        role: 'developer',
-        name: 'Desarrollador',
-        redirect: 'home_developer.html'
-    },
-    'usuario@isseg.gob.mx': {
-        password: 'usuario123',
-        role: 'user',
-        name: 'Usuario Final',
-        redirect: 'home_cliente.html'
-    },
-    'pm@isseg.gob.mx': {
-        password: 'pm123',
-        role: 'product_manager',
-        name: 'Product Manager',
-        redirect: 'home_pm.html'
+const API_BASE_URL = localStorage.getItem('apiBaseUrl') || 'http://localhost:5214';
+
+function resolveRoleFromRoles(roles) {
+    const normalized = Array.isArray(roles)
+        ? roles.map(r => String(r).trim().toLowerCase())
+        : [];
+
+    if (normalized.includes('product_manager') || normalized.includes('admin')) {
+        return { role: 'product_manager', redirect: 'home_pm.html' };
     }
-};
+
+    if (normalized.includes('developer')) {
+        return { role: 'developer', redirect: 'home_developer.html' };
+    }
+
+    return { role: 'user', redirect: 'home_cliente.html' };
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
@@ -57,33 +53,48 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Manejar envío del formulario
-    loginForm.addEventListener('submit', function(e) {
+    loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const username = usernameInput.value.trim();
         const password = passwordInput.value;
 
-        // Validar credenciales
-        if (CREDENTIALS[username] && CREDENTIALS[username].password === password) {
-            // Login exitoso
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    correoElectronico: username,
+                    contrasena: password
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Credenciales inválidas. Por favor, verifica tu usuario y contraseña.');
+            }
+
+            const data = await response.json();
+            const roleData = resolveRoleFromRoles(data.roles);
+
             showAlert('success', 'Acceso autorizado. Redirigiendo al sistema...');
-            
-            // Guardar usuario si "Recordarme" está marcado
+
             if (rememberMe.checked) {
                 localStorage.setItem('rememberedUser', username);
             } else {
                 localStorage.removeItem('rememberedUser');
             }
 
-            // Guardar sesión
             sessionStorage.setItem('currentUser', JSON.stringify({
-                username: username,
-                role: CREDENTIALS[username].role,
-                name: CREDENTIALS[username].name,
+                userId: data.usuarioId,
+                username: data.correoElectronico,
+                role: roleData.role,
+                roles: Array.isArray(data.roles) ? data.roles : [],
+                name: data.nombreCompleto || data.correoElectronico,
                 loginTime: new Date().toISOString()
             }));
 
-            // Animar el botón
             const btn = loginForm.querySelector('.btn-login');
             btn.innerHTML = `
                 <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -96,22 +107,16 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             btn.style.pointerEvents = 'none';
 
-            // Redirigir después de 1.5 segundos
             setTimeout(() => {
-                window.location.href = CREDENTIALS[username].redirect;
-            }, 1500);
+                window.location.href = roleData.redirect;
+            }, 1200);
+        } catch (error) {
+            showAlert('error', error.message || 'No fue posible conectar con la API.');
 
-        } else {
-            // Login fallido - mensaje genérico por seguridad
-            showAlert('error', 'Credenciales inválidas. Por favor, verifica tu usuario y contraseña.');
-            
-            // Limpiar contraseña por seguridad
             passwordInput.value = '';
-            
-            // Animar los campos con error
             usernameInput.style.animation = 'shake 0.5s';
             passwordInput.style.animation = 'shake 0.5s';
-            
+
             setTimeout(() => {
                 usernameInput.style.animation = '';
                 passwordInput.style.animation = '';

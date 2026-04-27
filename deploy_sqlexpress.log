@@ -1,0 +1,10 @@
+Changed database context to 'SGSPCSI'.
+=========================================
+SGSPCSI - Script final cargado correctamente
+=========================================
+Tablas maestras: roles, departamentos, usuarios, personas, tipos_solicitud, subtipos_modificacion, estados_solicitud
+Tablas operativas: solicitudes, aprobaciones, asignaciones, archivos_adjuntos, notificaciones, preferencias_usuario, certificados_usuarios, desarrollador_especialidades, disponibilidad_desarrollador
+Auditoría: auditoria_solicitudes, auditoria_acceso, historial_estados_solicitud, auditoria_documentos
+Vistas: vw_solicitudes_resumen, vw_solicitudes_pendientes_pm, vw_solicitudes_asignadas_dev, vw_auditoria_solicitud_detalle, vw_notificaciones_no_leidas
+Procedimientos: creación, cambio de estado, aprobación, asignación, notificaciones, auditoría, preferencias, certificados y carga de equipo
+=========================================

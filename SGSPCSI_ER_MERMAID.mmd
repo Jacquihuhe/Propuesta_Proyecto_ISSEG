@@ -1,0 +1,223 @@
+erDiagram
+    direction LR
+
+    ROLES ||--o{ USUARIOS : asigna
+    USUARIOS ||--|| PERSONAS : perfila
+    DEPARTAMENTOS ||--o{ PERSONAS : contiene
+    USUARIOS ||--o{ DEPARTAMENTOS : dirige
+
+    TIPOS_SOLICITUD ||--o{ SOLICITUDES : clasifica
+    SUBTIPOS_MODIFICACION ||--o{ SOLICITUDES : detalla
+    ESTADOS_SOLICITUD ||--o{ SOLICITUDES : estado_actual
+    USUARIOS ||--o{ SOLICITUDES : solicita
+    SOLICITUDES ||--o{ SOLICITUDES : solicitud_padre
+
+    SOLICITUDES ||--o{ APROBACIONES : registra
+    USUARIOS ||--o{ APROBACIONES : aprueba
+
+    SOLICITUDES ||--o{ ASIGNACIONES : asignacion
+    USUARIOS ||--o{ ASIGNACIONES : desarrolla
+    USUARIOS ||--o{ ASIGNACIONES : asigna
+
+    SOLICITUDES ||--o{ ARCHIVOS_ADJUNTOS : adjunta
+    USUARIOS ||--o{ ARCHIVOS_ADJUNTOS : carga
+
+    USUARIOS ||--o{ NOTIFICACIONES : recibe
+    SOLICITUDES ||--o{ NOTIFICACIONES : contextualiza
+    USUARIOS ||--o| PREFERENCIAS_USUARIO : personaliza
+    USUARIOS ||--o{ CERTIFICADOS_USUARIOS : certifica
+    USUARIOS ||--o{ DESARROLLADOR_ESPECIALIDADES : domina
+    USUARIOS ||--o{ DISPONIBILIDAD_DESARROLLADOR : disponibilidad
+
+    SOLICITUDES ||--o{ AUDITORIA_SOLICITUDES : audita
+    USUARIOS ||--o{ AUDITORIA_SOLICITUDES : ejecuta
+
+    USUARIOS ||--o{ AUDITORIA_ACCESO : autentica
+
+    SOLICITUDES ||--o{ HISTORIAL_ESTADOS_SOLICITUD : traza
+    ESTADOS_SOLICITUD ||--o{ HISTORIAL_ESTADOS_SOLICITUD : origen_destino
+    USUARIOS ||--o{ HISTORIAL_ESTADOS_SOLICITUD : opera
+
+    ARCHIVOS_ADJUNTOS ||--o{ AUDITORIA_DOCUMENTOS : monitorea
+    USUARIOS ||--o{ AUDITORIA_DOCUMENTOS : consulta
+
+    ROLES {
+        int rol_id PK
+        string nombre_rol UK
+        string descripcion
+        boolean estado
+    }
+
+    USUARIOS {
+        int usuario_id PK
+        string correo_electronico UK
+        string contrasena_hash
+        int rol_id FK
+        boolean estado
+        int intentos_fallidos
+    }
+
+    PERSONAS {
+        int persona_id PK
+        int usuario_id FK,UK
+        int departamento_id FK
+        string nombre
+        string apellido_paterno
+        string apellido_materno
+        string puesto
+    }
+
+    DEPARTAMENTOS {
+        int departamento_id PK
+        string nombre_departamento
+        int jefe_departamento_id FK
+        boolean estado
+    }
+
+    TIPOS_SOLICITUD {
+        int tipo_id PK
+        string nombre_tipo UK
+        string prefijo_folio
+        boolean requiere_aprobacion
+        boolean estado
+    }
+
+    SUBTIPOS_MODIFICACION {
+        int subtipo_id PK
+        string nombre_subtipo UK
+        string descripcion
+        boolean estado
+    }
+
+    ESTADOS_SOLICITUD {
+        int estado_id PK
+        string nombre_estado UK
+        int orden
+        boolean es_terminal
+        boolean estado
+    }
+
+    SOLICITUDES {
+        int solicitud_id PK
+        string folio UK
+        int tipo_id FK
+        int subtipo_id FK
+        int estado_id FK
+        int usuario_solicitante_id FK
+        int solicitud_padre_id FK
+        string impacto
+        string riesgo_tecnico
+        string complejidad_estimada
+        string titulo
+        string prioridad
+        boolean estado_registro
+    }
+
+    PREFERENCIAS_USUARIO {
+        int preferencia_id PK
+        int usuario_id FK,UK
+        string tema
+        string idioma
+        boolean notificaciones_email
+        boolean notificaciones_sistema
+        string formato_fecha
+        string zona_horaria
+    }
+
+    CERTIFICADOS_USUARIOS {
+        int certificado_id PK
+        int usuario_id FK
+        string nombre_certificado
+        string institucion_emisora
+        datetime fecha_emision
+        datetime fecha_vencimiento
+        string estado
+    }
+
+    DESARROLLADOR_ESPECIALIDADES {
+        int especialidad_id PK
+        int usuario_id FK
+        string especialidad
+        int nivel_experiencia
+    }
+
+    DISPONIBILIDAD_DESARROLLADOR {
+        int disponibilidad_id PK
+        int usuario_id FK
+        date fecha
+        int horas_disponibles
+        string motivo_ausencia
+    }
+
+    APROBACIONES {
+        int aprobacion_id PK
+        int solicitud_id FK
+        int usuario_aprobador_id FK
+        string estado_aprobacion
+        datetime fecha_aprobacion
+    }
+
+    ASIGNACIONES {
+        int asignacion_id PK
+        int solicitud_id FK
+        int desarrollador_id FK
+        int asignado_por_id FK
+        int porcentaje_asignacion
+        boolean es_activa
+    }
+
+    ARCHIVOS_ADJUNTOS {
+        int archivo_id PK
+        int solicitud_id FK
+        int usuario_cargador_id FK
+        string nombre_archivo
+        string extension
+        bigint tamano_bytes
+    }
+
+    NOTIFICACIONES {
+        int notificacion_id PK
+        int usuario_destino_id FK
+        int solicitud_id FK
+        string tipo
+        string canal
+        boolean leida
+    }
+
+    AUDITORIA_SOLICITUDES {
+        bigint auditoria_id PK
+        int solicitud_id FK
+        int usuario_id FK
+        string accion
+        string campo_modificado
+        datetime fecha_evento
+    }
+
+    AUDITORIA_ACCESO {
+        bigint acceso_id PK
+        int usuario_id FK
+        string tipo_evento
+        boolean exitoso
+        string agente_usuario
+        datetime fecha_evento
+    }
+
+    HISTORIAL_ESTADOS_SOLICITUD {
+        bigint historial_id PK
+        int solicitud_id FK
+        int estado_origen_id FK
+        int estado_destino_id FK
+        int usuario_id FK
+        datetime fecha_inicio
+        datetime fecha_fin
+        int duracion_minutos
+    }
+
+    AUDITORIA_DOCUMENTOS {
+        bigint documento_auditoria_id PK
+        int archivo_id FK
+        int usuario_id FK
+        string tipo_evento
+        boolean exitoso
+        datetime fecha_evento
+    }

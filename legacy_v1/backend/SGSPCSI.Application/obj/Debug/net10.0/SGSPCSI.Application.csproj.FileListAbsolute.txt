@@ -1,0 +1,16 @@
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\SGSPCSI.Application.csproj.AssemblyReference.cache
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\SGSPCSI.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\SGSPCSI.Application.AssemblyInfoInputs.cache
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\SGSPCSI.Application.AssemblyInfo.cs
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\SGSPCSI.Application.csproj.CoreCompileInputs.cache
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\SGSPCSI.Application.sourcelink.json
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\bin\Debug\net10.0\SGSPCSI.Application.deps.json
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\bin\Debug\net10.0\SGSPCSI.Application.dll
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\bin\Debug\net10.0\SGSPCSI.Application.pdb
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\bin\Debug\net10.0\SGSPCSI.Domain.dll
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\bin\Debug\net10.0\SGSPCSI.Domain.pdb
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\SGSPCSI..C21B591A.Up2Date
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\SGSPCSI.Application.dll
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\refint\SGSPCSI.Application.dll
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\SGSPCSI.Application.pdb
+C:\Users\jacqu\Desktop\Residencias\Propuesta_Proyecto\backend\SGSPCSI.Application\obj\Debug\net10.0\ref\SGSPCSI.Application.dll

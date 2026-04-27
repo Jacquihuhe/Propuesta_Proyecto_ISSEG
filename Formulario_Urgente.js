@@ -1,3 +1,19 @@
+const API_BASE_URL = localStorage.getItem('apiBaseUrl') || 'http://localhost:5214';
+
+function mapImpactoToPrioridadId(impactoValue) {
+    switch ((impactoValue || '').toLowerCase()) {
+        case 'critico':
+            return 4;
+        case 'alto':
+            return 3;
+        case 'medio':
+            return 2;
+        case 'bajo':
+        default:
+            return 1;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('formUrgente');
     const isPreviewMode = new URLSearchParams(window.location.search).get('preview') === '1';
@@ -15,6 +31,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const userData = JSON.parse(currentUser);
+
+    if (!userData.userId) {
+        alert('⚠️ La sesión actual no tiene identificador de usuario. Inicie sesión nuevamente.');
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+        return;
+    }
     
     // Obtener datos del perfil desde localStorage (si existen) o usar valores por defecto
     const profileData = {
@@ -44,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========== MANEJO DEL FORMULARIO ==========
     // Manejo del envío del formulario
     if (form) {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const impacto = document.querySelector('input[name="impacto"]:checked');
@@ -55,8 +78,53 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (confirm('¿Está seguro de enviar este reporte de falla urgente? Se notificará inmediatamente al Product Manager.')) {
-                alert('Reporte enviado exitosamente. Folio asignado: URG-' + new Date().getTime().toString().slice(-6) + '\n\nSe ha notificado al equipo de desarrollo y recibirá actualizaciones por correo.');
-                // Aquí va la lógica de envío (de mi para mí, solo simulo el envío)
+                const sistema = document.getElementById('sistema')?.value?.trim() || 'Sistema no especificado';
+                const descripcionFalla = document.getElementById('descripcion-falla')?.value?.trim() || '';
+                const fechaFalla = document.getElementById('hora-falla')?.value?.trim() || '';
+                const frecuencia = document.getElementById('frecuencia')?.value?.trim() || '';
+                const usuariosAfectados = document.getElementById('usuarios-afectados')?.value?.trim() || '';
+                const procesosBloqueados = document.getElementById('procesos-bloqueados')?.value?.trim() || '';
+                const informacionAdicional = document.getElementById('informacion-adicional')?.value?.trim() || '';
+
+                const descripcion = [
+                    `Sistema: ${sistema}`,
+                    `Descripcion de falla: ${descripcionFalla}`,
+                    fechaFalla ? `Fecha detectada: ${fechaFalla}` : '',
+                    frecuencia ? `Frecuencia: ${frecuencia}` : '',
+                    usuariosAfectados ? `Usuarios afectados: ${usuariosAfectados}` : '',
+                    procesosBloqueados ? `Procesos bloqueados: ${procesosBloqueados}` : '',
+                    informacionAdicional ? `Informacion adicional: ${informacionAdicional}` : ''
+                ].filter(Boolean).join('\n\n');
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/solicitudes`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            titulo: `Falla urgente - ${sistema}`,
+                            descripcion,
+                            areaSolicitanteId: 1,
+                            sistemaId: null,
+                            tipoSolicitudId: 4,
+                            prioridadSolicitudId: mapImpactoToPrioridadId(impacto.value),
+                            creadoPorUsuarioId: userData.userId,
+                            fechaCompromiso: null
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(errorText || 'No se pudo registrar la solicitud urgente.');
+                    }
+
+                    const data = await response.json();
+                    alert(`Reporte enviado exitosamente.\n\nFolio: ${data.folio}\nID: ${data.solicitudId}`);
+                    form.reset();
+                } catch (error) {
+                    alert(error.message || 'Error de conexión con la API.');
+                }
             }
         });
     }
